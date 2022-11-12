@@ -6,11 +6,12 @@ export const Users = () =>{
     const changeUser = () =>{
 
     }
-    const deleteUser = (idUser)  =>{
-      console.log(idUser);
-      const url= 'https://localhost:44344/api/users/id = ${idUser}';
+    const deleteUser = (idUser,e)  =>{
+      e.preventDefault();
+      const url= `https://localhost:44344/api/users/${idUser}`;
       axios.delete(url).then((result) =>{
-        alert(result.data);})
+        alert(result.data);
+        setState(result.data)})
         .catch((error)=>{
           alert(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         })
@@ -51,7 +52,7 @@ export const Users = () =>{
                 <button onClick={() => changeUser()}>Изменить</button>
               </td>
               <td>
-                <button onClick={() => deleteUser(data.idUser)}>Удалить</button>
+                <button onClick={(e) => deleteUser(data.idUser, e)}>Удалить</button>
               </td>
             </tr>
             )}

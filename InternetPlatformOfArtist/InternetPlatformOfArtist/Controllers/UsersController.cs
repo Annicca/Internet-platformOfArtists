@@ -87,7 +87,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // DELETE api/users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<ActionResult<IEnumerable<Models.User>>> DeleteUser(int id)
         {
             var user = await context.User.FindAsync(id);
                if (user == null)
@@ -96,7 +96,7 @@ namespace InternetPlatformOfArtist.Controllers
                }     
             context.User.Remove(user);
             await context.SaveChangesAsync();
-            return NoContent();
+            return await context.User.ToListAsync();
         }
     }
 }
