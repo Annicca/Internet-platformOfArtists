@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^1.1.3",
     "bootstrap": "~4.6.1",
+    "eslint-plugin-react-hooks": "^5.0.0-next-d1e35c703-20221110",
     "jquery": "~3.6.0",
     "merge": "^2.1.1",
     "oidc-client": "~1.11.5",
@@ -12,7 +13,7 @@
     "react-dom": "~16.14.0",
     "react-router": "~5.2.1",
     "react-router-bootstrap": "^0.25.0",
-    "react-router-dom": "~5.3.0",
+    "react-router-dom": "^6.4.3",
     "reactstrap": "~8.10.1",
     "rimraf": "^3.0.2"
   },

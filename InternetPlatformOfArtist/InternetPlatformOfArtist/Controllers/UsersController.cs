@@ -55,8 +55,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> ChangeUser(int id, Models.User user)
+        public async Task<ActionResult<Models.User>> ChangeUser(int id, Models.User user)
         {
+            string message;
             if (id != user.idUser)
             {
                 return BadRequest();
@@ -73,7 +74,8 @@ namespace InternetPlatformOfArtist.Controllers
             {
                 if (!UserExists(id))
                 {
-                    return NotFound();
+                    message = "Пользователь не существует";
+                    return NotFound(message);
                 }
                 else
                 {
@@ -81,7 +83,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return NoContent();
+            return await GetUserById(user.idUser);
         }
     
 
