@@ -11,12 +11,53 @@ namespace InternetPlatformOfArtist.Models
     {
         [Key]
         [JsonPropertyName("idUser")]
-        public int idUser { get; set; }
-        public string surnameUser { get; set; }
-        public string nameUser { get; set; }
-        public string patronimycUser { get; set; }
-        public string loginUser { get; set; }
-        public string passwordUser { get; set; }
-        public string mailUser { get; set; }
+        public int IdUser { get; set; }
+
+        [JsonPropertyName("surnameUser")]
+        public string SurnameUser { get; set; }
+
+        [JsonPropertyName("nameUser")]
+        public string NameUser { get; set; }
+
+        [JsonPropertyName("patronimycUser")]
+        public string PatronimycUser { get; set; }
+
+        [JsonPropertyName("loginUser")]
+        public string LoginUser { get; set; }
+
+        [JsonPropertyName("passwordUser")]
+        public string PasswordUser { get; set; }
+
+        [JsonPropertyName("mailUser")]
+        public string MailUser { get; set; }
+
+        public int IdRole { get; set; }
+        public Role Role { get; set; }
+
+        public User()
+        {
+
+        }
+
+        public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser,string mailUser)
+        {
+            this.SurnameUser = surnameUser;
+            this.NameUser = nameUser;
+            this.PatronimycUser = patronimycUser;
+            this.LoginUser = loginUser;
+            this.PasswordUser = passwordUser;
+            this.MailUser = mailUser;
+        }
+
+        public User(int idUser, string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser)
+        {
+            this.IdUser = idUser;
+            this.SurnameUser = surnameUser;
+            this.NameUser = nameUser;
+            this.PatronimycUser = patronimycUser;
+            this.LoginUser = loginUser;
+            this.PasswordUser = passwordUser;
+            this.MailUser = mailUser;
+        }
     }
 }

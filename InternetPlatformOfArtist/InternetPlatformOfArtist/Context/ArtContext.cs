@@ -15,5 +15,9 @@ namespace InternetPlatformOfArtist.Context
 
         }
         public DbSet<Models.User> User { get; set; }
+        public DbSet<Models.Group> Group { get; set; }
+        public DbSet<Models.Competition> Competition { get; set; }
+        public DbSet<Models.Statement> Statement{ get; set; }
+        public DbSet<Models.Role> Role { get; set; }
     }
 }
