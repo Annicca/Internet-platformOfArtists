@@ -18,11 +18,12 @@ namespace InternetPlatformOfArtist.Controllers
         {
             context = _context;
         }
+
         // GET: api/groups
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Group>>> GetGroups()
+        public async Task<ActionResult<IEnumerable<Models.Group>>> GetAllGroup()
         {
-            return await context.Group.ToListAsync();
+            return await context.Group.AsNoTracking().ToListAsync();
         }
 
         // GET api/groups/5
@@ -36,6 +37,32 @@ namespace InternetPlatformOfArtist.Controllers
             }
             return group;
         }
+
+        // GET: api/groups
+        [HttpGet("competitions")]
+        public async Task<object> GroupsWithCompetitions()
+        {
+            //return context.Group.AsNoTracking().Include(c => c.Competitions).ThenInclude(c => c.Participants);
+            return new
+            {
+                Results = await context
+            .Group
+            .Select(g => new
+            {
+                g.IdGroup,
+                g.Director,
+                g.NameGroup,
+                g.DescriptionGroup,
+                g.CityGroup,
+                g.AddressGroup,
+                Groups = g
+                    .Competitions
+                    .Select(c => new { c.IdCompetition, c.Organizer, c.NameCompetition, c.DateStart, c.DateFinish, c.CityCompetition, c.Status.NameStatus })
+                    .ToList()
+            }).ToListAsync()
+            };
+        }
+
 
         // POST api/groups
         [HttpPost]

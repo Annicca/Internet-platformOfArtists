@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -13,9 +14,10 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("idCompetition")]
         public int IdCompetition { get; set; }
 
+        [ForeignKey("Organizer")]
         [JsonPropertyName("organizor")]
         public int IdUser { get; set; }
-        public User Organizor { get; set; }
+        public User Organizer { get; set; }
 
         [JsonPropertyName("nameCompetition")]
         public string NameCompetition { get; set; }
@@ -36,14 +38,18 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("cityCompetition")]
         public string CityCompetition {get;set;}
 
-        [JsonPropertyName("statusCompetition")]
-        public string StatusCompetition { get; set; }
+        [ForeignKey("Status")]
+        [JsonPropertyName("idStatusCompetition")]
+        public int IdStatusCompetition { get; set; }
+        public StatusCompetition Status { get; set; }
 
-        public List<Group> Participants { get; set; }
+        public List<Group> Groups { get; set; } = new List<Group>();
 
-        public Competition()
-        {
-            Participants = new List<Group>();
-        }
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public List<Participant> Participants { get; set; } = new List<Participant>();
+
+        
+
     }
 }

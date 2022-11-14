@@ -21,9 +21,34 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET: api/competitions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Competition>>> Get()
+        public async Task<ActionResult<IEnumerable<Models.Competition>>> GetAllCompetition()
         {
-            return await context.Competition.ToListAsync();
+            return await context.Competition.AsNoTracking().ToListAsync();
+        }
+        // GET: api/competitions/participant
+        [HttpGet("participant")]
+        public async Task<object> GetCompetitionsWithGroups()
+        {
+            return new
+            {
+                Results = await context
+            .Competition
+            .Select(c => new
+            {
+                c.IdCompetition,
+                c.Organizer,
+                c.NameCompetition,
+                c.DescriptionCompetition,
+                c.DateStart,
+                c.DateFinish,
+                c.CityCompetition,
+                c.Status.NameStatus,
+                Groups = c
+                    .Groups
+                    .Select(g => new { g.IdGroup, g.Director, g.NameGroup, g.CityGroup, g.AddressGroup })
+                    .ToList()
+            }).ToListAsync()
+            };
         }
 
         // GET api/competitions/5
@@ -108,23 +133,37 @@ namespace InternetPlatformOfArtist.Controllers
         //принять участие
 
         //PUT api/competitions/5/participant
-        [HttpPut("id")]
-        public IActionResult AddParticipant(int id, Models.Group group)
-        {
-            Models.Competition competition = FindCompetitionById(id);
-            GroupsController controllerGroup = new GroupsController(context);
-            if(controllerGroup.GroupExists(group.IdGroup) && CompetitionExists(competition.IdCompetition))
-            {
-                competition.Participants.Add(group);
-                group.Competitions.Add(competition);
-            }
-            else
-            {
-                return NotFound();
-            }
+        //[HttpPut("id")]
+        //public async Task<ActionResult<Models.Competition>> AddParticipant(int id, Models.Group group)
+        //{
+        //    Models.Competition competition = FindCompetitionById(id);
+        //    GroupsController controllerGroup = new GroupsController(context);
+        //    competition.Participants.Add(group);
+        //    group.Competitions.Add(competition);
 
-            return NoContent();
-        }
+        //    try
+        //    {
+
+        //        await context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!CompetitionExists(id))
+        //        {
+        //            return NotFound("Конкурс не найден");
+        //        }
+        //        else if(!controllerGroup.GroupExists(group.IdGroup))
+        //        {
+        //            return NotFound("Коллектив не найден");
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
 
         //GET api/competitions/Владимир
         [HttpGet("city")]

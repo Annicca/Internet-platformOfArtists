@@ -43,6 +43,8 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpPost]
         public async Task<ActionResult<Models.User>> AddUser(Models.User user)
         {
+            //RolesController rolesController = new RolesController(context);
+            //user.Role = rolesController.FindRoleById(user.IdRole);
             context.User.Add(user);
             await context.SaveChangesAsync();
 

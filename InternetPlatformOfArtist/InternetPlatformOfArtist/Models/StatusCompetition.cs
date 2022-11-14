@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace InternetPlatformOfArtist.Models
 {
-    public class Role
+    public class StatusCompetition
     {
         [Key]
-        public int IdRole { get; set; }
-        public string NameRole { get; set; }
-
+        public int IdStatusCompetition { get; set; }
+        public string NameStatus { get; set; }
     }
 }
