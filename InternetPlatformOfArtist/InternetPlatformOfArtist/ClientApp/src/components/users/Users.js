@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import {SearchIcon} from '../../icon/SearchIcon';
 
-//import './Users.scss';
+import './Users.scss';
 
 export const Users = () =>{
 
@@ -23,36 +23,36 @@ export const Users = () =>{
 
     const [data, setState] = useState();
 
-    // useEffect(() => {
-    //   // fetch data
-    //   const dataFetch = async () => {
-    //     const data = await (
-    //       await fetch(
-    //         "https://localhost:44344/api/users"
-    //       )
-    //     ).json();
+    useEffect(() => {
+      // fetch data
+      const dataFetch = async () => {
+        const data = await (
+          await fetch(
+            "https://localhost:44344/api/users"
+          )
+        ).json();
   
-    //     // set state when the data received
-    //     setState(data);
-    //   };
+        // set state when the data received
+        setState(data);
+      };
   
-    //   dataFetch();
-    // }, []);
+      dataFetch();
+    }, []);
     
-    // const classnames = {
-    //   container: 'main-container',
-    //   titlePage: 'main-container-title',
-    //   form: 'main-container-form',
-    //   submit: 'main-container-form-search-button',
-    //   search: 'main-container-form-search-button-img',
-    //   formContainer: 'main-container-form-search',
-    //   inputSearch: 'main-container-form-search-input'
+    const classnames = {
+      container: 'main-container',
+      titlePage: 'main-container-title',
+      form: 'main-container-form',
+      submit: 'main-container-form-search-button',
+      search: 'main-container-form-search-button-img',
+      formContainer: 'main-container-form-search',
+      inputSearch: 'main-container-form-search-input'
 
-    // }
+    }
 
     return(
         <main>
-            {/* <div className = {classnames.container}>
+            <div className = {classnames.container}>
             <h1 className = {classnames.titlePage}>Пользователи</h1>
             <div>
               <form className = {classnames.form}>
@@ -84,6 +84,6 @@ export const Users = () =>{
             )}
               </tbody>
             </table> 
-            </div> */}
+            </div>
         </main>
     )}

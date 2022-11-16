@@ -7,7 +7,7 @@ import { Counter } from './components/Counter';
 import { Users} from './components/users/Users';
 import {User} from './components/users/User';
 
-//import './index.scss';
+import './index.scss';
 
 
 export default function App() {
@@ -17,7 +17,7 @@ export default function App() {
         <Routes>
           <Route path  ='/' element={<Home/>} />
           <Route path='/user/:id' element={<User/>} />
-          <Route path='/user' element={<Users/>} />
+          <Route path='/users' element={<Users/>} />
         </Routes>
       </Layout>
     );
