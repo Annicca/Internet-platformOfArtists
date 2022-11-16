@@ -5,9 +5,11 @@
   "dependencies": {
     "axios": "^1.1.3",
     "bootstrap": "~4.6.1",
+    "classnames": "^2.3.2",
     "eslint-plugin-react-hooks": "^5.0.0-next-d1e35c703-20221110",
     "jquery": "~3.6.0",
     "merge": "^2.1.1",
+    "node-sass": "^7.0.3",
     "oidc-client": "~1.11.5",
     "react": "~16.14.0",
     "react-dom": "~16.14.0",
@@ -24,7 +26,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "nan": "^2.14.1",
     "react-scripts": "^5.0.0",
-    "typescript": "^3.7.5"
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
+    "typescript": "^3.7.5",
+    "webpack": "^5.75.0"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,0 +1,41 @@
+.main-container{
+    max-width: 1650px;
+    margin: 0 auto;
+    &-title{
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        text-shadow: 0px 4px 6px #FFE974;
+        margin: 0;
+        margin-bottom: 60px;
+    }
+    &-form{
+        // margin-bottom: 47px;
+        &-search{
+            width: 578px;
+            position: relative;
+            &-input{
+                background: #FFF8EE;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+                border: none;
+                border-radius: 15px;
+                padding: 11px 3px 13px 20px;
+                width: 100%;
+                color: #888888;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+            }
+            &-button{
+                position: absolute;
+                background: #FFF8EE;
+                top: 9px;
+                right: 0;
+                width: 10px;
+                height: 10px;
+                border: none;
+            }
+        }
+    }
+}

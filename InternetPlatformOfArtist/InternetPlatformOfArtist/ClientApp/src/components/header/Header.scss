@@ -1,0 +1,27 @@
+.header{
+    position: relative;
+    margin: 0 auto;
+    max-width: 1650px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 73px;
+    &-list{
+        max-width: 594px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        font-weight: 500;
+        padding: 0;
+        margin: 0;
+        &-item:not(:first-child){
+            margin-left: 28px;
+        }
+        &-item-link{
+            color: #FF6B00;
+        }
+    }
+}

@@ -5,9 +5,9 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { Users} from './components/users/Users';
-import {User} from './components/users/User'
+import {User} from './components/users/User';
 
-import './custom.css'
+//import './index.scss';
 
 
 export default function App() {
@@ -15,11 +15,9 @@ export default function App() {
     return (
       <Layout>
         <Routes>
-          <Route exact path='/' element={<Home/>} />
+          <Route path  ='/' element={<Home/>} />
           <Route path='/user/:id' element={<User/>} />
-          <Route path='/users' element={<Users/>} />
-          <Route path='/counter' element={<Counter/>} />
-          <Route path='/fetch-data' element={<FetchData/>} />
+          <Route path='/user' element={<Users/>} />
         </Routes>
       </Layout>
     );

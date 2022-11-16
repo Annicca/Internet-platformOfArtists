@@ -57,7 +57,7 @@ export const User = () =>{
     const inputTitle = ['Номер', 'Фамилия', 'Имя', 'Отчество', 'Login', 'Пароль', 'Email']
     return(
         <div>
-            {user === undefined ? (<span>Loading...</span>) :
+            {/* {user === undefined ? (<span>Loading...</span>) :
             <p>
                 Пользователь: 
                 <span>
@@ -84,7 +84,7 @@ export const User = () =>{
                 </form>
             }
             <Link to = {'/users'}><button >Назад</button></Link>
-            </div>
+            </div> */}
         </div>
     )
 }
