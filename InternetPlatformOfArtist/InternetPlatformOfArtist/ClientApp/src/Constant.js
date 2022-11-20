@@ -119,5 +119,5 @@ export let socials = [
     }
 ];
 
-export let inputTitle = ['ID', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Пароль', 'Почта']
+export let inputTitle = ['ID', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Почта']
    

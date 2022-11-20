@@ -16,7 +16,7 @@ export const User = () =>{
     const [surName, setSurname] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
     const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
+    //const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
 
     const params = useParams();
@@ -35,7 +35,7 @@ export const User = () =>{
             setName(resp.data.nameUser);
             setPatronimyc(resp.data.patronimycUser);
             setLogin(resp.data.loginUser);
-            setPassword(resp.data.passwordUser);
+            //setPassword(resp.data.passwordUser);
             setMail(resp.data.mailUser);
 
         });
@@ -48,7 +48,7 @@ export const User = () =>{
             nameUser: name,
             patronimycUser: patronimyc,
             loginUser: login,
-            passwordUser: password,
+            //passwordUser: password,
             mailUser: mail,
             idRole: user.idRole,
             userRole: user.userRole
@@ -139,14 +139,14 @@ export const User = () =>{
                                         onChange={(e) =>setLogin(e.target.value)} 
                                         required />
                                 </p>
-                                <p className={classnames.child2Element} >
+                                {/* <p className={classnames.child2Element} >
                                     <input 
                                         className={isChange ? classnames.inputActive : classnames.input}
                                         type = 'text' 
                                         defaultValue = {user.passwordUser} 
                                         onChange={(e) =>setPassword(e.target.value)} 
                                         required />
-                                </p>
+                                </p> */}
                                 <p className={classnames.child2Element} >
                                     <input 
                                         className={isChange ? classnames.inputActive : classnames.input}

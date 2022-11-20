@@ -6,8 +6,11 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { Users} from './components/users/Users';
 import {User} from './components/users/User';
+import { Login } from './components/logIn/Login';
+import { Registration } from './components/registration/Registration';
 
 import './index.scss';
+
 
 
 export default function App() {
@@ -18,7 +21,9 @@ export default function App() {
           <Route path  ='/' element={<Home/>} />
           <Route path='/users/:id' element={<User/>} />
           <Route path='/users' element={<Users/>} />
-        </Routes>
+          <Route path = '/login' element = {<Login />} />
+          <Route path = '/registration' element = {<Registration />} />
+        </Routes>        
       </Layout>
     );
 }

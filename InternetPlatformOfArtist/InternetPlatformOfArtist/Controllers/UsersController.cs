@@ -45,7 +45,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         // GET api/user/5
-        [HttpGet("{login}")]
+        [HttpGet("userLogin/{login}")]
         public Models.User GetUserByLogin(string login)
         {
             return context.User.FirstOrDefault(u => u.LoginUser == login);

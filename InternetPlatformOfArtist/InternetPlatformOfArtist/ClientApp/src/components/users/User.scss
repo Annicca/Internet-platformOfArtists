@@ -52,11 +52,11 @@
             p:first-child{
                 margin: 0px;
                 padding: 14px;
-                margin-bottom: 3px;
+                margin-bottom: 9px;
             }
             &-item{
                 margin: 0;
-                margin-bottom: 14px;
+                margin-bottom: 19px;
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 19px;
@@ -68,12 +68,13 @@
                     padding: 7px;
                 }
                 &-input.active{
+                    margin-top: -4px;
                     border: 2px solid #FFD700;
                 }
             }
             &-box{
                 padding-left: 14px;
-                margin-top: 70px;
+                margin-top: 40px;
                 max-width: 373px;
                 display: flex;
                 justify-content: flex-end;
