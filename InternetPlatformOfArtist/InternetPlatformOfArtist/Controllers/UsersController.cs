@@ -24,7 +24,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.User>>>  GetUsers()
         {
-            return await context.User.ToListAsync();
+            return await context.User.Include("UserRole").ToListAsync();
         }
 
         // GET api/user/5
