@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,9 +18,12 @@ namespace InternetPlatformOfArtist.Controllers
     public class UsersController : ControllerBase
     {
         private Context.ArtContext context;
-        public UsersController(Context.ArtContext _context)
+        private JwtService jwtService;
+        public UsersController(Context.ArtContext _context, JwtService _jwtService)
         {
             context = _context;
+            jwtService = _jwtService;
+
         }
         // GET: api/users
         [HttpGet]
@@ -39,17 +44,91 @@ namespace InternetPlatformOfArtist.Controllers
             return user;
         }
 
-        // POST api/user
-        [HttpPost]
-        public async Task<ActionResult<Models.User>> AddUser(Models.User user)
+        // GET api/user/5
+        [HttpGet("{login}")]
+        public Models.User GetUserByLogin(string login)
         {
-            //RolesController rolesController = new RolesController(context);
-            //user.Role = rolesController.FindRoleById(user.IdRole);
-            context.User.Add(user);
+            return context.User.FirstOrDefault(u => u.LoginUser == login);
+        }
+        // POST api/user/register
+        [HttpPost("register")]
+        public async Task<ActionResult<Models.User>> Register(Models.User user)
+        {
+            var registerUser = new Models.User(
+                user.SurnameUser,
+                user.NameUser,
+                user.PatronimycUser,
+                user.LoginUser,
+                BCrypt.Net.BCrypt.HashPassword(user.PasswordUser),
+                user.MailUser,
+                2);
+
+            context.User.Add(registerUser);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserById", new { id = user.IdUser }, user);
+            return CreatedAtAction("GetUserById", new { id = user.IdUser }, registerUser);
         }
+
+        [HttpPost("login")]
+        public IActionResult Login(Models.LoginModel log)
+        {
+            var user = GetUserByLogin(log.Login);
+
+            if (user == null)
+            {
+
+                return NotFound();
+            }
+            if(!BCrypt.Net.BCrypt.Verify(log.Password, user.PasswordUser))
+            {
+                return BadRequest(new { message = "Вы введи неправльно логин или пароль" });
+            }
+
+            var jwt = jwtService.Geterate(user.IdUser);
+
+            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+
+            return Ok(new 
+            { 
+                message = "success"
+            });
+        }
+
+        [HttpGet("user")]
+        public IActionResult User()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = jwtService.Verify(jwt);
+
+                int userId = int.Parse(token.Issuer);
+
+                var user = context.User.Find(userId);
+
+                return Ok(user);
+            }catch(Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                message = "success"
+            });
+        }
+
+
 
         private bool UserExists(int id)
         {

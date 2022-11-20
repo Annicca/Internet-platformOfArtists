@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
-
+using InternetPlatformOfArtist.Helpers;
 
 namespace InternetPlatformOfArtist
 {
@@ -30,10 +30,12 @@ namespace InternetPlatformOfArtist
 
             services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
             {
-                builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
+                builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
             }));
 
             services.AddControllersWithViews();
+
+            services.AddScoped<JwtService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
