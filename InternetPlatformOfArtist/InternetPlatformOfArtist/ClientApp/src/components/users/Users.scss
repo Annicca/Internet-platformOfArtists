@@ -107,7 +107,7 @@
              border-bottom-left-radius: 10px;
         }
         
-        tr:hover td{
+        tr:not(:first-child):hover td{
              background: #FFD700;
         }
     }

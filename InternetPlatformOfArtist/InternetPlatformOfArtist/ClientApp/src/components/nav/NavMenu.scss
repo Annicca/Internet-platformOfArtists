@@ -26,7 +26,7 @@
         padding: 0;
         &-items{
             background-color: white;
-            color: black;
+            
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
             border-radius: 15px;
             font-weight: 500;
@@ -40,6 +40,9 @@
             }
             &:active{
                 background-color: #FFF9C1;
+            }
+            &-link{
+                color: black;
             }
         }
     }
