@@ -27,7 +27,7 @@ namespace InternetPlatformOfArtist.Controllers
             return await context.User.ToListAsync();
         }
 
-        // GET api/users/5
+        // GET api/user/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.User>> GetUserById(int id)
         {
@@ -39,7 +39,7 @@ namespace InternetPlatformOfArtist.Controllers
             return user;
         }
 
-        // POST api/users
+        // POST api/user
         [HttpPost]
         public async Task<ActionResult<Models.User>> AddUser(Models.User user)
         {
@@ -56,7 +56,7 @@ namespace InternetPlatformOfArtist.Controllers
             return context.User.Any(e => e.IdUser == id);
         }
 
-        // PUT api/users/5
+        // PUT api/user/5
         [HttpPut("{id}")]
         public async Task<ActionResult<Models.User>> ChangeUser(int id, Models.User user)
         {
@@ -90,7 +90,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
     
 
-        // DELETE api/users/5
+        // DELETE api/user/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<IEnumerable<Models.User>>> DeleteUser(int id)
         {
@@ -105,32 +105,32 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         //коллективы пользователя
-        //GET api/users/groups/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.Group>>> GetGroupsByUserAsync(int id)
+        //GET api/mygroups/5
+        [HttpGet("mygroups/{idUser:int}")]
+        public async Task<ActionResult<IEnumerable<Models.Group>>> GetGroupsByUserAsync(int idUser)
         {
             List<Models.Group> groups = await context.Group.ToListAsync();
-            return groups.Where(group => group.IdUser == id).ToList();
+            return groups.Where(group => group.IdUser == idUser).ToList();
 
         }
 
         //конкурсы пользователя
-        //GET api/users/competitions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.Competition>>> GetCompetitionsByUserAsync(int id)
+        //GET api/mycompetitions/5
+        [HttpGet("mycompetitions/{idUser:int}")]
+        public async Task<ActionResult<IEnumerable<Models.Competition>>> GetCompetitionsByUserAsync(int idUser)
         {
             List<Models.Competition> competitions = await context.Competition.ToListAsync();
-            return competitions.Where(c => c.IdUser == id).ToList();
+            return competitions.Where(c => c.IdUser == idUser).ToList();
 
         }
 
         //заявки пользователя
-        //GET api/users/groups/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.Statement>>> GetStatementByUserAsync(int id)
+        //GET api/mystatement/5
+        [HttpGet("mystatement/{idUser:int}")]
+        public async Task<ActionResult<IEnumerable<Models.Statement>>> GetStatementByUserAsync(int idUser)
         {
             List<Models.Statement> statement = await context.Statement.ToListAsync();
-            return statement.Where(statement => statement.IdUser == id).ToList();
+            return statement.Where(statement => statement.IdUser == idUser).ToList();
 
         }
 

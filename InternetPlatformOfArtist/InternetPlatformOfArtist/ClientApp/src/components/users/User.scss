@@ -1,0 +1,95 @@
+.main-container{
+    &-user{
+        margin: 0;
+        font-size: 24px;
+        line-height: 29px;
+        color: #000000;
+        font-weight: 500;
+        text-decoration: underline;
+        text-decoration-color: #FFD700;
+        text-decoration-style: solid;
+        text-decoration-thickness: 3px;
+        text-underline-offset: 7px;
+        margin-bottom: 48px;
+        &-change{
+            margin-left: 10px;
+            width: 30px;
+            height: 30px;
+            background-color: inherit;
+            border: none;
+            padding: 0;
+        }
+    }
+    &-form{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        max-width: 460px;
+        column-count: 2;
+        //column-gap: 1em;
+        height: 300px;
+        &-child1{
+            max-width: 155px;
+            &-item{
+                margin: 0;
+                margin-bottom: 3px;
+                //background-color: #FFF9C1;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                padding: 14px;
+            }
+            &-item:first-child{
+                border-top-left-radius: 15px;
+            }
+            &-item:last-child{
+                border-bottom-left-radius: 15px;
+            }
+            
+        }
+        &-child2{
+            max-width: 300px;
+            p:first-child{
+                margin: 0px;
+                padding: 14px;
+                margin-bottom: 3px;
+            }
+            &-item{
+                margin: 0;
+                margin-bottom: 14px;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 19px;
+                &-input{
+                    font-weight: 400;
+                    font-size: 16px;
+                    border: none;
+                    border-radius: 10px;
+                    padding: 7px;
+                }
+                &-input.active{
+                    border: 2px solid #FFD700;
+                }
+            }
+            &-box{
+                padding-left: 14px;
+                margin-top: 70px;
+                max-width: 373px;
+                display: flex;
+                justify-content: flex-end;
+                &-button{
+                    margin-left: 40px;
+                    background-color: #FFD700;
+                    color: white;
+                    border-radius: 10px;
+                    border: none;
+                    text-align: center;
+                    font-weight: 500;
+                    font-size: 16px;
+                    padding: 8px 23px;
+                }
+            }
+
+        }
+    }
+}

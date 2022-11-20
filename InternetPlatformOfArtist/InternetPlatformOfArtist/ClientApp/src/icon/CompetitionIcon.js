@@ -14,11 +14,11 @@ export const CompetitionIcon = ({className}) =>{
         fill="none" 
         xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 <g filter="url(#filter0_d_74_1006)">
-<rect x="4" width="49" height="50.1667" fill="url(#pattern0)" shape-rendering="crispEdges"/>
+<rect x="4" width="49" height="50.1667" fill="url(#pattern0)" shapeRendering="crispEdges"/>
 </g>
 <defs>
-<filter id="filter0_d_74_1006" x="0" y="0" width="57" height="58.1667" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<filter id="filter0_d_74_1006" x="0" y="0" width="57" height="58.1667" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+<feFlood floodOpacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
 <feOffset dy="4"/>
 <feGaussianBlur stdDeviation="2"/>

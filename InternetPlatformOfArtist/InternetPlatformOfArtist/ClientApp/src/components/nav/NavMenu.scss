@@ -3,7 +3,8 @@
     height: 100%;
     max-width: 1650px;
     display: flex;
-    margin: 0 auto;
+    margin-right:auto;
+    margin-left: auto;
     align-items: center;
     justify-content: space-between;
     &-icon{
@@ -37,8 +38,8 @@
             &:not(:last-child){
                 margin-right: 53px;
             }
-            &:hover{
-                background-color: #FFEED6;
+            &:active{
+                background-color: #FFF9C1;
             }
         }
     }

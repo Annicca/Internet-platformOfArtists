@@ -1,0 +1,39 @@
+.footer-container{
+    max-width: 1650px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    &-list{
+        padding: 0;
+        margin: 0;
+        height: 145px;
+        max-width: 400px;
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        column-count: 2;
+        column-gap: 4em;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        &-item{
+            margin-bottom: 9px;
+            &-link{
+                font-weight: 400;
+                font-size: 16px;
+                color:black;
+            }
+        }
+    }
+    &-social{
+        margin-top: 64px;
+        margin-right: -20px;
+        &-title{
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 19px;
+        }
+        &-img{
+            margin-right: 20px;
+        }
+    }
+}
