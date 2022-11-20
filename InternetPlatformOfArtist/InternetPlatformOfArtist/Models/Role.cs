@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InternetPlatformOfArtist.Models
@@ -10,6 +11,7 @@ namespace InternetPlatformOfArtist.Models
     {
         [Key]
         public int IdRole { get; set; }
-        public string NameRole { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
     }
 }
