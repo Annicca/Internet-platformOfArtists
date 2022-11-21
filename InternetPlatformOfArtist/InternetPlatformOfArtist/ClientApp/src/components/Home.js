@@ -1,22 +1,11 @@
 import { async } from 'q';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const Home = ()=>{
-  
-  useEffect(() =>{
-    (
-    async () =>{
-      await fetch(`https://localhost:44344/api/users/user`,{
-        headers:{'Content-Type': 'application/json'},
-        credentials: `include`
-      });
-    } 
-    )();
-  });
+export const Home = ({user})=>{
 
   return (
     <div>
-
+      {user ? 'Hi '+ user.nameUser : 'You are not login'} 
     </div>
   );
 }
