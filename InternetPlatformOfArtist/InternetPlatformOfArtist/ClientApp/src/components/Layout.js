@@ -11,12 +11,14 @@ export class Layout extends Component {
   render () {
     return (
       <>
-      <Header />
-      <NavMenu />
-        <Container>
-          {this.props.children}
-        </Container>
-      <Footer />
+        <div className='wrapper'>
+          <Header />
+          <NavMenu />
+            <Container>
+              {this.props.children}
+            </Container>
+        </div>
+        <Footer />
       </>
     );
   }

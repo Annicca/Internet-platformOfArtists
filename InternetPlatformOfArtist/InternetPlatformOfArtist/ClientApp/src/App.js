@@ -24,9 +24,9 @@ export default function App() {
         ).json();
 
         setUser(user);
-      }
+      };
       dataFetch();
-  }, [user]);
+  }, []);
 
     return (
       <Layout>

@@ -73,13 +73,13 @@
                 }
             }
             &-box{
-                padding-left: 14px;
+                padding-left: 10px;
                 margin-top: 40px;
                 max-width: 373px;
                 display: flex;
-                justify-content: flex-end;
+                justify-content: flex-start;
                 &-button{
-                    margin-left: 40px;
+                    margin-right: 40px;
                     background-color: #FFD700;
                     color: white;
                     border-radius: 10px;

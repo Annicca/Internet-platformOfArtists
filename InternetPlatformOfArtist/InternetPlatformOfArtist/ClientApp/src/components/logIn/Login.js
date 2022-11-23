@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 
 
 export const Login = () =>{
@@ -25,7 +26,7 @@ export const Login = () =>{
 
         setRedirect(true);
         if(redirect){
-            return <Navigate to="/" />
+            return <Redirect to="/" />
         }
     }
 
@@ -40,6 +41,7 @@ export const Login = () =>{
             <div className = {classnames.container}>
                 <form className = {classnames.form} onSubmit={submit}>
                     <h2>Войти</h2>
+                    <p><Link to = '/registration' >Ещё не зарегистрировались?</Link></p>
                     <p>
                         <input 
                             type = "text" 
@@ -60,6 +62,7 @@ export const Login = () =>{
                     </p>
                     <p>
                         <button className = {classnames.button} type = "submit">Войти</button>
+
                     </p>
                 </form>
             </div>

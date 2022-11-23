@@ -9,7 +9,7 @@ export let header = [
         link: '',
     },
     {
-        title: 'Продавай с нами',
+        title: 'Вход и регистрация',
         link: '',
     },
     {
@@ -19,14 +19,14 @@ export let header = [
 ];
 
 export let navMenuButton = [
-    {
-        title: 'Атрибутика',
-        link: ''
-    },
-    {
-        title: 'Услуги',
-        link: ''
-    },
+    // {
+    //     title: 'Атрибутика',
+    //     link: ''
+    // },
+    // {
+    //     title: 'Услуги',
+    //     link: ''
+    // },
     {
         title: 'Конкурсы',
         link: ''
@@ -119,5 +119,22 @@ export let socials = [
     }
 ];
 
-export let inputTitle = ['ID', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Почта']
-   
+export let inputTitle = ['ID','Привилегии', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Почта']
+export let roles = [
+    {
+        idRole: 1,
+        name: 'Администратор'
+    },
+    {
+        idRole: 2,
+        name: 'Клиент'
+    },
+    {
+        idRole: 3,
+        name: 'Руководитель коллектива'
+    },
+    {
+        idRole: 4,
+        name: 'Организатор конкурсов'
+    }
+]

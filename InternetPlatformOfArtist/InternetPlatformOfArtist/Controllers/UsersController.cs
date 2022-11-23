@@ -34,14 +34,14 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/user/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.User>> GetUserById(int id)
+        public IActionResult GetUserById(int id)
         {
-            var user = await context.User.FindAsync(id);
+            var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == id);
             if (user == null)
             {
                 return NotFound();
             }
-            return user;
+            return Ok(user);
         }
 
         // GET api/user/5
@@ -108,7 +108,7 @@ namespace InternetPlatformOfArtist.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = context.User.Find(userId);
+                var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == userId);
 
                 return Ok(user);
             }catch(Exception)
@@ -137,7 +137,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/user/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Models.User>> ChangeUser(int id, Models.User user)
+        public IActionResult ChangeUser(int id, Models.User user)
         {
             string message;
             if (id != user.IdUser)
@@ -150,7 +150,7 @@ namespace InternetPlatformOfArtist.Controllers
             try
             { 
             
-                await context.SaveChangesAsync();
+                context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -165,7 +165,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return await GetUserById(user.IdUser);
+            return GetUserById(user.IdUser);
         }
     
 

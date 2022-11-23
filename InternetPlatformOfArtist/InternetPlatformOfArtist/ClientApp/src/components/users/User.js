@@ -5,6 +5,7 @@ import axios from "axios";
 import { inputTitle } from "../../Constant";
 import { Image } from "../img/Image";
 import { tableUsersImg } from "../../Constant";
+import { roles } from "../../Constant";
 
 import './User.scss';
 
@@ -18,6 +19,10 @@ export const User = () =>{
     const [login, setLogin] = useState('');
     //const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
+    const [role, setRole] = useState('');
+    const [resultRole, setResult]  = useState({});
+
+    const [idRole, setIdRole] = useState('');
 
     const params = useParams();
     const current = params.id;
@@ -37,9 +42,12 @@ export const User = () =>{
             setLogin(resp.data.loginUser);
             //setPassword(resp.data.passwordUser);
             setMail(resp.data.mailUser);
-
+            setRole(resp.data.userRole.name);
+            setIdRole(resp.data.idRole);
         });
-      }, [apiUrl,setUser,current]);  
+
+      }, [apiUrl,setUser,current]); 
+      
 
     const changeUser = () => {
         const userChange = {
@@ -50,8 +58,7 @@ export const User = () =>{
             loginUser: login,
             //passwordUser: password,
             mailUser: mail,
-            idRole: user.idRole,
-            userRole: user.userRole
+            userRole: role
         };
         console.log(userChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
@@ -80,9 +87,15 @@ export const User = () =>{
         inputActive: 'main-container-form-child2-item-input active',
         buttonContainer: 'main-container-form-child2-box',
         button: 'main-container-form-child2-box-button'
-
-
     }
+    
+
+    useEffect (() =>{
+        const r = roles.reduce((res, role) => role.idRole == idRole ? role['name']: res, {})
+        setResult(r);
+        console.log(resultRole);
+    },[user])
+
 
     return(
         <main>
@@ -109,6 +122,14 @@ export const User = () =>{
                         {user === undefined ? (<span>Loading...</span>) : 
                             <form>
                                 <p className={classnames.child2Element }>{user.idUser}</p>
+                                <p className={classnames.child2Element} >
+                                    <input 
+                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        type = 'text' 
+                                        defaultValue = {resultRole} 
+                                        onChange={(e) => setRole(e.target.value)} />
+                                </p>
+
                                 <p className={classnames.child2Element} >
                                     <input 
                                         className={isChange ? classnames.inputActive : classnames.input}
