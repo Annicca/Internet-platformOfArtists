@@ -10,16 +10,20 @@ export class Layout extends Component {
 
   render () {
     return (
-      <>
         <div className='wrapper'>
-          <Header />
-          <NavMenu />
-            <Container>
-              {this.props.children}
-            </Container>
-        </div>
+          <div className = 'content'>
+            <Header />
+            <NavMenu />
+              <Container>
+                <main>
+                  <div className='main-container'>
+                    {this.props.children}
+                  </div>
+                </main>
+              </Container>
+            </div>
         <Footer />
-      </>
+      </div>
     );
   }
 }

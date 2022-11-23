@@ -1,17 +1,22 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { Button } from "../button/Button";
 
 export const Registration = () =>{
-
     const [surName, setSurName] = useState('');
     const [name, setName] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
     const [email, setEmail] = useState('');
     const [login, setLogin] = useState('');
     const [password, setPussword] = useState('');
-    const [redirect, setRedirect] = useState(false);
 
-    const submit = async (e) =>{
+    let navigate = useNavigate(); 
+
+    const css = require('./Registration.scss').toString();
+
+    const submit = (e) =>{
         e.preventDefault();
         const user =
             {
@@ -21,93 +26,99 @@ export const Registration = () =>{
                 loginUser: login,
                 passwordUser: password,
                 mailUser: email
-            }
-        const response = await fetch(`https://localhost:44344/api/users/register`,{
-            method: `POST`,
-            headers:{'Content-Type': 'application/json'},
-            body: JSON.stringify(user)
-        });
-        const content = await response.json;
+            };
 
-        console.log(content);
-
-        setRedirect(true);
-        if(redirect){
-            return <Navigate to="/login" />
-        }
-
+        axios({
+            method: 'post',
+            url: 'https://localhost:44344/api/users/register',
+            headers: {'Content-Type': 'application/json'},
+            data : JSON.stringify(user)
+        })
+        .then(() => navigate(`/login`))
+        .catch((error) =>{
+            console.log(error);
+        })
     }
 
     const classnames = {
-        container: 'main-container',
-        form: 'main-container-register',
-        input: 'main-container-register-input',
+        form: 'form',
+        smallText: 'form-text',
+        link: 'form-text-link',
+        input: 'form-input',
         button: 'main-container-register-save'
     }
 
+
     return(
-        <main>
-            <div className = {classnames.container}>
+            <main>
+                <Helmet>
+                    <style>
+                        {css}
+                    </style>
+                </Helmet>
                 <form className = {classnames.form} onSubmit = {submit} >
-                    <h2>Пожалуйста зарегистрируйтесь</h2>
-                    <p>
-                        <input 
-                            type = "text" 
-                            id = "inputSurname"
-                            className = {classnames.input}
-                            placeholder = "Фамилия"
-                            required autoFocus 
-                            onChange = {(e) => setSurName(e.target.value)} />
-                    </p>
-                    <p>
-                        <input 
-                            type = "text" 
-                            id = "inputName"
-                            className = {classnames.input}
-                            placeholder = "Имя"
-                            required 
-                            onChange = {(e) => setName(e.target.value)} />
-                    </p>
-                    <p>
-                        <input 
-                            type = "text" 
-                            id = "inputPatronimyc"
-                            className = {classnames.input}
-                            placeholder = "Отчество"
-                            required 
-                            onChange = {(e) => setPatronimyc(e.target.value)} />
-                    </p>
-                    <p>
-                        <input 
-                            type = "email" 
-                            id = "inputEmail"
-                            className = {classnames.input}
-                            placeholder = "Email"
-                            required 
-                            onChange = {(e) => setEmail(e.target.value)} />
-                    </p>
-                    <p>
-                        <input 
-                            type = "text" 
-                            id = "inputLogin"
-                            className = {classnames.input}
-                            placeholder = "Login"
-                            required 
-                            onChange = {(e) => setLogin(e.target.value)} />
-                    </p>
-                    <p>
-                        <input 
-                            type ="password"
-                            id = "inputPassword"
-                            className = {classnames.input}
-                            placeholder = "Password"
-                            required 
-                            onChange = {(e) => setPussword(e.target.value)} />
-                    </p>
-                    <p>
-                    <button className = {classnames.button} type = "submit">Зарегистрироваться</button>
-                    </p>
-                </form>
-            </div>
-        </main>
+                        <h2>Регистрация</h2>
+                        <p className = {classnames.smallText}>
+                            <Link to = '/login' className={classnames.link}>Уже зарегистрированы?</Link>
+                        </p>
+                        <p>
+                            <input 
+                                type = "text" 
+                                id = "inputSurname"
+                                className = {classnames.input}
+                                placeholder = "Фамилия"
+                                required autoFocus 
+                                onChange = {(e) => setSurName(e.target.value)} />
+                        </p>
+                        <p>
+                            <input 
+                                type = "text" 
+                                id = "inputName"
+                                className = {classnames.input}
+                                placeholder = "Имя"
+                                required 
+                                onChange = {(e) => setName(e.target.value)} />
+                        </p>
+                        <p>
+                            <input 
+                                type = "text" 
+                                id = "inputPatronimyc"
+                                className = {classnames.input}
+                                placeholder = "Отчество"
+                                required 
+                                onChange = {(e) => setPatronimyc(e.target.value)} />
+                        </p>
+                        <p>
+                            <input 
+                                type = "email" 
+                                id = "inputEmail"
+                                className = {classnames.input}
+                                placeholder = "Email"
+                                required 
+                                onChange = {(e) => setEmail(e.target.value)} />
+                        </p>
+                        <p>
+                            <input 
+                                type = "text" 
+                                id = "inputLogin"
+                                className = {classnames.input}
+                                placeholder = "Login"
+                                required 
+                                onChange = {(e) => setLogin(e.target.value)} />
+                        </p>
+                        <p>
+                            <input 
+                                type ="password"
+                                id = "inputPassword"
+                                className = {classnames.input}
+                                placeholder = "Password"
+                                required 
+                                onChange = {(e) => setPussword(e.target.value)} />
+                        </p>
+                        <p>
+                        <Button>Зарегистрироваться</Button>
+                        <button className = {classnames.button} type = "submit">Зарегистрироваться</button>
+                        </p>
+                    </form>
+            </main>          
 )}

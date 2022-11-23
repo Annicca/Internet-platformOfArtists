@@ -66,7 +66,7 @@ namespace InternetPlatformOfArtist.Controllers
             context.User.Add(registerUser);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserById", new { id = user.IdUser }, registerUser);
+            return Ok();
         }
 
         [HttpPost("login")]
