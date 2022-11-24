@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,40 +18,117 @@ namespace InternetPlatformOfArtist.Controllers
     public class UsersController : ControllerBase
     {
         private Context.ArtContext context;
-        public UsersController(Context.ArtContext _context)
+        private JwtService jwtService;
+        public UsersController(Context.ArtContext _context, JwtService _jwtService)
         {
             context = _context;
+            jwtService = _jwtService;
+
         }
         // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.User>>>  GetUsers()
         {
-            return await context.User.ToListAsync();
+            return await context.User.Include("UserRole").ToListAsync();
         }
 
         // GET api/user/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.User>> GetUserById(int id)
+        public IActionResult GetUserById(int id)
         {
-            var user = await context.User.FindAsync(id);
+            var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == id);
             if (user == null)
             {
                 return NotFound();
             }
-            return user;
+            return Ok(user);
         }
 
-        // POST api/user
-        [HttpPost]
-        public async Task<ActionResult<Models.User>> AddUser(Models.User user)
+        // GET api/user/5
+        [HttpGet("userLogin/{login}")]
+        public Models.User GetUserByLogin(string login)
         {
-            //RolesController rolesController = new RolesController(context);
-            //user.Role = rolesController.FindRoleById(user.IdRole);
-            context.User.Add(user);
+            return context.User.FirstOrDefault(u => u.LoginUser == login);
+        }
+        // POST api/user/register
+        [HttpPost("register")]
+        public async Task<ActionResult<Models.User>> Register(Models.User user)
+        {
+            var registerUser = new Models.User(
+                user.SurnameUser,
+                user.NameUser,
+                user.PatronimycUser,
+                user.LoginUser,
+                BCrypt.Net.BCrypt.HashPassword(user.PasswordUser),
+                user.MailUser,
+                2);
+
+            context.User.Add(registerUser);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserById", new { id = user.IdUser }, user);
+            return Ok();
         }
+
+        [HttpPost("login")]
+        public IActionResult Login(Models.LoginModel log)
+        {
+            var user = GetUserByLogin(log.Login);
+
+            if (user == null)
+            {
+
+                return NotFound();
+            }
+            if(!BCrypt.Net.BCrypt.Verify(log.Password, user.PasswordUser))
+            {
+                return BadRequest(new { message = "Вы введи неправльно логин или пароль" });
+            }
+
+            var jwt = jwtService.Geterate(user.IdUser);
+
+            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+
+            return Ok(new 
+            { 
+                message = "success"
+            });
+        }
+
+        [HttpGet("user")]
+        public IActionResult User()
+        {
+            try
+            {
+                var jwt = Request.Cookies["jwt"];
+
+                var token = jwtService.Verify(jwt);
+
+                int userId = int.Parse(token.Issuer);
+
+                var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == userId);
+
+                return Ok(user);
+            }catch(Exception)
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("jwt");
+
+            return Ok(new
+            {
+                message = "success"
+            });
+        }
+
+
 
         private bool UserExists(int id)
         {
@@ -58,7 +137,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/user/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Models.User>> ChangeUser(int id, Models.User user)
+        public IActionResult ChangeUser(int id, Models.User user)
         {
             string message;
             if (id != user.IdUser)
@@ -71,7 +150,7 @@ namespace InternetPlatformOfArtist.Controllers
             try
             { 
             
-                await context.SaveChangesAsync();
+                context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -86,7 +165,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return await GetUserById(user.IdUser);
+            return GetUserById(user.IdUser);
         }
     
 

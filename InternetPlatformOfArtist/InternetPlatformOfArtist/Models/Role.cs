@@ -10,7 +10,7 @@ namespace InternetPlatformOfArtist.Models
     {
         [Key]
         public int IdRole { get; set; }
-        public string NameRole { get; set; }
+        public string Name { get; set; }
 
     }
 }

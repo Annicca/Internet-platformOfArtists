@@ -1,0 +1,13 @@
+.button{
+    background-color: #FFD700;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+}
+.button:hover{
+    background-color: #FFE660;
+}
+.button:disabled {
+    opacity: 0.4;
+}

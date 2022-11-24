@@ -41,16 +41,17 @@ namespace InternetPlatformOfArtist.Models
 
         //}
 
-        //public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser,string mailUser, int IdRole)
-        //{
-        //    this.SurnameUser = surnameUser;
-        //    this.NameUser = nameUser;
-        //    this.PatronimycUser = patronimycUser;
-        //    this.LoginUser = loginUser;
-        //    this.PasswordUser = passwordUser;
-        //    this.MailUser = mailUser;
-        //    this.IdRole = IdRole;
-        //}
+        public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, int idRole)
+        {
+            this.SurnameUser = surnameUser;
+            this.NameUser = nameUser;
+            this.PatronimycUser = patronimycUser;
+            this.LoginUser = loginUser;
+            this.PasswordUser = passwordUser;
+            this.MailUser = mailUser;
+            this.IdRole = idRole;
+
+        }
 
         //public User(int idUser, string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, int IdRole)
         //{

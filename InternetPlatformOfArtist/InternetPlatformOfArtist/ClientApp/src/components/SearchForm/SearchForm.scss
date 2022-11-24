@@ -1,0 +1,27 @@
+.search{
+        position: absolute;
+        width: 578px;
+        margin-bottom: 40px;
+        &-input{
+            position: relative;
+            background: #FFF8EE;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 15px;
+            padding: 11px 3px 13px 20px;
+            width: 100%;
+            color: #888888;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+        }
+        &-button{
+            position: absolute;
+            background: #FFF8EE;
+            top: 9px;
+            right: 0;
+            width: 10px;
+            height: 10px;
+            border: none;
+        }
+}
