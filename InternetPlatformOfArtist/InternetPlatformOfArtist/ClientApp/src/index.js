@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter,Route, Routes } from "react-router-dom";
 import App from './App';
-import { Login } from './components/logIn/Login';
-import { Registration } from './components/registration/Registration';
+import { Login } from './components/authorize/Login';
+import { Registration } from './components/authorize/Registration';
 import registerServiceWorker from './registerServiceWorker';
 
 

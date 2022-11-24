@@ -3,13 +3,9 @@ import { useState, useEffect} from "react";
 import { useParams,Link } from "react-router-dom";
 import axios from "axios";
 import { inputTitle } from "../../Constant";
-import { Image } from "../img/Image";
-import { tableUsersImg } from "../../Constant";
 import { roles } from "../../Constant";
 
 import './User.scss';
-
-
 
 export const User = () =>{
 
@@ -17,18 +13,15 @@ export const User = () =>{
     const [surName, setSurname] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
     const [login, setLogin] = useState('');
-    //const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
     const [role, setRole] = useState('');
-    const [resultRole, setResult]  = useState({});
+    const [resultRole, setResult]  = useState('');
 
     const [idRole, setIdRole] = useState('');
 
     const params = useParams();
     const current = params.id;
     const [user, setUser] = useState();
-
-    const [isChange, setIsChange] = useState(false);
 
     const apiUrl = `https://localhost:44344/api/users/${current}`;
 
@@ -40,10 +33,11 @@ export const User = () =>{
             setName(resp.data.nameUser);
             setPatronimyc(resp.data.patronimycUser);
             setLogin(resp.data.loginUser);
-            //setPassword(resp.data.passwordUser);
             setMail(resp.data.mailUser);
             setRole(resp.data.userRole.name);
             setIdRole(resp.data.idRole);
+            const r = roles.find((role) => role.idRole == resp.data.idRole)
+            setResult(r);
         });
 
       }, [apiUrl,setUser,current]); 
@@ -56,23 +50,21 @@ export const User = () =>{
             nameUser: name,
             patronimycUser: patronimyc,
             loginUser: login,
-            //passwordUser: password,
             mailUser: mail,
             userRole: role
         };
+
         console.log(userChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
             axios.put(apiUrl, userChange).then((result) =>{
                 console.log(result.data);
+                alert("Успешно")
             }).catch((e)=>{
+                alert("Мы не смогли изменить данные(")
                 console.log(e.response.request._response);
             })
         }
     }
-
-    useEffect (() =>{
-        console.log(isChange);
-    }, [isChange]);
  
     const classnames ={
         container: 'main-container',
@@ -89,26 +81,11 @@ export const User = () =>{
         button: 'main-container-form-child2-box-button'
     }
     
-
-    useEffect (() =>{
-        const r = roles.reduce((res, role) => role.idRole == idRole ? role['name']: res, {})
-        setResult(r);
-        console.log(resultRole);
-    },[user])
-
-
     return(
-        <main>
             <div className={classnames.container}>
                 {user === undefined ? (<span>Loading...</span>) :
                 <p className={classnames.title}> 
                     {"Пользователь: " + surName +" " + name +" " + patronimyc}
-                    <button className = {classnames.changeButton} onClick={() => setIsChange(true)}>
-                                    <Image 
-                                    src = {tableUsersImg[1].src} 
-                                    alt = {tableUsersImg.alt}
-                                     />
-                    </button>
                 </p>}
                 <div className = {classnames.form}>
                     <div className = {classnames.childFirst}>
@@ -124,22 +101,22 @@ export const User = () =>{
                                 <p className={classnames.child2Element }>{user.idUser}</p>
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'text' 
-                                        defaultValue = {resultRole} 
+                                        //defaultValue = {resultRole.name} 
                                         onChange={(e) => setRole(e.target.value)} />
                                 </p>
 
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'text' 
                                         defaultValue = {user.surnameUser} 
                                         onChange={(e) => setSurname(e.target.value)} />
                                 </p>
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'text' 
                                         defaultValue = {user.nameUser} 
                                         onChange={(e) =>setName(e.target.value)} 
@@ -147,30 +124,22 @@ export const User = () =>{
                                 </p>
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'text' 
                                         defaultValue = {user.patronimycUser} 
                                         onChange={(e) =>setPatronimyc(e.target.value)}/>
                                 </p>
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'text' 
                                         defaultValue = {user.loginUser} 
                                         onChange={(e) =>setLogin(e.target.value)} 
                                         required />
                                 </p>
-                                {/* <p className={classnames.child2Element} >
-                                    <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
-                                        type = 'text' 
-                                        defaultValue = {user.passwordUser} 
-                                        onChange={(e) =>setPassword(e.target.value)} 
-                                        required />
-                                </p> */}
                                 <p className={classnames.child2Element} >
                                     <input 
-                                        className={isChange ? classnames.inputActive : classnames.input}
+                                        className={classnames.input}
                                         type = 'email' 
                                         defaultValue = {user.mailUser} 
                                         onChange={(e) =>setMail(e.target.value)} 
@@ -185,6 +154,5 @@ export const User = () =>{
                     <button className={classnames.button} onClick={() => changeUser()}>Сохранить</button>
                 </p>
             </div>
-        </main>
     )
 }

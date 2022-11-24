@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
-
+import { Helmet } from "react-helmet";
+import { Button } from "../button/Button";
 
 export const Login = () =>{
+
+    const css = require('./Registration.scss').toString();
 
     const [login, setLogin] = useState('');
     const [password, setPussword] = useState('');
@@ -31,17 +34,22 @@ export const Login = () =>{
     }
 
     const classnames = {
-        container: 'main-container',
-        form: 'main-container-login',
-        input: 'main-container-login-input',
-        button: 'main-container-login-signin'
+        form: 'form',
+        smallText: 'form-text',
+        link: 'form-text-link',
+        input: 'form-input',
+        button: 'form-save'
     }
     return(
         <main>
-            <div className = {classnames.container}>
+                <Helmet>
+                    <style>
+                        {css}
+                    </style>
+                </Helmet>
                 <form className = {classnames.form} onSubmit={submit}>
                     <h2>Войти</h2>
-                    <p><Link to = '/registration' >Ещё не зарегистрировались?</Link></p>
+                    <p className={classnames.smallText}><Link to = '/registration' className={classnames.link}>Ещё не зарегистрировались?</Link></p>
                     <p>
                         <input 
                             type = "text" 
@@ -61,11 +69,9 @@ export const Login = () =>{
                             onChange = {(e) => setPussword(e.target.value)} />
                     </p>
                     <p>
-                        <button className = {classnames.button} type = "submit">Войти</button>
-
+                            <Button text = {'Войти'} classnames = {classnames.button} type = {"submit"} />
                     </p>
                 </form>
-            </div>
         </main>
     )
 }

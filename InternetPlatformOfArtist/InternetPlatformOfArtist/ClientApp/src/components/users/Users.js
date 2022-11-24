@@ -9,7 +9,7 @@ import './Users.scss';
 export const Users = () =>{
 
     return(
-          <div>
+          <div className="main-container">
             <TitlePage title = 'Пользователи' />
             <SearchForm searchText = {'Введите логин'} />
             <TableUser />

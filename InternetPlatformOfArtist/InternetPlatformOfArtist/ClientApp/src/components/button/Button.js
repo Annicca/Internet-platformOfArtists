@@ -1,10 +1,14 @@
 import React from "react";
-import { ProgressPlugin } from "webpack";
+import classNames from "classnames";
+
 
 import './Button.scss';
 
-export const Button = ({text, type, classes}) =>{
+export const Button = ({text, type, classnames, valid}) =>{
+    const classes = classNames(
+        `${classnames} button `
+    );
     return(
-        <button type= {type} className = {classes ? 'button' + classes : 'button'} >{props.children}</button>
+        <button type= {type} disabled = {valid} className = {classes} >{text}</button>
     )
 }
