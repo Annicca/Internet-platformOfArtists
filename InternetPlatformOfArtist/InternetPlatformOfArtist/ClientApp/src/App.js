@@ -10,23 +10,10 @@ import './index.scss';
 
 export default function App() {
 
-  const [user, setUser] = useState(null);
-  useEffect(() =>{
-    const dataFetch = async () =>{
-        const user = await(await fetch(`https://localhost:44344/api/users/user`,{
-          headers:{'Content-Type': 'application/json'},
-          credentials: `include`})
-        ).json()
-        .then(() => (setUser(user)))
-        .catch((error) => console.log(error));
-      };
-      dataFetch();
-  }, []);
-
     return (
       <Layout>
         <Routes>
-          <Route path  = '/' element={<Home user = {user} />} />
+          <Route path  = '/' element={<Home />} />
           <Route path='users/:id' element={<User/>} />
           <Route path='users' element={<Users/>} />
         </Routes>        

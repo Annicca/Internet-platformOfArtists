@@ -28,7 +28,6 @@ export const Login = () =>{
             login: login,
             password: password
         }
-        alert(loginUser.login + ' ' + loginUser.password);
         await axios({
             method: 'post',
             url: `https://localhost:44344/api/users/login`,

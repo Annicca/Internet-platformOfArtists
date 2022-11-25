@@ -98,7 +98,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         [HttpGet("user")]
-        public IActionResult User()
+        public async Task<ActionResult> UserByJwt()
         {
             try
             {
@@ -108,12 +108,11 @@ namespace InternetPlatformOfArtist.Controllers
 
                 int userId = int.Parse(token.Issuer);
 
-                var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == userId);
-
-                return Ok(user);
-            }catch(Exception)
+                return await GetUserById(userId);
+            }
+            catch(Exception e)
             {
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
 
