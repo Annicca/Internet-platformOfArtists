@@ -25,6 +25,11 @@ namespace InternetPlatformOfArtist.Controllers
             jwtService = _jwtService;
 
         }
+        public UsersController(Context.ArtContext _context)
+        {
+            context = _context;
+
+        }
         // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.User>>>  GetUsers()
@@ -246,6 +251,43 @@ namespace InternetPlatformOfArtist.Controllers
             List<Models.Statement> statement = await context.Statement.ToListAsync();
             return statement.Where(statement => statement.IdUser == idUser).ToList();
 
+        }
+
+        // PUT api/users/5
+        [HttpPut("setrole/{id}")]
+        public IActionResult ChangeUserRole(int id, int idRole)
+        {
+            var user = context.User.Find(id);
+            string message;
+            if (id != user.IdUser)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                if(user.IdRole != idRole)
+                {
+                    user.IdRole = idRole;
+                    context.Entry(user).State = EntityState.Modified;
+                    context.SaveChangesAsync();
+                }
+                
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    message = "Пользователь не существует";
+                    return NotFound(message);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return GetUserById(user.IdUser);
         }
 
 

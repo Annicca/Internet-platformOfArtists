@@ -18,6 +18,8 @@ namespace InternetPlatformOfArtist.Controllers
         private int groupType = 1;
         private int competitionType = 2;
         private int statusAccept = 1;
+        private int roleDirector = 3;
+        private int roleOrganizer = 4;
 
         public StatementesController(Context.ArtContext _context)
         {
@@ -62,20 +64,23 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/statementes/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, Models.Statement statement)
+        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, int idStatusStatement)
         {
+            var statement = context.Statement.Find(id);
+            int role = 0;
+
             string message;
             if (id != statement.IdStatement)
             {
                 return BadRequest();
             }
 
-            context.Entry(statement).State = EntityState.Modified;
-
             try
             {
-                //await context.SaveChangesAsync();
-                if(statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
+                statement.IdStatusStatement = idStatusStatement;
+                context.Entry(statement).State = EntityState.Modified;
+                await context.SaveChangesAsync();
+                if (idStatusStatement == statusAccept && statement.IdType == groupType)
                 {
                     var group = new Models.Group();
                     group.IdUser = statement.IdUser;
@@ -85,8 +90,9 @@ namespace InternetPlatformOfArtist.Controllers
                     group.AddressGroup = statement.Address;
                     GroupsController groupsController = new GroupsController(context);
                     await groupsController.AddGroup(group);
+                    role = roleDirector;
                 }
-                if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
+                if (idStatusStatement == statusAccept && statement.IdType == competitionType)
                 {
                     var competition = new Models.Competition();
                     competition.IdUser = statement.IdUser;
@@ -96,8 +102,15 @@ namespace InternetPlatformOfArtist.Controllers
                     competition.CityCompetition = statement.Address;
                     CompetitionsController groupsController = new CompetitionsController(context);
                     await groupsController.AddCompetition(competition);
+                    role = roleOrganizer;
                 }
-                await context.SaveChangesAsync();
+
+                if(role != 0)
+                {
+                    UsersController userController = new UsersController(context);
+                    userController.ChangeUserRole(statement.IdUser, role);
+                }
+                
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -128,5 +141,6 @@ namespace InternetPlatformOfArtist.Controllers
             await context.SaveChangesAsync();
             return await context.Statement.ToListAsync();
         }
+
     }
 }

@@ -37,7 +37,7 @@ namespace InternetPlatformOfArtist.Models
         public string Address { get; set; }
 
         [ForeignKey("Status")]
-        [JsonPropertyName("idStatus")]
+        [JsonPropertyName("idStatusStatement")]
         public int? IdStatusStatement { get; set; }
         public StatusStatement Status { get; set; }
 

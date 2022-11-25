@@ -23,7 +23,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Competition>>> GetAllCompetition()
         {
-            return await context.Competition.AsNoTracking().ToListAsync();
+            return await context.Competition.Include("Status").AsNoTracking().ToListAsync();
         }
         // GET: api/competitions/participant
         [HttpGet("participant")]
@@ -39,8 +39,8 @@ namespace InternetPlatformOfArtist.Controllers
                 c.Organizer,
                 c.NameCompetition,
                 c.DescriptionCompetition,
-                c.DateStart,
-                c.DateFinish,
+                start = c.DateStart.ToShortDateString(),
+                finish = c.DateFinish.ToShortDateString(),
                 c.CityCompetition,
                 c.Status.NameStatus,
                 Groups = c

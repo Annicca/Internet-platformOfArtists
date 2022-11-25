@@ -29,7 +29,6 @@ export const Registration = () =>{
     });
 
     const onSubmit = (e) =>{
-        e.preventDefault();
         const user =
             {
                 surnameUser: surName,
@@ -138,8 +137,8 @@ export const Registration = () =>{
                                 name = "login"
                                 {...register('login',{
                                     required : 'Поле обязательно',
-                                    minLength: {value: 5, message: 'Длина не менее 5 символов'},
-                                    pattern: {value: /^[A-Za-z]$/, message: "Логин должен содержать только буквы латинского алфавита"},
+                                    // minLength: {value: 5, message: 'Длина не менее 5 символов'},
+                                    // pattern: {value: /^[A-Za-z]$/, message: "Логин должен содержать только буквы латинского алфавита"},
                                 })}
                                 className = {classnames.input}
                                 placeholder = " "
