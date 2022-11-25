@@ -15,9 +15,6 @@ export const User = () =>{
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
-    const [role, setRole] = useState('');
-    const [resultRole, setResult]  = useState('');
-
     const [idRole, setIdRole] = useState('');
 
     const params = useParams();
@@ -27,21 +24,21 @@ export const User = () =>{
     const apiUrl = `https://localhost:44344/api/users/${current}`;
 
     useEffect(() => {
-        axios.get(apiUrl).then((resp) => {
-            console.log(resp.data);
-            setUser(resp.data);
-            setSurname(resp.data.surnameUser);
-            setName(resp.data.nameUser);
-            setPatronimyc(resp.data.patronimycUser);
-            setLogin(resp.data.loginUser);
-            setPassword(resp.data.passwordUser);
-            setMail(resp.data.mailUser);
-            setRole(resp.data.userRole.name);
-            setIdRole(resp.data.idRole);
-            const r = roles.find((role) => role.idRole == resp.data.idRole)
-            setResult(r);
-        }).catch((error) => console.log(error));
-
+        const getUser = async() => {
+            await axios.get(apiUrl).then((resp) => {
+                console.log(resp.data);
+                setUser(resp.data);
+                setSurname(resp.data.surnameUser);
+                setName(resp.data.nameUser);
+                setPatronimyc(resp.data.patronimycUser);
+                setLogin(resp.data.loginUser);
+                setPassword(resp.data.passwordUser);
+                setMail(resp.data.mailUser);
+                setIdRole(resp.data.idRole);
+            }).catch((error) => console.log(error));
+            
+        }
+        getUser();
       }, [apiUrl,setUser,current]); 
       
 
@@ -54,7 +51,7 @@ export const User = () =>{
             loginUser: login,
             passwordUser : password,
             mailUser: mail,
-            idRole: resultRole.idRole
+            idRole: idRole
         };
 
         console.log(userChange);
@@ -68,7 +65,11 @@ export const User = () =>{
             })
         }
     }
- 
+
+    const options = roles.map((role) =>{
+        return <option key={role.idRole} value={role.idRole}>{role.name}</option>
+    })
+
     const classnames ={
         container: 'main-container',
         title: 'main-container-user',
@@ -103,11 +104,13 @@ export const User = () =>{
                             <form>
                                 <p className={classnames.child2Element }>{user.idUser}</p>
                                 <p className={classnames.child2Element} >
-                                    <input 
+                                    <select 
                                         className={classnames.input}
                                         type = 'text' 
-                                        defaultValue = {resultRole.name} 
-                                        onChange={(e) => setRole(e.target.value)} />
+                                        value = {idRole} 
+                                        onChange={(e) => setIdRole(e.target.value)}>
+                                            {options}
+                                    </select>
                                 </p>
 
                                 <p className={classnames.child2Element} >

@@ -28,9 +28,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/groups/5
         [HttpGet("{id}")]
-        public IActionResult GetGroupById(int id)
+        public async Task<ActionResult> GetGroupById(int id)
         {
-            var group = context.Group.Where(g => g.IdGroup == id).Include("Director");
+            var group = await context.Group.Include("Director").FirstOrDefaultAsync(g => g.IdGroup == id);
             if (group == null)
             {
                 return NotFound();
@@ -81,7 +81,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/groups/5
         [HttpPut("{id}")]
-        public IActionResult ChangeGroup(int id, Models.Group group)
+        public async Task<ActionResult> ChangeGroup(int id, Models.Group group)
         {
             string message;
             if (id != group.IdGroup)
@@ -94,7 +94,7 @@ namespace InternetPlatformOfArtist.Controllers
             try
             {
 
-               context.SaveChangesAsync();
+               await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -109,7 +109,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return GetGroupById(group.IdGroup);
+            return await GetGroupById(group.IdGroup);
         }
 
         // DELETE api/groups/5

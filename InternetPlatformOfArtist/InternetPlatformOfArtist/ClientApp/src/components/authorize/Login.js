@@ -29,14 +29,15 @@ export const Login = () =>{
             password: password
         }
         alert(loginUser.login + ' ' + loginUser.password);
-        axios({
+        await axios({
             method: 'post',
             url: `https://localhost:44344/api/users/login`,
             headers: {'Content-Type': 'application/json'},
             credentials: `include`,
             data : JSON.stringify(loginUser)
         })
-        .then(() => navigate(`/`))
+        .then(() =>
+            navigate(`/`))
         .catch((error) =>{
             console.log(error);
         })
@@ -60,45 +61,47 @@ export const Login = () =>{
                         {css}
                     </style>
                 </Helmet>
-                <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
-                    <AuthTitle classnames={classnames} title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
-                    <div className = {classnames.group}>
-                        
-                        <input 
-                            type = "text" 
-                            {...register('login',{
-                                required : 'Поле обязательно',
-                                minLength: {value: 5, message: 'Длина не менее 5 символов'},
-                                pattern: {value: /[A-Za-z]$/, message: "Логин должен содержать только буквы латинского алфавита"}
-                            })}
-                            className = {classnames.input}
-                            placeholder = "Login"
-                            autoFocus 
-                            onChange = {(e) => setLogin(e.target.value)} />
-                            <label className = {classnames.label}>Login</label>
-                            {errors?.login && <p className = {classnames.error}>{errors?.login?.message}</p>}
-                    </div>
-                    <div className = {classnames.group}>
-                        
-                        <input 
-                            type ="password"
-                            {...register('password', {
-                                required : 'Поле обязательно',
-                                minLength: {value: 8, message: 'Длина не менее 8 символов'},
-                                pattern:{value: /[0-9]/, message: "Пароль должен содержать цифры"},
-                                pattern: {value: /^[A-Za-z]$/, message: "Пароль должен содержать буквы латинского алфавита"},
-                                pattern:{value: /[!@#$%^&*]/, message: "Пароль должен содержать хотя бы 1 спецсимвол"}
-                            })}
-                            className = {classnames.input}
-                            placeholder = "Password"
-                            onChange = {(e) => setPassword(e.target.value)} />
-                            <label className = {classnames.label}>Password</label>
-                            {errors?.password && <p className = {classnames.error}>{errors?.password?.message}</p>}
-                    </div>
-                    <p>
-                            <Button text = {'Войти'} valid = {!isValid} classnames = {classnames.button} type = {"submit"} />
-                    </p>
-                </form>
+                <div class = "container">
+                    <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
+                        <AuthTitle classnames={classnames} title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
+                        <div className = {classnames.group}>
+                            
+                            <input 
+                                type = "text" 
+                                {...register('login',{
+                                    required : 'Поле обязательно',
+                                    minLength: {value: 5, message: 'Длина не менее 5 символов'},
+                                    pattern: {value: /^[A-Za-z0-9]+$/, message: "Логин должен содержать только буквы латинского алфавита и цифры"}
+                                })}
+                                className = {classnames.input}
+                                placeholder =  " "
+                                autoFocus 
+                                onChange = {(e) => setLogin(e.target.value)} />
+                                <label className = {classnames.label}>Login</label>
+                                {errors?.login && <p className = {classnames.error}>{errors?.login?.message}</p>}
+                        </div>
+                        <div className = {classnames.group}>
+                            
+                            <input 
+                                type ="password"
+                                {...register('password', {
+                                    required : 'Поле обязательно',
+                                    minLength: {value: 8, message: 'Длина не менее 8 символов'},
+                                    pattern:{value: /[0-9]/, message: "Пароль должен содержать цифры"},
+                                    pattern: {value: /^[A-Za-z]$/, message: "Пароль должен содержать буквы латинского алфавита"},
+                                    pattern:{value: /[!@#$%^&*]/, message: "Пароль должен содержать хотя бы 1 спецсимвол"}
+                                })}
+                                className = {classnames.input}
+                                placeholder = " "
+                                onChange = {(e) => setPassword(e.target.value)} />
+                                <label className = {classnames.label}>Password</label>
+                                {errors?.password && <p className = {classnames.error}>{errors?.password?.message}</p>}
+                        </div>
+                        <p>
+                                <Button text = {'Войти'} valid = {!isValid} classnames = {classnames.button} type = {"submit"} />
+                        </p>
+                    </form>
+                </div>
         </main>
     )
 }
