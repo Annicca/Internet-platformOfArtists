@@ -53,9 +53,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/competitions/5
         [HttpGet("{id}")]
-        public IActionResult GetCompetitionById(int id)
+        public async Task<ActionResult> GetCompetitionById(int id)
         {
-            var competition = context.Competition.Where(c => c.IdCompetition == id).Include("Organizer");
+            var competition = await context.Competition.Include("Organizer").FirstOrDefaultAsync(c => c.IdCompetition == id);
             if (competition == null)
             {
                 return NotFound();
@@ -63,10 +63,10 @@ namespace InternetPlatformOfArtist.Controllers
             return Ok(competition);
         }
 
-        public Models.Competition FindCompetitionById(int id)
-        {
-           return context.Competition.Find(id);
-        }
+        //public Models.Competition FindCompetitionById(int id)
+        //{
+        //   return context.Competition.Find(id);
+        //}
 
         // POST api/competitions
         [HttpPost]
@@ -129,39 +129,6 @@ namespace InternetPlatformOfArtist.Controllers
             await context.SaveChangesAsync();
             return await context.Competition.ToListAsync();
         }
-
-        ////принять участие
-
-        ////PUT api/competitions/participant/5
-        //[HttpPut("participant/{idCompetition}")]
-        //public async Task<ActionResult<Models.Competition>> AddParticipant(int idGroup, int idCompetition)
-        //{
-        //    GroupsController controllerGroup = new GroupsController(context);
-        //    ParticipantsController controllerParticipant = new ParticipantsController(context);
-        //    Models.Participant participant = new Models.Participant(idCompetition, idGroup);
-        //    try
-        //    {
-        //        await controllerParticipant.AddParticipant(participant);
-        //        await context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!CompetitionExists(idCompetition))
-        //        {
-        //            return NotFound("Конкурс не найден");
-        //        }
-        //        else if(!controllerGroup.GroupExists(idGroup))
-        //        {
-        //            return NotFound("Коллектив не найден");
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
 
         //GET api/competitions/Владимир
         [HttpGet("city")]

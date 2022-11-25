@@ -5,7 +5,7 @@ export const Home = ({user})=>{
 
   return (
       <div className='main-container'>
-         {user ? 'Hi '+ user.nameUser : 'You are not login'} 
+         {user === undefined || user === null ? 'You are not login' : 'Hi '+ user.nameUser} 
       </div>
   );
 }

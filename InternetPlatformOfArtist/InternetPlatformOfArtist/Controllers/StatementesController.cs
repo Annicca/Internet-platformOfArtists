@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace InternetPlatformOfArtist.Controllers
     public class StatementesController : ControllerBase
     {
         private Context.ArtContext context;
+        private JwtService jwtService;
 
         private int groupType = 1;
         private int competitionType = 2;
@@ -21,23 +23,24 @@ namespace InternetPlatformOfArtist.Controllers
         private int roleDirector = 3;
         private int roleOrganizer = 4;
 
-        public StatementesController(Context.ArtContext _context)
+        public StatementesController(Context.ArtContext _context, JwtService _jwtService)
         {
             context = _context;
+            jwtService = _jwtService;
         }
 
         // GET: api/statementes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Statement>>> Get()
         {
-            return await context.Statement.Include("User").ToListAsync();
+            return await context.Statement.Include("User").Include("Type").ToListAsync();
         }
 
         // GET api/statementes/5
         [HttpGet("{id}")]
         public IActionResult GetStatementById(int id)
         {
-            var statement = context.Statement.Find(id);
+            var statement = context.Statement.Include("User").Include("Type").Include("Status").Where(s => s.IdStatement == id);
             if (statement == null)
             {
                 return NotFound();
@@ -64,23 +67,18 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/statementes/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, int idStatusStatement)
+        public async Task<ActionResult<Models.Statement>> ChangeStatement(Models.Statement statement, int id)
         {
-            var statement = context.Statement.Find(id);
-            int role = 0;
 
+            int role = 0;
             string message;
-            if (id != statement.IdStatement)
-            {
-                return BadRequest();
-            }
 
             try
             {
-                statement.IdStatusStatement = idStatusStatement;
                 context.Entry(statement).State = EntityState.Modified;
                 await context.SaveChangesAsync();
-                if (idStatusStatement == statusAccept && statement.IdType == groupType)
+
+                if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
                 {
                     var group = new Models.Group();
                     group.IdUser = statement.IdUser;
@@ -92,7 +90,7 @@ namespace InternetPlatformOfArtist.Controllers
                     await groupsController.AddGroup(group);
                     role = roleDirector;
                 }
-                if (idStatusStatement == statusAccept && statement.IdType == competitionType)
+                else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
                 {
                     var competition = new Models.Competition();
                     competition.IdUser = statement.IdUser;
@@ -107,12 +105,13 @@ namespace InternetPlatformOfArtist.Controllers
 
                 if(role != 0)
                 {
-                    UsersController userController = new UsersController(context);
-                    userController.ChangeUserRole(statement.IdUser, role);
+                    UsersController userController = new UsersController(context, jwtService);
+                    await userController .ChangeUserRole(statement.IdUser, role);
                 }
                 
             }
             catch (DbUpdateConcurrencyException)
+
             {
                 if (!StatementExists(id))
                 {

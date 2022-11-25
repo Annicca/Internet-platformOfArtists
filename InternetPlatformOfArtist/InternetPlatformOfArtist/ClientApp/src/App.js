@@ -10,15 +10,15 @@ import './index.scss';
 
 export default function App() {
 
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   useEffect(() =>{
     const dataFetch = async () =>{
         const user = await(await fetch(`https://localhost:44344/api/users/user`,{
           headers:{'Content-Type': 'application/json'},
           credentials: `include`})
-        ).json();
-
-        setUser(user);
+        ).json()
+        .then(() => (setUser(user)))
+        .catch((error) => console.log(error));
       };
       dataFetch();
   }, []);

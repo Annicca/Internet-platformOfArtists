@@ -25,11 +25,6 @@ namespace InternetPlatformOfArtist.Controllers
             jwtService = _jwtService;
 
         }
-        public UsersController(Context.ArtContext _context)
-        {
-            context = _context;
-
-        }
         // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.User>>>  GetUsers()
@@ -39,9 +34,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/users/5
         [HttpGet("{id}")]
-        public IActionResult GetUserById(int id)
+        public async Task<ActionResult> GetUserById(int id)
         {
-            var user = context.User.Include("UserRole").FirstOrDefault(u => u.IdUser == id);
+            var user = await context.User.Include("UserRole").FirstOrDefaultAsync(u => u.IdUser == id);
             if (user == null)
             {
                 return NotFound();
@@ -142,7 +137,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/users/5
         [HttpPut("{id}")]
-        public IActionResult ChangeUser(int id, Models.User user)
+        public async Task<ActionResult> ChangeUser(int id, Models.User user)
         {
             string message;
             if (id != user.IdUser)
@@ -155,7 +150,7 @@ namespace InternetPlatformOfArtist.Controllers
             try
             { 
             
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -170,7 +165,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return GetUserById(user.IdUser);
+            return await GetUserById (user.IdUser);
         }
     
 
@@ -255,7 +250,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/users/5
         [HttpPut("setrole/{id}")]
-        public IActionResult ChangeUserRole(int id, int idRole)
+        public async Task<ActionResult> ChangeUserRole(int id, int idRole)
         {
             var user = context.User.Find(id);
             string message;
@@ -270,7 +265,7 @@ namespace InternetPlatformOfArtist.Controllers
                 {
                     user.IdRole = idRole;
                     context.Entry(user).State = EntityState.Modified;
-                    context.SaveChangesAsync();
+                    await context.SaveChangesAsync();
                 }
                 
             }
@@ -287,7 +282,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return GetUserById(user.IdUser);
+            return await GetUserById(user.IdUser);
         }
 
 

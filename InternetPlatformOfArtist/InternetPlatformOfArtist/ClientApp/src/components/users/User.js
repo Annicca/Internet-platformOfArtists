@@ -34,13 +34,13 @@ export const User = () =>{
             setName(resp.data.nameUser);
             setPatronimyc(resp.data.patronimycUser);
             setLogin(resp.data.loginUser);
-            setPassword(resp.data.password);
+            setPassword(resp.data.passwordUser);
             setMail(resp.data.mailUser);
             setRole(resp.data.userRole.name);
             setIdRole(resp.data.idRole);
             const r = roles.find((role) => role.idRole == resp.data.idRole)
             setResult(r);
-        });
+        }).catch((error) => console.log(error));
 
       }, [apiUrl,setUser,current]); 
       
@@ -52,9 +52,9 @@ export const User = () =>{
             nameUser: name,
             patronimycUser: patronimyc,
             loginUser: login,
-            password : password,
+            passwordUser : password,
             mailUser: mail,
-            userRole: role
+            idRole: resultRole.idRole
         };
 
         console.log(userChange);
@@ -106,7 +106,7 @@ export const User = () =>{
                                     <input 
                                         className={classnames.input}
                                         type = 'text' 
-                                        //defaultValue = {resultRole.name} 
+                                        defaultValue = {resultRole.name} 
                                         onChange={(e) => setRole(e.target.value)} />
                                 </p>
 
