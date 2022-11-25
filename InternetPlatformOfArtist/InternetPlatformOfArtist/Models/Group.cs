@@ -20,16 +20,16 @@ namespace InternetPlatformOfArtist.Models
         public User Director { get; set; }
 
         [JsonPropertyName("nameGroup")]
-        public string NameGroup;
+        public string NameGroup { get; set; }
 
         [JsonPropertyName("descriptionGroup")]
-        public string DescriptionGroup;
+        public string DescriptionGroup { get; set; }
 
         [JsonPropertyName("cityGroup")]
-        public string CityGroup;
+        public string CityGroup { get; set; }
 
         [JsonPropertyName("addressGroup")]
-        public string AddressGroup;
+        public string AddressGroup { get; set; }
 
         public List<Competition> Competitions { get; set; } = new List<Competition>();
 

@@ -23,7 +23,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Group>>> GetAllGroup()
         {
-            return await context.Group.AsNoTracking().ToListAsync();
+            return await context.Group.ToListAsync();
         }
 
         // GET api/groups/5
@@ -38,11 +38,11 @@ namespace InternetPlatformOfArtist.Controllers
             return group;
         }
 
-        // GET: api/groups
+        // GET: api/groups/competitions
         [HttpGet("competitions")]
         public async Task<object> GroupsWithCompetitions()
         {
-            //return context.Group.AsNoTracking().Include(c => c.Competitions).ThenInclude(c => c.Participants);
+           
             return new
             {
                 Results = await context
@@ -57,7 +57,7 @@ namespace InternetPlatformOfArtist.Controllers
                 g.AddressGroup,
                 Groups = g
                     .Competitions
-                    .Select(c => new { c.IdCompetition, c.Organizer, c.NameCompetition, c.DateStart, c.DateFinish, c.CityCompetition, c.Status.NameStatus })
+                    .Select(c => new { c.IdCompetition, c.NameCompetition, c.DateStart, c.DateFinish, c.CityCompetition, c.Status.NameStatus })
                     .ToList()
             }).ToListAsync()
             };
@@ -127,7 +127,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
         //поиск по городам
         //GET api/groups/Владимир
-        [HttpGet("city")]
+        [HttpGet("city/{city}")]
         public async Task<ActionResult<IEnumerable<Models.Group>>> GetGroupsByCity(string city)
         {
             return await context.Group.Where(c => c.CityGroup == city).ToListAsync();

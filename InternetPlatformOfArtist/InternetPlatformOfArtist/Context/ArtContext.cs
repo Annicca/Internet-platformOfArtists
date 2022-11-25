@@ -23,6 +23,7 @@ namespace InternetPlatformOfArtist.Context
         public DbSet<Models.StatusCompetition> StatusCompetition { get; set; }
         public DbSet<Models.StatusStatement> StatusStatement { get; set; }
         public DbSet<Models.Participant> Participant { get; set; }
+        public DbSet<Models.TypeStatement> TypeStatement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

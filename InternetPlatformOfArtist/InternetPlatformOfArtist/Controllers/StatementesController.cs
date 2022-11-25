@@ -14,6 +14,11 @@ namespace InternetPlatformOfArtist.Controllers
     public class StatementesController : ControllerBase
     {
         private Context.ArtContext context;
+
+        private int groupType = 1;
+        private int competitionType = 2;
+        private int statusAccept = 1;
+
         public StatementesController(Context.ArtContext _context)
         {
             context = _context;
@@ -23,19 +28,19 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Statement>>> Get()
         {
-            return await context.Statement.ToListAsync();
+            return await context.Statement.Include("User").ToListAsync();
         }
 
         // GET api/statementes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Statement>> GetStatementById(int id)
+        public IActionResult GetStatementById(int id)
         {
-            var statement = await context.Statement.FindAsync(id);
+            var statement = context.Statement.Find(id);
             if (statement == null)
             {
                 return NotFound();
             }
-            return statement;
+            return Ok(statement);
         }
 
         // POST api/statementes
@@ -48,10 +53,66 @@ namespace InternetPlatformOfArtist.Controllers
             return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
         }
 
-        // PUT api/<StatementesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        private bool StatementExists(int id)
         {
+            return context.Statement.Any(s => s.IdStatement == id);
+        }
+
+        //обработка заяявок
+
+        // PUT api/statementes/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, Models.Statement statement)
+        {
+            string message;
+            if (id != statement.IdStatement)
+            {
+                return BadRequest();
+            }
+
+            context.Entry(statement).State = EntityState.Modified;
+
+            try
+            {
+                //await context.SaveChangesAsync();
+                if(statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
+                {
+                    var group = new Models.Group();
+                    group.IdUser = statement.IdUser;
+                    group.NameGroup = statement.Name;
+                    group.DescriptionGroup = statement.Description;
+                    group.CityGroup = statement.City;
+                    group.AddressGroup = statement.Address;
+                    GroupsController groupsController = new GroupsController(context);
+                    await groupsController.AddGroup(group);
+                }
+                if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
+                {
+                    var competition = new Models.Competition();
+                    competition.IdUser = statement.IdUser;
+                    competition.NameCompetition = statement.Name;
+                    competition.DescriptionCompetition = statement.Description;
+                    competition.CityCompetition = statement.City;
+                    competition.CityCompetition = statement.Address;
+                    CompetitionsController groupsController = new CompetitionsController(context);
+                    await groupsController.AddCompetition(competition);
+                }
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StatementExists(id))
+                {
+                    message = "Заявка не существует";
+                    return NotFound(message);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
         }
 
         // DELETE api/statements/5

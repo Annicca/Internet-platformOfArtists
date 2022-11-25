@@ -15,7 +15,7 @@ namespace InternetPlatformOfArtist.Models
         public int IdCompetition { get; set; }
 
         [ForeignKey("Organizer")]
-        [JsonPropertyName("organizor")]
+        [JsonPropertyName("idUser")]
         public int IdUser { get; set; }
         public User Organizer { get; set; }
 
@@ -27,12 +27,12 @@ namespace InternetPlatformOfArtist.Models
 
         [JsonPropertyName("dateStart")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        
         public DateTime DateStart { get; set; }
 
         [JsonPropertyName("dateFinish")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        
         public DateTime DateFinish { get; set; }
 
         [JsonPropertyName("cityCompetition")]

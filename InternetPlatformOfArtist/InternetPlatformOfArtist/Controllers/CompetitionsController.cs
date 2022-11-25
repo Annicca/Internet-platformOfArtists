@@ -45,7 +45,7 @@ namespace InternetPlatformOfArtist.Controllers
                 c.Status.NameStatus,
                 Groups = c
                     .Groups
-                    .Select(g => new { g.IdGroup, g.Director, g.NameGroup, g.CityGroup, g.AddressGroup })
+                    .Select(g => new { g.IdGroup, g.NameGroup, g.CityGroup, g.AddressGroup })
                     .ToList()
             }).ToListAsync()
             };
@@ -53,14 +53,14 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/competitions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Competition>> GetCompetitionById(int id)
+        public IActionResult GetCompetitionById(int id)
         {
-            var competition = await context.Competition.FindAsync(id);
+            var competition = context.Competition.Where(c => c.IdCompetition == id).Include("Organizer");
             if (competition == null)
             {
                 return NotFound();
             }
-            return competition;
+            return Ok(competition);
         }
 
         public Models.Competition FindCompetitionById(int id)
@@ -113,7 +113,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return await GetCompetitionById(competition.IdCompetition);
+            return CreatedAtAction("GetCompetitionById", new { id = competition.IdCompetition }, competition);
         }
 
         // DELETE api/competitions/5
@@ -130,29 +130,27 @@ namespace InternetPlatformOfArtist.Controllers
             return await context.Competition.ToListAsync();
         }
 
-        //принять участие
+        ////принять участие
 
-        //PUT api/competitions/5/participant
-        //[HttpPut("id")]
-        //public async Task<ActionResult<Models.Competition>> AddParticipant(int id, Models.Group group)
+        ////PUT api/competitions/participant/5
+        //[HttpPut("participant/{idCompetition}")]
+        //public async Task<ActionResult<Models.Competition>> AddParticipant(int idGroup, int idCompetition)
         //{
-        //    Models.Competition competition = FindCompetitionById(id);
         //    GroupsController controllerGroup = new GroupsController(context);
-        //    competition.Participants.Add(group);
-        //    group.Competitions.Add(competition);
-
+        //    ParticipantsController controllerParticipant = new ParticipantsController(context);
+        //    Models.Participant participant = new Models.Participant(idCompetition, idGroup);
         //    try
         //    {
-
+        //        await controllerParticipant.AddParticipant(participant);
         //        await context.SaveChangesAsync();
         //    }
         //    catch (DbUpdateConcurrencyException)
         //    {
-        //        if (!CompetitionExists(id))
+        //        if (!CompetitionExists(idCompetition))
         //        {
         //            return NotFound("Конкурс не найден");
         //        }
-        //        else if(!controllerGroup.GroupExists(group.IdGroup))
+        //        else if(!controllerGroup.GroupExists(idGroup))
         //        {
         //            return NotFound("Коллектив не найден");
         //        }

@@ -13,6 +13,7 @@ export const User = () =>{
     const [surName, setSurname] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
     const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
     const [role, setRole] = useState('');
     const [resultRole, setResult]  = useState('');
@@ -33,6 +34,7 @@ export const User = () =>{
             setName(resp.data.nameUser);
             setPatronimyc(resp.data.patronimycUser);
             setLogin(resp.data.loginUser);
+            setPassword(resp.data.password);
             setMail(resp.data.mailUser);
             setRole(resp.data.userRole.name);
             setIdRole(resp.data.idRole);
@@ -50,6 +52,7 @@ export const User = () =>{
             nameUser: name,
             patronimycUser: patronimyc,
             loginUser: login,
+            password : password,
             mailUser: mail,
             userRole: role
         };

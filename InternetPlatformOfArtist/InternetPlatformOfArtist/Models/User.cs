@@ -32,14 +32,13 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("mailUser")]
         public string MailUser { get; set; }
 
+        [JsonPropertyName("phoneUser")]
+        public string PhoneUser { get; set; }
+
         [ForeignKey("UserRole")]
+        [JsonPropertyName("idRole")]
         public int IdRole { get; set; }
         public Role UserRole { get; set; }
-
-        //public User()
-        //{
-
-        //}
 
         public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, int idRole)
         {
@@ -53,16 +52,6 @@ namespace InternetPlatformOfArtist.Models
 
         }
 
-        //public User(int idUser, string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, int IdRole)
-        //{
-        //    this.IdUser = idUser;
-        //    this.SurnameUser = surnameUser;
-        //    this.NameUser = nameUser;
-        //    this.PatronimycUser = patronimycUser;
-        //    this.LoginUser = loginUser;
-        //    this.PasswordUser = passwordUser;
-        //    this.MailUser = mailUser;
-        //    this.IdRole = IdRole;
-        //}
+
     }
 }
