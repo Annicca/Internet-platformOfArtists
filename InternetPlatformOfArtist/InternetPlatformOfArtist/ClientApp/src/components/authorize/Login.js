@@ -6,12 +6,10 @@ import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
 import {setCookie} from "react-use-cookie";
-import { useUser } from "../../hooks/useUser";
 
 export const Login = () =>{
 
-    const {setUser} = useUser();
-
+    const store =  require('store');
     const css = require('./Registration.scss').toString();
 
     let navigate = useNavigate(); 
@@ -40,7 +38,10 @@ export const Login = () =>{
             data : JSON.stringify(loginUser)
         })
         .then((response) => {
-            setUser(response.data.user);
+
+            store.set('user', response.data.user);
+            console.log(store.get('user'));
+            //setUser(response.data.user);
             setCookie('jwt', response.data.token, {
                 path:"/"
             });

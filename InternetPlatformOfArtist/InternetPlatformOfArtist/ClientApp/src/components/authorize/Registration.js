@@ -18,9 +18,8 @@ export const Registration = () =>{
 
     let navigate = useNavigate(); 
 
+    const store =  require('store');
     const css = require('./Registration.scss').toString();
-
-    const {setUser} = useUser();
 
     const {
         register,
@@ -53,7 +52,7 @@ export const Registration = () =>{
                 setCookie('jwt',response.data.token,{
                                 path:"/"
                             });
-                setUser(response.data.user);
+                store.set('user', response.data.user);
             })
         .then(() => navigate(`/`))
         .catch((error) =>{

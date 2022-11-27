@@ -108,29 +108,29 @@ namespace InternetPlatformOfArtist.Controllers
             });
         }
 
-        [HttpGet("user")]
-        public async Task<ActionResult> UserByJwt(HttpContext httpContext)
-        {
-            try
-            {
-                var jwt = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-                //var jwt = Request.Cookies["jwt"];
+        //[HttpGet("user")]
+        //public async Task<ActionResult> UserByJwt(HttpContext httpContext)
+        //{
+        //    try
+        //    {
+        //        var jwt = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        //        //var jwt = Request.Cookies["jwt"];
 
-                var token = jwtService.Verify(jwt);
+        //        var token = jwtService.Verify(jwt);
 
-                int userId = int.Parse(token.Issuer);
-                var user = await context.User.Include("UserRole").FirstOrDefaultAsync(u => u.IdUser == userId);
-                //var nameIdentifier = this.HttpContext.User.Pay.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+        //        int userId = int.Parse(token.Issuer);
+        //        var user = await context.User.Include("UserRole").FirstOrDefaultAsync(u => u.IdUser == userId);
+        //        //var nameIdentifier = this.HttpContext.User.Pay.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
-                HttpContext.Response.ContentType = "application/json";
-                await HttpContext.Response.WriteAsync(JsonSerializer.Serialize(user));
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        //        HttpContext.Response.ContentType = "application/json";
+        //        await HttpContext.Response.WriteAsync(JsonSerializer.Serialize(user));
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e.Message);
+        //    }
+        //}
 
         [HttpPost("logout")]
         public IActionResult Logout()
