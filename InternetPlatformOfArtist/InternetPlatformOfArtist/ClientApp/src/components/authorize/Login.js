@@ -5,13 +5,13 @@ import { AuthTitle } from "./AuthTitle";
 import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
-import { useCookies } from "react-cookie";
+import useCookie from "react-use-cookie";
 import { useUser } from "../../hooks/useUser";
 
 export const Login = () =>{
 
-    const [cookies, setCookie] = useCookies(["token"])
-
+    const [cookie, setCookie] = useCookie(["jwt"]);
+    const [jwt, setJwt] = useState('');
     const {setUser} = useUser();
 
     const css = require('./Registration.scss').toString();
@@ -42,17 +42,15 @@ export const Login = () =>{
             data : JSON.stringify(loginUser)
         })
         .then((response) => {
-            console.log(response);
-            alert(response.data.message);
-            setCookie("jwt", response.data.token,
-            {
+            setJwt(response.data.token);
+            setUser(response.data.user); 
+            setCookie({jwt,
                 path:"/",
                 httpOnly: true,
                 secure: true,
-                sameSite: 'none'
             });
-            setUser(response.data.user); 
-        
+            alert(response.data.message);
+            
         })
         .then(() => navigate(`/`))
         .catch((error) =>{

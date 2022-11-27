@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import { useUser } from '../hooks/useUser';
-import { cookie } from "react-cookie";
+import { getCookie } from 'react-use-cookie';
 export const Home = ()=>{
 
   const {user} = useUser();
 
   // const [userLogining, setUserLogining] = useState(null);
-  // useEffect(() =>{
+  useEffect(() =>{
   //   const getUserLogining = async() =>{
   //     await axios({
   //       method: 'get',
@@ -18,24 +18,23 @@ export const Home = ()=>{
   //     .catch((error) => console.log(error));
   //   }
   //   getUserLogining();
-  //   console.log(cookie.load('jwt'));
-  //   (async () =>{
-  //     console.log(cookies.jwt)
-  //       const res = 
-  //         await fetch(`https://localhost:44344/api/users/user`,{
-  //           method: 'GET',
-  //           headers:{'Authorization': 'Bearer'+ cookie.load('jwt')},
-  //           withCredentials: true ,
-  //           credentials: 'include',
-  //       });
-  //       try{
-  //         const content = await res.json();
-  //         console.log(content)
-  //       }catch(error){
-  //         console.error(error)
-  //       }
-  //   })();
-  //   }, []);
+   console.log(getCookie('jwt'));
+    (async () =>{
+        const res = 
+          await fetch(`https://localhost:44344/api/users/user`,{
+            method: 'GET',
+            headers:{'Authorization': 'Bearer'+ getCookie('jwt')},
+            withCredentials: true ,
+            credentials: 'include',
+        });
+        try{
+          const content = await res.json();
+          console.log(content)
+        }catch(error){
+          console.error(error)
+        }
+    })();
+    }, []);
 
   return (
       <div className='main-container'>
