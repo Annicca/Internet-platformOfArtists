@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
 import { NavMenu } from './nav/NavMenu';
 import { Header } from './header/Header';
 import { Footer } from './footer/Footer';
+import { Outlet } from 'react-router-dom';
 
 
-export class Layout extends Component {
-  static displayName = Layout.name;
-
-  render () {
+const Layout = () =>{
+   
     return (
-        <div className='wrapper'>
+      <div className='wrapper'>
           <div className = 'content'>
             <Header />
             <NavMenu />
-              <Container>
-                <main>
-                    {this.props.children}
-                </main>
-              </Container>
-            </div>
-        <Footer />
+            <main>
+              <Outlet/>
+            </main>
+          </div>
+          <Footer />
       </div>
     );
-  }
 }
+export {Layout}

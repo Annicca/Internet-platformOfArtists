@@ -1,16 +1,12 @@
 
 export let header = [
     {
-        title: 'О нас',
-        link: '',
+        title: 'Вход',
+        link: '/login',
     },
     {
-        title: 'Оплата',
-        link: '',
-    },
-    {
-        title: 'Вход и регистрация',
-        link: '',
+        title: 'Регистрация',
+        link: 'signin',
     },
     {
         title: 'Разместить коллектив и конкурс',
@@ -29,7 +25,7 @@ export let navMenuButton = [
     // },
     {
         title: 'Конкурсы',
-        link: ''
+        link: '/'
     },
     {
         title: 'Коллективы',
@@ -57,14 +53,6 @@ export let tableUsersImg = [
 
 export let footerList = [
     {
-        title: 'О нас',
-        link: ''
-    },
-    {
-        title: 'Оплата',
-        link: ''
-    },
-    {
         title: 'Разместить коллектив',
         link: ''
     },
@@ -72,18 +60,18 @@ export let footerList = [
         title: 'Разместить конкурс',
         link: ''
     },
-    {
-        title: 'Продавай вместе с нами',
-        link: ''
-    },
-    {
-        title: 'Атрибутика',
-        link: ''
-    },
-    {
-        title: 'Услуги',
-        link: ''
-    },
+    // {
+    //     title: 'Продавай вместе с нами',
+    //     link: ''
+    // },
+    // {
+    //     title: 'Атрибутика',
+    //     link: ''
+    // },
+    // {
+    //     title: 'Услуги',
+    //     link: ''
+    // },
     {
         title: 'Коллективы',
         link: ''
@@ -137,4 +125,19 @@ export let roles = [
         idRole: 4,
         name: 'Организатор конкурсов'
     }
+];
+
+export const listUserWindow = [
+    {
+        title: 'Moи коллективы',
+        link: ''
+    },
+    {
+        title: 'Moи конкурсы',
+        link: ''
+    },
+    {
+        title: 'Moи заявки',
+        link: ''
+    },
 ]

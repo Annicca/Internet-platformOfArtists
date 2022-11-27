@@ -5,8 +5,14 @@ import { AuthTitle } from "./AuthTitle";
 import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
+import { useCookies } from "react-cookie";
+import { useUser } from "../../hooks/useUser";
 
 export const Login = () =>{
+
+    const [cookies, setCookie] = useCookies(["token"])
+
+    const {setUser} = useUser();
 
     const css = require('./Registration.scss').toString();
 
@@ -14,7 +20,7 @@ export const Login = () =>{
 
     const {
         register,
-        formState: {errors, isValid},
+        formState: {errors},
         handleSubmit
     } = useForm({
         mode: "onBlur"
@@ -25,18 +31,30 @@ export const Login = () =>{
 
     const onSubmit = async () =>{
         const loginUser = {
-            login: login,
-            password: password
-        }
-        await axios({
+            login : login,
+            password : password
+          }
+        axios({
             method: 'post',
-            url: `https://localhost:44344/api/users/login`,
+            url: 'https://localhost:44344/api/users/login',
+            credentials: 'include',
             headers: {'Content-Type': 'application/json'},
-            credentials: `include`,
             data : JSON.stringify(loginUser)
         })
-        .then(() =>
-            navigate(`/`))
+        .then((response) => {
+            console.log(response);
+            alert(response.data.message);
+            setCookie("jwt", response.data.token,
+            {
+                path:"/",
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none'
+            });
+            setUser(response.data.user); 
+        
+        })
+        .then(() => navigate(`/`))
         .catch((error) =>{
             console.log(error);
         })
@@ -60,7 +78,6 @@ export const Login = () =>{
                         {css}
                     </style>
                 </Helmet>
-                <div class = "container">
                     <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
                         <AuthTitle classnames={classnames} title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
                         <div className = {classnames.group}>
@@ -97,10 +114,9 @@ export const Login = () =>{
                                 {errors?.password && <p className = {classnames.error}>{errors?.password?.message}</p>}
                         </div>
                         <p>
-                                <Button text = {'Войти'} valid = {!isValid} classnames = {classnames.button} type = {"submit"} />
+                                <Button text = {'Войти'} classnames = {classnames.button} type = {"submit"} />
                         </p>
                     </form>
-                </div>
         </main>
     )
 }

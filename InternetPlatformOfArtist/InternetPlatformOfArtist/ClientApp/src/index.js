@@ -1,24 +1,37 @@
-//import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import ReactDOM from 'react-dom';
 import { BrowserRouter,Route, Routes } from "react-router-dom";
+import { UserProvider } from './providers/UserProvider';
 import App from './App';
-import { Login } from './components/authorize/Login';
-import { Registration } from './components/authorize/Registration';
-import registerServiceWorker from './registerServiceWorker';
 
+//import registerServiceWorker from './registerServiceWorker';
 
+// const user =     {
+//   idUser: 11,
+//   surnameUser: "Саулова",
+//   nameUser: "Анна",
+//   patronimycUser: "Михайловна",
+//   loginUser: "anutohka",
+//   passwordUser: "slsaaas",
+//   mailUser: "anna@mail.com",
+//   phoneUser: "88005553535",
+//   idRole: 4,
+//   userRole: {
+//       idRole: 4,
+//       name: "organizerCompetition"
+//   }
+// }
 // const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href'); basename={baseUrl}
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
   <BrowserRouter >
-    <Routes>
-      <Route path = '/*' element = {<App />} />
-      <Route exact path = '/login' element = {<Login />} />
-      <Route exact path = '/signin' element = {<Registration />} />
-    </Routes>
+    <CookiesProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </CookiesProvider>
   </BrowserRouter>,
   rootElement);
 
-registerServiceWorker();

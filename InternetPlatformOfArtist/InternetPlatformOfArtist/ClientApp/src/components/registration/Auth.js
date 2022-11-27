@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
+
+import { Link} from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 
-export const Login = () =>{
+export const Auth = () =>{
 
-    const css = require('./Registration.scss').toString();
-
+    const css = require('../authorize/Registration.scss').toString();
+    
     const [login, setLogin] = useState('');
     const [password, setPussword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -21,16 +21,11 @@ export const Login = () =>{
         const response = await fetch(`https://localhost:44344/api/users/login`,{
             method: `POST`,
             headers:{'Content-Type': 'application/json'},
-            credentials: `include`,
-            body: JSON.stringify(loginUser)
+            credentials: 'include',
+            body: loginUser
         });
         const content = await response.json;
         console.log(content);
-
-        setRedirect(true);
-        if(redirect){
-            return <Redirect to="/" />
-        }
     }
 
     const classnames = {

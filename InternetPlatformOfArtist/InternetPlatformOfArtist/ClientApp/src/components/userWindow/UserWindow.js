@@ -17,11 +17,23 @@ export const UserWindow = ({user, active, setActive}) =>{
                         Вход
                     </button>
                 </Link>
-                <Link to='/registration'>  
+                <Link to='/signin'>  
                     <button className={classnames.buttonlog}>
                         Регистрация
                     </button>
                 </Link>
+            </div>
+        )
+    } else if(user.idRole == 2){
+        return(
+            <div className ={active ? classnames.containerActive : classnames.container} onMouseLeave={() => setActive(false)}>
+                <div>
+                    <p>{user.surName + ' ' + user.name + ' ' + user.patronimyc}</p>
+                    <p>{user.loginUser}</p>
+                </div>
+                <ul>
+                    
+                </ul>
             </div>
         )
     }

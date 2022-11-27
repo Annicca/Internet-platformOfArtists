@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {header} from '../../Constant';
+import { Logo } from '../../icon/Logo';
 import { List } from '../list/List';
 
 import './Header.scss';
@@ -16,7 +18,7 @@ export const Header = () => {
         <header>
             <div className = {classnameList.conteiner}>
                 <div>
-                    Лого
+                   <Link to={`/`}><Logo /></Link>
                 </div>
                 <List data = {header} classnames = {classnameList}/>
             </div>

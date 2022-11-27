@@ -1,4 +1,5 @@
 ﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -66,11 +68,17 @@ namespace InternetPlatformOfArtist.Controllers
             context.User.Add(registerUser);
             await context.SaveChangesAsync();
 
-            return Ok();
+            var userRegister = GetUserByLogin(user.LoginUser);
+
+            Models.LoginModel loginUser = new Models.LoginModel();
+            loginUser.Login = user.LoginUser;
+            loginUser.Password = user.PasswordUser;
+
+            return CreatedAtAction("Login",loginUser);
         }
 
         [HttpPost("login")]
-        public IActionResult Login(Models.LoginModel log)
+        public async Task<IActionResult> Login(Models.LoginModel log)
         {
             var user = GetUserByLogin(log.Login);
 
@@ -81,10 +89,15 @@ namespace InternetPlatformOfArtist.Controllers
             }
             if(!BCrypt.Net.BCrypt.Verify(log.Password, user.PasswordUser))
             {
-                return BadRequest(new { message = "Вы введи неправльно логин или пароль" });
+                return BadRequest(new { message = "Вы ввели неправльно логин или пароль" });
             }
 
             var jwt = jwtService.Geterate(user.IdUser);
+
+            var token = jwtService.Verify(jwt);
+            int userId = int.Parse(token.Issuer);
+
+            var userLogining =  await GetUserById(userId);
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {
@@ -93,7 +106,9 @@ namespace InternetPlatformOfArtist.Controllers
 
             return Ok(new 
             { 
-                message = "success"
+                message = "success",
+                token = jwt,
+                user = user
             });
         }
 
@@ -107,10 +122,11 @@ namespace InternetPlatformOfArtist.Controllers
                 var token = jwtService.Verify(jwt);
 
                 int userId = int.Parse(token.Issuer);
+                //var nameIdentifier = this.HttpContext.User.Pay.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
                 return await GetUserById(userId);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }

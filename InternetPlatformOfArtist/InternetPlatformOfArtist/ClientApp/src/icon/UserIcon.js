@@ -7,10 +7,10 @@ export const UserIcon = ({className}) => {
     )
     return(
         <svg 
-        width="58" 
-        height="58" 
+        width="54" 
+        height="54" 
         className ={classes}
-        viewBox="0 0 50 58" 
+        viewBox="0 0 54 56" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_74_996)">

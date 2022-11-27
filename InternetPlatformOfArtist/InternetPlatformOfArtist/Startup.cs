@@ -10,11 +10,15 @@ using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using System;
 using InternetPlatformOfArtist.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace InternetPlatformOfArtist
 {
     public class Startup
     {
+        private string secureKey = "internet platform of artists";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,6 +38,25 @@ namespace InternetPlatformOfArtist
             }));
 
             services.AddControllersWithViews();
+
+            const string jwtSchemeName = "JwtBearer";
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
+            var key = Encoding.ASCII.GetBytes(secureKey);
+            services
+                .AddAuthentication(options => {
+                    options.DefaultAuthenticateScheme = jwtSchemeName;
+                    options.DefaultChallengeScheme = jwtSchemeName;
+                })
+                .AddJwtBearer(jwtSchemeName, jwtBearerOptions => {
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.FromSeconds(10)
+                    };
+                });
 
             services.AddScoped<JwtService>();
 
@@ -57,13 +80,14 @@ namespace InternetPlatformOfArtist
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
             app.UseCors("ApiCorsPolicy");
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
