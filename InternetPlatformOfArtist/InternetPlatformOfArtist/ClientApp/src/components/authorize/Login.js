@@ -5,13 +5,11 @@ import { AuthTitle } from "./AuthTitle";
 import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
-import useCookie from "react-use-cookie";
+import {setCookie} from "react-use-cookie";
 import { useUser } from "../../hooks/useUser";
 
 export const Login = () =>{
 
-    const [cookie, setCookie] = useCookie(["jwt"]);
-    const [jwt, setJwt] = useState('');
     const {setUser} = useUser();
 
     const css = require('./Registration.scss').toString();
@@ -34,7 +32,7 @@ export const Login = () =>{
             login : login,
             password : password
           }
-        axios({
+        await axios({
             method: 'post',
             url: 'https://localhost:44344/api/users/login',
             credentials: 'include',
@@ -42,18 +40,16 @@ export const Login = () =>{
             data : JSON.stringify(loginUser)
         })
         .then((response) => {
-            setJwt(response.data.token);
-            setUser(response.data.user); 
-            setCookie({jwt,
-                path:"/",
-                httpOnly: true,
-                secure: true,
+            setUser(response.data.user);
+            setCookie('jwt', response.data.token, {
+                path:"/"
             });
             alert(response.data.message);
             
         })
         .then(() => navigate(`/`))
         .catch((error) =>{
+            alert('Вы ввели неправильно логин или пароль(')
             console.log(error);
         })
     }

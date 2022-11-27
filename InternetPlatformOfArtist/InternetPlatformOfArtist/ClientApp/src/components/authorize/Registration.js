@@ -6,7 +6,7 @@ import { Button } from "../button/Button";
 import { AuthTitle } from "./AuthTitle";
 import { useForm } from "react-hook-form";
 import { useUser } from "../../hooks/useUser";
-import { useCookies } from "react-cookie";
+import {setCookie}  from "react-use-cookie";
 
 export const Registration = () =>{
     const [surName, setSurName] = useState('');
@@ -20,8 +20,6 @@ export const Registration = () =>{
 
     const css = require('./Registration.scss').toString();
 
-    const [cookies, setCookie] = useCookies(["token"])
-
     const {setUser} = useUser();
 
     const {
@@ -33,7 +31,7 @@ export const Registration = () =>{
         mode: "onBlur"
     });
 
-    const onSubmit = () =>{
+    const onSubmit = async () =>{
         const user =
             {
                 surnameUser: surName,
@@ -44,7 +42,7 @@ export const Registration = () =>{
                 mailUser: email
             };
 
-        axios({
+        await axios({
             method: 'post',
             url: 'https://localhost:44344/api/users/register',
             headers: {'Content-Type': 'application/json'},
@@ -52,13 +50,9 @@ export const Registration = () =>{
         })
         .then((response) => alert(response.data.message))
         .then((response) => {
-                setCookie("jwt", response.data.token,
-                            {
-                                path:"/",
-                                secure: true,
-                                sameSite: 'none'
+                setCookie('jwt',response.data.token,{
+                                path:"/"
                             });
-                
                 setUser(response.data.user);
             })
         .then(() => navigate(`/`))

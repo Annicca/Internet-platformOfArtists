@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -84,8 +86,7 @@ namespace InternetPlatformOfArtist.Controllers
 
             if (user == null)
             {
-
-                return NotFound();
+                return BadRequest(new { message = "Пользователя с таким login не существует" });
             }
             if(!BCrypt.Net.BCrypt.Verify(log.Password, user.PasswordUser))
             {
@@ -99,11 +100,6 @@ namespace InternetPlatformOfArtist.Controllers
 
             var userLogining =  await GetUserById(userId);
 
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
-            {
-                HttpOnly = true
-            });
-
             return Ok(new 
             { 
                 message = "success",
@@ -113,18 +109,22 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         [HttpGet("user")]
-        public async Task<ActionResult> UserByJwt()
+        public async Task<ActionResult> UserByJwt(HttpContext httpContext)
         {
             try
             {
-                var jwt = Request.Cookies["jwt"];
+                var jwt = httpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                //var jwt = Request.Cookies["jwt"];
 
                 var token = jwtService.Verify(jwt);
 
                 int userId = int.Parse(token.Issuer);
+                var user = await context.User.Include("UserRole").FirstOrDefaultAsync(u => u.IdUser == userId);
                 //var nameIdentifier = this.HttpContext.User.Pay.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
-                return await GetUserById(userId);
+                HttpContext.Response.ContentType = "application/json";
+                await HttpContext.Response.WriteAsync(JsonSerializer.Serialize(user));
+                return Ok();
             }
             catch (Exception e)
             {

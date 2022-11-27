@@ -4,26 +4,13 @@ import { getCookie } from 'react-use-cookie';
 export const Home = ()=>{
 
   const {user} = useUser();
-
-  // const [userLogining, setUserLogining] = useState(null);
   useEffect(() =>{
-  //   const getUserLogining = async() =>{
-  //     await axios({
-  //       method: 'get',
-  //       url: 'https://localhost:44344/api/users/user',
-  //       headers:{'Content-Type': 'application/json'},
-  //       credentials: `include`
-  //     })
-  //     .then((resp) => setUser(resp.data))
-  //     .catch((error) => console.log(error));
-  //   }
-  //   getUserLogining();
-   console.log(getCookie('jwt'));
+   let token = getCookie();
     (async () =>{
         const res = 
           await fetch(`https://localhost:44344/api/users/user`,{
             method: 'GET',
-            headers:{'Authorization': 'Bearer'+ getCookie('jwt')},
+            headers:{Authorization: `Bearer + ${token}`,'Content-Type': 'application/json'}, 
             withCredentials: true ,
             credentials: 'include',
         });
