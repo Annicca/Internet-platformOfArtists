@@ -10,11 +10,11 @@
         font-weight: 700;
         font-size: 14px;
         line-height: 17px;
-        margin-bottom: 30px;
         color: white;
+        margin-bottom: 30px;
     }
 }
-.user-container.active{
+.active{
     position: absolute;
     display: block;
     top: 100px;
@@ -23,11 +23,11 @@
     flex-direction: column;
     align-items: center;
     justify-items: center;
-    width: 300px;
-    height: 170px;
-    padding-top: 48px;
+    padding: 48px 80px 18px;
     right: 0;
     box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-
+}
+.auth{
+    padding: 0;
 }

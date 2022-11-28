@@ -1,4 +1,4 @@
-import React,{useContext, useEffect, useState} from 'react';
+import React from 'react';
 import { Route, Routes} from 'react-router-dom';
 import {Layout} from './components/Layout';
 import { Login } from './components/authorize/Login';
@@ -7,8 +7,8 @@ import { Home } from './components/Home';
 import { Users} from './components/users/Users';
 import {User} from './components/users/User';
 
-
 import './index.scss';
+import { NotFound } from './components/notfound/notfound';
 
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />
-            <Route path = "*" />
+            <Route path = "*" element = {<NotFound />} />
         </Routes> 
     );
 }
