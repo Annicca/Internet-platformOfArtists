@@ -32,7 +32,7 @@ namespace InternetPlatformOfArtist.Models
 
         [JsonPropertyName("dateFinish")]
         [DataType(DataType.Date)]
-        
+
         public DateTime DateFinish { get; set; }
 
         [JsonPropertyName("cityCompetition")]

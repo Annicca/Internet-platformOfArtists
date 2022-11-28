@@ -21,9 +21,23 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET: api/competitions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Competition>>> GetAllCompetition()
+        public async Task<object> GetAllCompetition()
         {
-            return await context.Competition.Include("Status").AsNoTracking().ToListAsync();
+            //return await context.Competition.Include("Status").AsNoTracking().ToListAsync();
+            return await context
+            .Competition
+            .Select(c => new
+            {
+                c.IdCompetition,
+                c.Organizer,
+                c.NameCompetition,
+                c.DescriptionCompetition,
+                start = c.DateStart.ToShortDateString(),
+                finish = c.DateFinish.ToShortDateString(),
+                c.CityCompetition,
+                c.Status,
+                c.Img
+            }).ToListAsync();
         }
         // GET: api/competitions/participant
         [HttpGet("participant")]
@@ -42,6 +56,7 @@ namespace InternetPlatformOfArtist.Controllers
                 start = c.DateStart.ToShortDateString(),
                 finish = c.DateFinish.ToShortDateString(),
                 c.CityCompetition,
+                c.Img,
                 c.Status.NameStatus,
                 Groups = c
                     .Groups

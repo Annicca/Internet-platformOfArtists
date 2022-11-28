@@ -22,7 +22,7 @@ export const Home = ()=>{
     };
 
     dataFetch();
-  }, [groups]);
+  }, [setGroups]);
 
   const classnames = {
     container: 'main-container',

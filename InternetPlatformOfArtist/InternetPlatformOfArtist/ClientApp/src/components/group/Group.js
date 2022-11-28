@@ -18,21 +18,18 @@ export const Group = ({group}) =>{
     const Contact = () =>{
         if(group.director.phoneUser != null){
             return(
-                <p>
-                    <span >
-                        <Image src = './icons/phone.svg' alt = 'Тел: ' className = {classnames.contactPhone} />
-                    </span>
-                        <span>{group.director.phoneUser}</span>
-                </p>
+                <div className={classnames.contact}>
+                    
+                    <Image src = './icons/phone.svg' alt = 'Тел: ' className = {classnames.contactPhone} />
+                    <div>{group.director.phoneUser}</div>
+                </div>
             )}
         else{
             return(
-                <p>
-                    <span >
+                <div className={classnames.contact}>
                         <Image src = './icons/mail.svg' alt = 'Email: ' className = {classnames.contactPhone} />
-                    </span>
-                        <span>{group.director.mailUser}</span>
-                </p>
+                        <div>{group.director.mailUser}</div>
+                </div>
             )
         }
     }
@@ -56,9 +53,7 @@ export const Group = ({group}) =>{
                         <p>{group.addressGroup}</p>
                     </div>
                 </div>
-                <div className={classnames.contact}>
-                    <Contact />
-                </div>
+                <Contact />
             </div>
         </div>
     )

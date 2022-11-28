@@ -17,7 +17,7 @@ export const Competitions = ()=>{
     };
 
     dataFetch();
-  }, [competitions]);
+  }, [setCompetitions]);
 
   const classnames = {
     container: 'main-container',
