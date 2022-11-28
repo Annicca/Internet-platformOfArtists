@@ -6,6 +6,7 @@ import { Registration } from './components/authorize/Registration';
 import { Home } from './components/Home';
 import { Users} from './components/users/Users';
 import {User} from './components/users/User';
+import { Competitions } from './components/Competitions';
 
 import './index.scss';
 import { NotFound } from './components/notfound/notfound';
@@ -17,6 +18,7 @@ export default function App() {
         <Routes>
             <Route path  = '/' element = {<Layout />}>
               <Route  index element={<Home />} />
+              <Route path='competitions' element={<Competitions/>} />
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
             </Route>

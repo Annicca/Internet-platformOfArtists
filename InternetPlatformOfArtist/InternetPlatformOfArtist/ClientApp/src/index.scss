@@ -10,6 +10,11 @@ body {
 a{
     text-decoration: none;
 }
+ul{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 header{
   //position: absolute;
   top: 0;
@@ -32,7 +37,11 @@ main{
 .main-container{
   max-width: 1650px;
   margin: 0 auto;
-  //padding-bottom: 145px;
+  &-list{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  }
 }
 .wrapper {
   display: flex;

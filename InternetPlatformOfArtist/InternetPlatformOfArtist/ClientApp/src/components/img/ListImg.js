@@ -8,10 +8,10 @@ export const ListImg = ({imagesList, classnames}) =>{
         classnames
     );
     return(
-        <div className = {classNames}>
+        <div>
             {imagesList.map((img,index) =>(
-                <Link to = {img.link}>
-                    <Image key = {index}
+                <Link to = {img.link} key = {index}>
+                    <Image 
                         src = {img.src}
                         alt={img.alt}
                         className = {classes} /> 

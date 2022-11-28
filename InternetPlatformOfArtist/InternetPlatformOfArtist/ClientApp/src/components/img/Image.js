@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export const Image = ({src,alt,className})=>{
+export const Image = ({src,alt,width, height, className})=>{
     const classes = classNames(
         className
     );
@@ -9,6 +9,8 @@ export const Image = ({src,alt,className})=>{
         <img
             src = {src}
             alt = {alt}
+            width = {width}
+            height = {height}
             className = {classes}
         />
     )

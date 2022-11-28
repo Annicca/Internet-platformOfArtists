@@ -1,30 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { roles } from "../../Constant";
-
+import { listUserWindow } from "../../Constant";
+import { listAdminWindow } from "../../Constant";
 import './UserWindow.scss';
+import { WindowAuth } from "./WindowAuth";
 
-export const UserWindow = ({active, setActive}) =>{
+export const UserWindow = ({activeWindow, setActiveWindow}) =>{
+
     const store = require('store');
-
     const user = store.get('user');
-//
-    let role = roles.map((role) => {if(role.idRole === user.idRole){
-        return(<span>{role.name}</span>) ;
-    }});
 
     const classnames = {
         container: 'user-container',
-        containerActive: 'user-container active',
+        containerActive: 'user-container activewindow',
         buttonlog: 'user-container-button',
-        titleWindow: 'user-container-title',
-        name: 'user-container-title-name',
-        role: 'user-container-title-role',
-        auth: 'user-container active auth'
+        auth: 'user-container activewindow auth'
     }
+
     if(user == undefined){
         return(
-            <div className ={active ? classnames.containerActive : classnames.container} onMouseLeave={() => setActive(false)}>
+            <div className ={activeWindow ? classnames.containerActive : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
                 <Link to='/login'>
                     <button className={classnames.buttonlog}>
                         Вход
@@ -37,18 +32,16 @@ export const UserWindow = ({active, setActive}) =>{
                 </Link>
             </div>
         )
-    } else if(user.idRole == 2){
+    } else if(user.idRole == 1){
         return(
-            <div className ={active ? classnames.auth : classnames.container} onMouseLeave={() => setActive(false)}>
-                <div className = {classnames.titleWindow}>
-                    <p className = {classnames.name}>
-                        {user.surnameUser + ' ' + user.nameUser + ' ' + user.patronimycUser}
-                    </p>
-                    <p className = {classnames.role}>{role}</p>
-                </div>
-                <ul>
-                    
-                </ul>
+            <div className ={activeWindow ? classnames.auth : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
+                <WindowAuth user = {user} list = {listAdminWindow} />
+            </div>
+        )
+    } else{
+        return(
+            <div className ={activeWindow ? classnames.auth : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
+                <WindowAuth user = {user} list = {listUserWindow} />
             </div>
         )
     }

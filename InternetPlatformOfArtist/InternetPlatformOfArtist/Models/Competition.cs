@@ -38,6 +38,9 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("cityCompetition")]
         public string CityCompetition {get;set;}
 
+        [JsonPropertyName("imgUrl")]
+        public string Img { get; set; }
+
         [ForeignKey("Status")]
         [JsonPropertyName("idStatusCompetition")]
         public int IdStatusCompetition { get; set; }

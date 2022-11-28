@@ -21,9 +21,7 @@ export const Footer = () =>{
                 <List data = {footerList} classnames = {classnames} />
                 <div className = {classnames.social}>
                     <span className = {classnames.socialTitle}>Мы в соц сетях:</span>
-                    <p>
-                        <ListImg imagesList={socials} classnames = {classnames.socialImg} />
-                    </p>
+                    <ListImg imagesList={socials} classnames = {classnames.socialImg} />
                 </div>
             </div>
         </footer>

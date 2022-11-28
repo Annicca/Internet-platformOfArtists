@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export const List = ({data, classnames}) =>{
     const ListItem = (item) =>{
         return(
-            <li className={classnames.li}>
-                <Link to = {item.link} className={classnames.link}>{item.title}</Link>
-            </li>
+            <Link to = {item.link} className={classnames.link}>
+                <li className={classnames.li}>
+                    {item.title}
+                </li>
+            </Link>
         )
     }
     return(
@@ -18,3 +20,24 @@ export const List = ({data, classnames}) =>{
 
     )
 }
+
+// export const NavList = ({data, classnames}) =>{
+//     const NavListItem = (item) =>{
+//         return(
+//             <NavLink to = {item.link} className = {isActive =>
+//                 classnames.link + (!isActive ? "" : " select")} end>
+//                 <li className={classnames.li}>
+//                     {item.title}
+//                 </li>
+//             </NavLink>
+//         )
+//     }
+//     return(
+//         <ul className = {classnames.ul}>
+//             {data.map((item, index) =>
+//                 <NavListItem{...item} key = {index} />
+//         )}
+//         </ul>
+
+//     )
+// }

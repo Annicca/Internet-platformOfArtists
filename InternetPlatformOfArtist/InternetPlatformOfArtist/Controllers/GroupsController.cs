@@ -23,7 +23,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Group>>> GetAllGroup()
         {
-            return await context.Group.ToListAsync();
+            return await context.Group.Include("Director").ToListAsync();
         }
 
         // GET api/groups/5

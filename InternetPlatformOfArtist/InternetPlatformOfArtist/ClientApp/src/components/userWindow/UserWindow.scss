@@ -1,3 +1,6 @@
+p{
+    margin: 0;
+}
 .user-container{
     display: none;
     &-button{
@@ -13,8 +16,16 @@
         color: white;
         margin-bottom: 30px;
     }
+    &-title{
+        margin-top: 21px;
+        margin-bottom: 47px;
+        padding-left: 33px;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 17px;
+    }
 }
-.active{
+.activewindow{
     position: absolute;
     display: block;
     top: 100px;
@@ -29,5 +40,23 @@
     border-radius: 15px;
 }
 .auth{
+    display: block;
     padding: 0;
+    padding-bottom: 18px;
+}
+.userlist{
+    &-item{
+        background-color: white;
+        width: 230px;
+        padding: 16px 27px  16px ;
+        &:hover{
+            background: #FFEED6;
+        }
+        &-link{
+            color: black;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 17px;
+        }
+    }
 }

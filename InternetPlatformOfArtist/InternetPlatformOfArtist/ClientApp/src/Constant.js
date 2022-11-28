@@ -23,13 +23,14 @@ export let navMenuButton = [
     //     title: 'Услуги',
     //     link: ''
     // },
+
     {
-        title: 'Конкурсы',
+        title: 'Коллективы',
         link: '/'
     },
     {
-        title: 'Коллективы',
-        link: ''
+        title: 'Конкурсы',
+        link: '/competitions'
     }
 ];
 
@@ -73,11 +74,11 @@ export let footerList = [
     //     link: ''
     // },
     {
-        title: 'Коллективы',
+        title: 'Конкурсы' ,
         link: ''
     },
     {
-        title: 'Конкурсы',
+        title: 'Коллективы',
         link: ''
     }
 ];
@@ -129,6 +130,10 @@ export let roles = [
 
 export const listUserWindow = [
     {
+        title: 'Личный кабинет',
+        link: '/accaunt'
+    },
+    {
         title: 'Moи коллективы',
         link: ''
     },
@@ -140,4 +145,19 @@ export const listUserWindow = [
         title: 'Moи заявки',
         link: ''
     },
+]
+
+export const listAdminWindow = [
+    {
+        title: 'Личный кабинет',
+        link: '/accaunt'
+    },
+    {
+        title: 'Пользователи',
+        link: '/users'
+    },
+    {
+        title: 'Заявки о размещении',
+        link: ''
+    }
 ]

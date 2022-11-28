@@ -98,6 +98,7 @@ namespace InternetPlatformOfArtist.Controllers
                     competition.DescriptionCompetition = statement.Description;
                     competition.CityCompetition = statement.City;
                     competition.CityCompetition = statement.Address;
+                    competition.IdStatusCompetition = 1;
                     CompetitionsController groupsController = new CompetitionsController(context);
                     await groupsController.AddCompetition(competition);
                     role = roleOrganizer;

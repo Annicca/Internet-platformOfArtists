@@ -31,6 +31,12 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("addressGroup")]
         public string AddressGroup { get; set; }
 
+        [JsonPropertyName("category")]
+        public string Category { get; set; }
+
+        [JsonPropertyName("imgUrl")]
+        public string Img { get; set; }
+
         public List<Competition> Competitions { get; set; } = new List<Competition>();
 
         [Newtonsoft.Json.JsonIgnore]
