@@ -7,9 +7,12 @@ import { Home } from './components/Home';
 import { Users} from './components/users/Users';
 import {User} from './components/users/User';
 import { Competitions } from './components/Competitions';
+import { NotFound } from './components/notfound/notfound';
+import { CompetitionPage } from './components/competitionPage/CompetitionPage';
+import { GroupPage } from './components/groupPage/GroupPage';
 
 import './index.scss';
-import { NotFound } from './components/notfound/notfound';
+
 
 
 export default function App() {
@@ -17,8 +20,10 @@ export default function App() {
     return (
         <Routes>
             <Route path  = '/' element = {<Layout />}>
-              <Route  index element={<Home />} />
+              <Route path  = '/' element={<Home />} />
+                <Route path=':id' element = {<GroupPage />} />
               <Route path='competitions' element={<Competitions/>} />
+                <Route path=':id' element = {<CompetitionPage />} />
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
             </Route>

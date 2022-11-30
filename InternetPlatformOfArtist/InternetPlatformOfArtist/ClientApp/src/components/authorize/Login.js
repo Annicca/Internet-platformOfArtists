@@ -7,10 +7,12 @@ import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
 import {setCookie} from "react-use-cookie";
 
+import './Registration.scss';
+
 export const Login = () =>{
 
     const store =  require('store');
-    const css = require('./Registration.scss').toString();
+    // const css = require('./Registration.scss').toString();
 
     let navigate = useNavigate(); 
 
@@ -56,6 +58,7 @@ export const Login = () =>{
     }
 
     const classnames = {
+        container: 'container-auth',
         form: 'form authorize',
         title: 'registration authorize',
         link: 'authorize-link',
@@ -67,12 +70,12 @@ export const Login = () =>{
     }
 
     return(
-        <main>
-                <Helmet>
+        <div className={classnames.container}>
+                {/* <Helmet>
                     <style>
                         {css}
                     </style>
-                </Helmet>
+                </Helmet> */}
                     <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
                         <AuthTitle classnames={classnames} title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
                         <div className = {classnames.group}>
@@ -112,6 +115,6 @@ export const Login = () =>{
                                 <Button text = {'Войти'} classnames = {classnames.button} type = {"submit"} />
                         </p>
                     </form>
-        </main>
+        </div>
     )
 }

@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import { Competition } from './competition/Competition';
+import { SearchForm } from './SearchForm/SearchForm';
 
 export const Competitions = ()=>{
 
@@ -21,14 +23,20 @@ export const Competitions = ()=>{
 
   const classnames = {
     container: 'main-container',
-    list: 'main-container-list'
+    list: 'main-container-list',
+    inputContainer: 'input-container',
+    button: 'input-container_button'
   }
 
   return (
       <div className={classnames.container}>
+          <div className={classnames.inputContainer}>
+          <button className = {classnames.button}>+Разместить свой конкурс</button>
+          <SearchForm searchText={'Введите город'} />
+        </div>
         <div className = {classnames.list}>
           {competitions == undefined ? <div>Loading...</div> : competitions.map((competition) =>
-              <Competition competition = {competition} key = {competition.idCompetition} />
+              <Link to = "/compettions:id"><Competition competition = {competition} key = {competition.idCompetition} /></Link>
           )
           } 
         </div>

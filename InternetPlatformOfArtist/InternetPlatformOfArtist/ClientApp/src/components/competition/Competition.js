@@ -14,8 +14,8 @@ export const Competition = ({competition}) =>{
         city: 'competition-info-title-city',
         date: 'competition-info-date',
         dateText: 'competition-info-date-text',
-
-
+        buttonContainer: 'button-container',
+        button: 'button-container_participant'
     }
 
     return(
@@ -32,6 +32,10 @@ export const Competition = ({competition}) =>{
                         <Image src = './icons/calendar.svg' alt = 'Адрес: '  />
                         <div className = {classnames.dateText}>{competition.start + "-" + competition.finish}</div>
                 </div>
+                <div className= {classnames.buttonContainer}>
+                    <button className={classnames.button}>Принять участие</button>
+                </div>
+                
             </div>
         </div>
     )

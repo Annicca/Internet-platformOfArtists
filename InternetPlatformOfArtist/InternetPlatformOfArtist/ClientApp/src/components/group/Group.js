@@ -1,4 +1,5 @@
 import React from "react";
+import { Contact } from "../contact/Contact";
 import { Image } from "../img/Image";
 
 export const Group = ({group}) =>{
@@ -11,30 +12,21 @@ export const Group = ({group}) =>{
         address: 'item-info-address',
         addressText: 'item-info-address-text',
         contact: 'item-info-contact',
-        contactPhone: 'item-info-contact-phone',
+        contactImg: 'item-info-contact-img',
         red: 'item-info-title-red'
     }
 
-    const Contact = () =>{
+    const ContactChose = ({phoneUser, mailUser}) =>{
         if(group.director.phoneUser != null){
             return(
-                <div className={classnames.contact}>
-                    
-                    <Image src = './icons/phone.svg' alt = 'Тел: ' className = {classnames.contactPhone} />
-                    <div>{group.director.phoneUser}</div>
-                </div>
+                <Contact classnames={classnames} contact = {phoneUser} src = './icons/phone.svg' alt = 'Тел: ' />
             )}
         else{
             return(
-                <div className={classnames.contact}>
-                        <Image src = './icons/mail.svg' alt = 'Email: ' className = {classnames.contactPhone} />
-                        <div>{group.director.mailUser}</div>
-                </div>
+                <Contact classnames={classnames} contact = {mailUser} src = './icons/mail.svg' alt = 'Email: ' />
             )
         }
     }
-
-    //'./icons/groupsphoto/zvony.jpg'
 
     return(
         <div className={classnames.group}>
@@ -53,7 +45,7 @@ export const Group = ({group}) =>{
                         <p>{group.addressGroup}</p>
                     </div>
                 </div>
-                <Contact />
+                <ContactChose phoneUser={group.director.phoneUser} mailUser = {group.director.mailUser} />
             </div>
         </div>
     )

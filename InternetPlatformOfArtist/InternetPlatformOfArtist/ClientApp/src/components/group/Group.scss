@@ -11,6 +11,7 @@
     box-shadow: 0px 4px 14px 8px rgba(0, 0, 0, 0.14);
     border-radius: 15px;
     margin-bottom: 60px;
+    color: black;
     &-container{
         width: 189px;
         height: 121px;
@@ -48,16 +49,29 @@
             }
         }
         &-contact{
-            display: flex;
-            align-items: center;
             font-weight: 300;
             font-size: 14px;
             line-height: 12px;
-            color: black;
-            &-phone{
+            &-img{
                 margin-right: 18px;
             }
         }
     }
 
+}
+
+.input-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 67px;
+    &_button{
+        background: linear-gradient(90deg, #FFE974 0%, #FFA15E 100%);
+        border: none;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        padding: 0 40px 0 40px;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 17px;
+    }
 }

@@ -5,8 +5,9 @@ import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { AuthTitle } from "./AuthTitle";
 import { useForm } from "react-hook-form";
-import { useUser } from "../../hooks/useUser";
 import {setCookie}  from "react-use-cookie";
+
+import './Registration.scss';
 
 export const Registration = () =>{
     const [surName, setSurName] = useState('');
@@ -19,7 +20,7 @@ export const Registration = () =>{
     let navigate = useNavigate(); 
 
     const store =  require('store');
-    const css = require('./Registration.scss').toString();
+    // const css = require().toString();
 
     const {
         register,
@@ -61,6 +62,7 @@ export const Registration = () =>{
     }
 
     const classnames = {
+        container: 'container-auth',
         form: 'form',
         title: 'registration',
         link: 'registration-link',
@@ -72,12 +74,12 @@ export const Registration = () =>{
     }
 
     return(
-            <main>
-                <Helmet>
+            <div className={classnames.container}>
+                {/* <Helmet>
                     <style>
                         {css}
                     </style>
-                </Helmet>
+                </Helmet> */}
                 <form className = {classnames.form} onSubmit = {handleSubmit(onSubmit)} >
                         <AuthTitle classnames={classnames} title = {'Регистрация'} linkText = {'Уже зарегистрированы?'} path = {'/login'} />
                         <div className = {classnames.group}>
@@ -201,5 +203,5 @@ export const Registration = () =>{
                             <Button text = {'Регистрация'} valid = {!isValid} classnames = {classnames.button} type = {"submit"} />
                         </p>
                     </form>
-            </main>          
+            </div>          
 )}
