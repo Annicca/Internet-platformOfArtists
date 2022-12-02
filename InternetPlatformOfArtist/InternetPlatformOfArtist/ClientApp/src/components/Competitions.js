@@ -1,25 +1,28 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import { Competition } from './competition/Competition';
+import { Competition, CompetitionList } from './competition/Competition';
+import { handleValue } from './helpers/handleValue';
 import { SearchForm } from './SearchForm/SearchForm';
 
 export const Competitions = ()=>{
 
   const [competitions, setCompetitions] = useState();
+  const [city, setCity] = useState('');
+
+  const url = "https://localhost:44344/api/competitions";
+  const urlSearch = `https://localhost:44344/api/competitions/city/${city}`;
 
   useEffect(() => {
-    const dataFetch = async () => {
+    let urlData = handleValue(city, url, urlSearch);
+    const dataFetch = async (urlData) => {
       const data = await (
-        await fetch(
-          "https://localhost:44344/api/competitions"
-        )
-      ).json();
+        await fetch(urlData)).json();
       console.log(data);
       setCompetitions(data);
     };
 
-    dataFetch();
-  }, [setCompetitions]);
+    dataFetch(urlData);
+  }, [city]);
 
   const classnames = {
     container: 'main-container',
@@ -32,14 +35,9 @@ export const Competitions = ()=>{
       <div className={classnames.container}>
           <div className={classnames.inputContainer}>
           <button className = {classnames.button}>+Разместить свой конкурс</button>
-          <SearchForm searchText={'Введите город'} />
+          <SearchForm searchText={'Введите город'} setValue = {setCity} />
         </div>
-        <div className = {classnames.list}>
-          {competitions == undefined ? <div>Loading...</div> : competitions.map((competition) =>
-              <Link to = { `${competition.idCompetition}`}><Competition competition = {competition} key = {competition.idCompetition} /></Link>
-          )
-          } 
-        </div>
+        <CompetitionList competitions = {competitions}  classnames = {classnames} />
       </div>
   )
 }

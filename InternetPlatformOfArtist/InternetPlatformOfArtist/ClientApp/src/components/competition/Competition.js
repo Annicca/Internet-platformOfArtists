@@ -1,6 +1,7 @@
 import React from "react";
 import { Image } from "../img/Image";
 import { Contact } from "../contact/Contact";
+import { Link } from "react-router-dom";
 
 import './Competition.scss';
 
@@ -36,5 +37,16 @@ export const Competition = ({competition}) =>{
                 
             </div>
         </div>
+    )
+}
+
+export const CompetitionList = ({competitions, classnames}) =>{
+    return(
+        <div className = {classnames.list}>
+        {competitions == undefined ? <div>Loading...</div> : competitions.map((competition) =>
+            <Link to = { `${competition.idCompetition}`} key = {competition.idCompetition} ><Competition competition = {competition} /></Link>
+        )
+        } 
+      </div>
     )
 }

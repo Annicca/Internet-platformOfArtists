@@ -157,7 +157,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         //GET api/competitions/Владимир
-        [HttpGet("city")]
+        [HttpGet("city/{city}")]
         public async Task<object> GetCompetitionByCity(string city)
         {
             var competition = await context.Competition.Where(c => c.CityCompetition == city).Select(c => new {

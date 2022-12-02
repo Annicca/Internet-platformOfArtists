@@ -4,6 +4,8 @@ import { tabletitle , tableUsersImg} from "../../Constant";
 import { Image } from "../img/Image";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { handleValue } from "../helpers/handleValue";
+import { SearchForm } from "../SearchForm/SearchForm";
 
 import './Table.scss';
 
@@ -20,20 +22,22 @@ export const TableUser = () =>{
     }
 
     const [data, setState] = useState();
+    const [loginSearch, setLoginSearch] = useState('');
 
+    const url = "https://localhost:44344/api/users";
+    const urlSearch = `https://localhost:44344/api/users/userLogin/${loginSearch}`;
+  
     useEffect(() => {
-      const dataFetch = async () => {
+      const urlData = handleValue(loginSearch, url, urlSearch);
+      const dataFetch = async (urlData) => {
         const data = await (
-          await fetch(
-            "https://localhost:44344/api/users"
-          )
-        ).json();
-
+          await fetch(urlData)).json();
+        //const arrData = [];
+        
         setState(data);
       };
-  
-      dataFetch();
-    }, []);
+      dataFetch(urlData);
+    }, [loginSearch]);
 
     const deleteUser = (idUser,e)  =>{
         e.preventDefault();
@@ -57,6 +61,8 @@ export const TableUser = () =>{
       }
 
     return(
+      <>
+        <SearchForm searchText = {'Введите логин'} setValue = {setLoginSearch} />
         <table className = {classnames.table}>
         <tbody>
           <tr>
@@ -69,7 +75,7 @@ export const TableUser = () =>{
               <th key = {index}>{item}</th>
             )}
           </tr>
-          {data === undefined ? (<div>Loading...</div>) : data.map((data,index) => 
+          {data === undefined ? (<p>Loading...</p>) : data.map((data,index) => 
             <tr key = {index}>
               <td>{data.loginUser}</td>
               <td>{data.surnameUser +" " + data.nameUser +" " + data.patronimycUser}</td>
@@ -93,5 +99,6 @@ export const TableUser = () =>{
           )}
         </tbody>
       </table> 
+      </>
     )
 }

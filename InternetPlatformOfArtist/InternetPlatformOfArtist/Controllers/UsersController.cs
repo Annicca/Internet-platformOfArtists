@@ -50,9 +50,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/users/login
         [HttpGet("userLogin/{login}")]
-        public Models.User GetUserByLogin(string login)
+        public Task<List<Models.User>> GetUserByLogin(string login)
         {
-            return context.User.FirstOrDefault(u => u.LoginUser == login);
+            return context.User.Where(u => u.LoginUser == login).ToListAsync();
         }
         // POST api/users/register
         [HttpPost("register")]
@@ -70,7 +70,7 @@ namespace InternetPlatformOfArtist.Controllers
             context.User.Add(registerUser);
             await context.SaveChangesAsync();
 
-            var userRegister = GetUserByLogin(user.LoginUser);
+            var userRegister = GetUserByLogin(user.LoginUser).Result.First();
 
             Models.LoginModel loginUser = new Models.LoginModel();
             loginUser.Login = user.LoginUser;
@@ -82,7 +82,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(Models.LoginModel log)
         {
-            var user = GetUserByLogin(log.Login);
+            var user = GetUserByLogin(log.Login).Result.First();
 
             if (user == null)
             {
