@@ -38,17 +38,6 @@
                 color: #FF6B00;
             }
         }
-        &-date{
-            font-weight: 300;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            text-align: justify;
-            margin-bottom: 20px;
-            &-text{
-                padding-left: 11px;
-            }
-        }
     }
 }
 
@@ -64,5 +53,15 @@
         font-size: 12px;
         line-height: 15px;
         padding: 9px 21px;
+    }
+}
+
+.contact{
+    color: #000000;
+    font-weight: 300;
+    font-size: 15px;
+    margin-bottom: 20px;
+    &-img{
+        padding-right: 11px;
     }
 }

@@ -20,10 +20,10 @@ export default function App() {
     return (
         <Routes>
             <Route path  = '/' element = {<Layout />}>
-              <Route path  = '/' element={<Home />} />
+              <Route index element={<Home />} />
                 <Route path=':id' element = {<GroupPage />} />
+              <Route path= 'competitions/:id' element = {<CompetitionPage />} />
               <Route path='competitions' element={<Competitions/>} />
-                <Route path=':id' element = {<CompetitionPage />} />
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
             </Route>

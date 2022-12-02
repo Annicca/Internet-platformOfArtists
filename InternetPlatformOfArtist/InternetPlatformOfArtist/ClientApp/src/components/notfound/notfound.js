@@ -1,13 +1,14 @@
 import React from "react";
 import { NotFoundIcon } from "../../icon/NotFoundIcon";
 
+import '../authorize/Registration.scss';
+
 export const NotFound = () =>{
-    const css = require('../authorize/Registration.scss').toString();
 
     return(
-        <main>
+        <div className='container-auth' >
             <NotFoundIcon className = 'notfound' />
-        </main>
+        </div>
     )
 
 }

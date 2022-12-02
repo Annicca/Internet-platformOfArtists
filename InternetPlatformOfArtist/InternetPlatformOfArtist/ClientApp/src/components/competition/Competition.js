@@ -1,5 +1,6 @@
 import React from "react";
 import { Image } from "../img/Image";
+import { Contact } from "../contact/Contact";
 
 import './Competition.scss';
 
@@ -12,8 +13,8 @@ export const Competition = ({competition}) =>{
         info: 'competition-info',
         name: 'competition-info-title',
         city: 'competition-info-title-city',
-        date: 'competition-info-date',
-        dateText: 'competition-info-date-text',
+        contact: 'contact',
+        contactImg: 'contact-img',
         buttonContainer: 'button-container',
         button: 'button-container_participant'
     }
@@ -28,10 +29,7 @@ export const Competition = ({competition}) =>{
                     <p>{competition.nameCompetition}</p>
                     <p className = {classnames.city}>{'Город: ' + competition.cityCompetition}</p>
                 </div>
-                <div className = {classnames.date}>
-                        <Image src = './icons/calendar.svg' alt = 'Адрес: '  />
-                        <div className = {classnames.dateText}>{competition.start + "-" + competition.finish}</div>
-                </div>
+                <Contact contact = {competition.start + "-" + competition.finish} src = './icons/calendar.svg' alt = 'Адрес: ' width = {20} height = {21}  classnames = {classnames} />
                 <div className= {classnames.buttonContainer}>
                     <button className={classnames.button}>Принять участие</button>
                 </div>

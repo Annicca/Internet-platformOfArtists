@@ -130,7 +130,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet("city/{city}")]
         public async Task<ActionResult<IEnumerable<Models.Group>>> GetGroupsByCity(string city)
         {
-            return await context.Group.Where(c => c.CityGroup == city).ToListAsync();
+            return await context.Group.Include("Director").Where(c => c.CityGroup == city).ToListAsync();
         }
 
     }

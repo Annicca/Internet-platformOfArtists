@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Contact } from "../contact/Contact";
 import { Image } from "../img/Image";
 
@@ -48,5 +49,16 @@ export const Group = ({group}) =>{
                 <ContactChose phoneUser={group.director.phoneUser} mailUser = {group.director.mailUser} />
             </div>
         </div>
+    )
+}
+
+export const GroupList = ({groups, classnames}) =>{
+    return(
+        <div className = {classnames.groupList}>
+        {groups == undefined ? <div>Loading...</div> : groups.map((group) =>
+            <Link to = {`/${group.idGroup}`} key = {group.idGroup} > <Group group = {group} /></Link>
+        )
+        } 
+      </div>
     )
 }

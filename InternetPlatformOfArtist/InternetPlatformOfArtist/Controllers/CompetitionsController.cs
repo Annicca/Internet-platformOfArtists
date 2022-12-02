@@ -68,9 +68,20 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/competitions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetCompetitionById(int id)
+        public async Task<object> GetCompetitionById(int id)
         {
-            var competition = await context.Competition.Include("Organizer").FirstOrDefaultAsync(c => c.IdCompetition == id);
+            var competition = await context.Competition.Select(c => new {
+                c.IdCompetition,
+                c.Organizer,
+                c.NameCompetition,
+                c.DescriptionCompetition,
+                start = c.DateStart.ToShortDateString(),
+                finish = c.DateFinish.ToShortDateString(),
+                c.CityCompetition,
+                c.Img,
+                c.Status.NameStatus
+            }).FirstOrDefaultAsync(com => com.IdCompetition == id);
+
             if (competition == null)
             {
                 return NotFound();
@@ -147,9 +158,25 @@ namespace InternetPlatformOfArtist.Controllers
 
         //GET api/competitions/Владимир
         [HttpGet("city")]
-        public async Task<ActionResult<IEnumerable<Models.Competition>>> GetCompetitionByCity(string city)
+        public async Task<object> GetCompetitionByCity(string city)
         {
-            return await context.Competition.Where(c => c.CityCompetition == city).ToListAsync();
+            var competition = await context.Competition.Where(c => c.CityCompetition == city).Select(c => new {
+                c.IdCompetition,
+                c.Organizer,
+                c.NameCompetition,
+                c.DescriptionCompetition,
+                start = c.DateStart.ToShortDateString(),
+                finish = c.DateFinish.ToShortDateString(),
+                c.CityCompetition,
+                c.Img,
+                c.Status.NameStatus
+            }).ToListAsync();
+
+            if(competition == null)
+            {
+                return BadRequest(new { message = "Мы не нашли то, что вы искали" });
+            }
+            return Ok(competition);
         }
     }
 }

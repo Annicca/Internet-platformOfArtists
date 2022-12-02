@@ -36,7 +36,7 @@ export const Competitions = ()=>{
         </div>
         <div className = {classnames.list}>
           {competitions == undefined ? <div>Loading...</div> : competitions.map((competition) =>
-              <Link to = "/compettions:id"><Competition competition = {competition} key = {competition.idCompetition} /></Link>
+              <Link to = { `${competition.idCompetition}`}><Competition competition = {competition} key = {competition.idCompetition} /></Link>
           )
           } 
         </div>
