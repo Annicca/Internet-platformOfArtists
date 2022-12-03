@@ -75,11 +75,11 @@ export let footerList = [
     // },
     {
         title: 'Конкурсы' ,
-        link: ''
+        link: '/competitions'
     },
     {
         title: 'Коллективы',
-        link: ''
+        link: '/'
     }
 ];
 
@@ -135,7 +135,7 @@ export const listUserWindow = [
     },
     {
         title: 'Moи коллективы',
-        link: ''
+        link: '/mygroups'
     },
     {
         title: 'Moи конкурсы',

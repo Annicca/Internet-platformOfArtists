@@ -10,8 +10,10 @@ import { Competitions } from './components/Competitions';
 import { NotFound } from './components/notfound/notfound';
 import { CompetitionPage } from './components/competitionPage/CompetitionPage';
 import { GroupPage } from './components/groupPage/GroupPage';
+import { MyGroup } from './components/myGroupsPage/MyGroup';
 
 import './index.scss';
+
 
 
 
@@ -26,6 +28,7 @@ export default function App() {
               <Route path='competitions' element={<Competitions/>} />
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
+              <Route path = 'mygroups' element = {<MyGroup/>} />
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />

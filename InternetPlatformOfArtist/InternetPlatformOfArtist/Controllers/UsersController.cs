@@ -216,6 +216,7 @@ namespace InternetPlatformOfArtist.Controllers
                 g.DescriptionGroup,
                 g.CityGroup,
                 g.AddressGroup,
+                g.Category,
                 Competitions = g
                     .Competitions
                     .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status.NameStatus })
