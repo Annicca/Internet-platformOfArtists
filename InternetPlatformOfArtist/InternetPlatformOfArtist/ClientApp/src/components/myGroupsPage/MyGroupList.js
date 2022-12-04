@@ -1,17 +1,38 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
+import axios from "axios";
+import { CompetitionList } from "../competition/Competition";
+
 import './MyGroup.scss';
 
 export const MyGroupList = ({groups}) =>{
     return(
         <div>
             {groups == undefined ? <div>Loading...</div> : groups.map((group) =>
-                <MyGroupItem group = {group} />
+                <MyGroupItem group = {group} key = {group.idGroup} />
             )}
         </div>
     )
 }
+
+
+const deleteGroup = (idGroup,e)  =>{
+    //e.preventDefault();
+    const url = `https://localhost:44344/api/groups/${idGroup}`;
+    if(window.confirm("Вы действительно хотите удалить коллектив?")){
+        axios.delete(url)
+        .then(alert("Успешно"))
+        // .then((result) =>{
+        //     console.log(result.data);
+        // })
+        .catch((error)=>{
+            alert("Мы не смогли удалить коллектив(");
+            console.log(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+        })
+    }
+};
 
 const classnames ={
     card: 'card',
@@ -23,9 +44,23 @@ const classnames ={
     delete: 'card-info__delete',
     competition: 'card-competition',
     linkcompetition: 'card-competition__link'
+    
+}
+const competitionclass = {
+    list: 'list-mygroup',
+    competition: 'competition mycompetition',
+    imgContainer: 'mycompetition-container',
+    city: 'mycompetition__city',
+    contact: 'contact mycompetition-contact',
+    buttonContainer: 'mycompetition__button',
+    contactImg: 'contact-img',
 }
 
 const MyGroupItem = ({group}) =>{
+    let navigate = useNavigate();
+
+    const [isActive, setIsActive] = useState(false);
+
     return(
             <section className={classnames.card}>
                 <section  className={classnames.info}>
@@ -40,18 +75,26 @@ const MyGroupItem = ({group}) =>{
                         <p className={classnames.text}>{group.descriptionGroup}</p>
                     </article> 
                     <article className={classnames.child}>
-                        <button className = {classnames.edit} >
+                        <button className = {classnames.edit} onClick={() => navigate(`/mygroups/change/${group.idGroup}`)} >
                             <Image src = './icons/edit.svg' alt  ='Изменить' width = {30} height ={30} />
                         </button>
-                        <button className = {classnames.delete} >
+                        <button className = {classnames.delete} onClick={(e) => deleteGroup(group.idGroup, e)} >
                             <Image src = './icons/delete.svg' alt  ='Удалить' width = {30} height ={30} />
                         </button>
                     </article>
                 </section>
                 <article className={classnames.competition}>
                         <Image src = './icons/startsmall.svg' alt = 'Конкурсы' width = {25} height = {25} />
-                        <Link to = '' className={classnames.linkcompetition}>Конкурсы {"->"}</Link>
+                        {!isActive ? 
+                        <p className={classnames.linkcompetition} onClick = {() =>{setIsActive(!isActive)}} >Конкурсы </p>
+                        :
+                        <p className={classnames.linkcompetition} onClick = {() =>{setIsActive(!isActive)}} >Скрыть конкурсы </p>
+                        }
                 </article>
+                {!isActive ? ' ' :
+                <article>
+                    <CompetitionList competitions = {group.competitions}  classnames = {competitionclass} />
+                </article>}
             </section>
     )
 }

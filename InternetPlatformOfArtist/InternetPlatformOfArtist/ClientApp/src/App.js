@@ -11,8 +11,10 @@ import { NotFound } from './components/notfound/notfound';
 import { CompetitionPage } from './components/competitionPage/CompetitionPage';
 import { GroupPage } from './components/groupPage/GroupPage';
 import { MyGroup } from './components/myGroupsPage/MyGroup';
+import { GroupChange } from './components/groupChange/GroupChange';
 
 import './index.scss';
+
 
 
 
@@ -29,6 +31,7 @@ export default function App() {
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
               <Route path = 'mygroups' element = {<MyGroup/>} />
+              <Route path = 'mygroups/change/:id' element = {<GroupChange/>} />
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />

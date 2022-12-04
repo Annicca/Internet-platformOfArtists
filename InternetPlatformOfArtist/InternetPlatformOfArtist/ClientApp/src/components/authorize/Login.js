@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import {useNavigate } from "react-router-dom";
 import { AuthTitle } from "./AuthTitle";
-import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { useForm } from "react-hook-form";
 import {setCookie} from "react-use-cookie";
@@ -71,11 +70,6 @@ export const Login = () =>{
 
     return(
         <div className={classnames.container}>
-                {/* <Helmet>
-                    <style>
-                        {css}
-                    </style>
-                </Helmet> */}
                     <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
                         <AuthTitle classnames={classnames} title = {'Вход'} linkText = {'Ещё не зарегистрировались?'} path = {'/signin'} />
                         <div className = {classnames.group}>

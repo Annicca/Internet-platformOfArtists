@@ -5,20 +5,7 @@ import { Link } from "react-router-dom";
 
 import './Competition.scss';
 
-export const Competition = ({competition}) =>{
-
-    const classnames = {
-        competition: 'competition',
-        imgContainer: 'competition-container',
-        img : 'competition-container-img',
-        info: 'competition-info',
-        name: 'competition-info-title',
-        city: 'competition-info-title-city',
-        contact: 'contact',
-        contactImg: 'contact-img',
-        buttonContainer: 'button-container',
-        button: 'button-container_participant'
-    }
+const Competition = ({competition, classnames}) =>{
 
     return(
         <div className = {classnames.competition}>
@@ -44,7 +31,7 @@ export const CompetitionList = ({competitions, classnames}) =>{
     return(
         <div className = {classnames.list}>
         {competitions == undefined ? <div>Loading...</div> : competitions.map((competition) =>
-            <Link to = { `${competition.idCompetition}`} key = {competition.idCompetition} ><Competition competition = {competition} /></Link>
+            <Link to = { `/competitions/${competition.idCompetition}`} key = {competition.idCompetition} ><Competition competition = {competition} classnames = {classnames} /></Link>
         )
         } 
       </div>

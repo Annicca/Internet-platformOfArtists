@@ -38,9 +38,10 @@ namespace InternetPlatformOfArtist.Controllers
             return Ok(group);
         }
 
+        //competitions of group
         // GET: api/groups/competitions
-        [HttpGet("competitions")]
-        public async Task<object> GroupsWithCompetitions()
+        [HttpGet("competitions/{idGroup}")]
+        public async Task<object> GroupsWithCompetitions(int idGroup)
         {
            
             return new

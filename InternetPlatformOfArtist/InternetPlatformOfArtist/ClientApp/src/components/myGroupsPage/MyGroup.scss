@@ -48,3 +48,38 @@
         }
     }
 }
+.list-mygroup{
+    margin-top: 40px;
+    display: flex;
+    justify-content: start;
+    margin-right: -40px;
+    margin-bottom: -60px;
+}
+.mycompetition{
+    color: black;
+    font-weight: 400;
+    width: 270px;
+    height: 310px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-right: 40px;
+    &-container{
+        width: 230px;
+        height: 162px;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+    &__city{
+        color:#FF6B00;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    &__button{
+        display: none;
+    }
+}
+.mycompetition-contact{
+    margin-bottom: 0;
+}

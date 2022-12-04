@@ -28,7 +28,17 @@ export const Competitions = ()=>{
     container: 'main-container',
     list: 'main-container-list',
     inputContainer: 'input-container',
-    button: 'input-container_button'
+    button: 'input-container_button',
+    competition: 'competition',
+    imgContainer: 'competition-container',
+    img : 'competition-container-img',
+    info: 'competition-info',
+    name: 'competition-info-title',
+    city: 'competition-info-title-city',
+    contact: 'contact',
+    contactImg: 'contact-img',
+    buttonContainer: 'button-container',
+    button: 'button-container_participant'
   }
 
   return (

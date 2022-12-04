@@ -43,7 +43,7 @@ export const MyGroup = () =>{
         return(
             <div className={classnames.container}>
                 <TitlePage title={'Мои коллективы'} />
-                <MyGroupList groups = {groups} />
+                <MyGroupList groups = {groups} setState = {setGroups} />
             </div>
         )
     }

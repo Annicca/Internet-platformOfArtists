@@ -160,4 +160,6 @@ export const listAdminWindow = [
         title: 'Заявки о размещении',
         link: ''
     }
-]
+];
+
+export const groupForm = ['Название:', 'Стиль:', 'Город:', 'Адрес:', 'Описание:'];
