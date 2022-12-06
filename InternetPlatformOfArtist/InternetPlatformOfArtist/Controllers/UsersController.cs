@@ -219,7 +219,7 @@ namespace InternetPlatformOfArtist.Controllers
                 g.Category,
                 Competitions = g
                     .Competitions
-                    .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status.NameStatus, c.Img })
+                    .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status, c.Img })
                     .ToList()
             }).ToListAsync()
             };
@@ -227,17 +227,6 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         //конкурсы пользователя
-
-
-        //заявки пользователя
-        //GET api/mystatement/5
-        [HttpGet("mystatement/{idUser:int}")]
-        public async Task<ActionResult<IEnumerable<Models.Statement>>> GetStatementByUserAsync(int idUser)
-        {
-            List<Models.Statement> statement = await context.Statement.ToListAsync();
-            return statement.Where(statement => statement.IdUser == idUser).ToList();
-
-        }
 
         // PUT api/users/5
         [HttpPut("setrole/{id}")]

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Image } from "../img/Image";
 import { Contact } from "../contact/Contact";
@@ -11,6 +11,8 @@ export const GroupPage = () =>{
     const params = useParams();
     const current = params.id;
 
+    let navigate = useNavigate();
+
     const [group, setGroup] = useState();
 
     const apiUrl = `https://localhost:44344/api/groups/${current}`;
@@ -20,8 +22,10 @@ export const GroupPage = () =>{
             await axios.get(apiUrl).then((resp) => {
                 console.log(resp.data);
                 setGroup(resp.data);
-            }).catch((error) => console.log(error));
-            
+            }).catch((error) => {
+                console.log(error)
+            }
+            ); 
         }
         getGroup();
       }, [apiUrl,setGroup]); 
@@ -45,7 +49,7 @@ export const GroupPage = () =>{
         <div className = {classnames.detail}>
             {group === undefined ? (<span>Loading...</span>) :
                 <>
-                    <Image src = {group.imgUrl} alt = {group.nameGroup} width = {780} height = {450} className = {classnames.img} />
+                    <Image src = {group.img} alt = {group.nameGroup} width = {780} height = {450} className = {classnames.img} />
                     <h1 className = {classnames.title}>{group.nameGroup}</h1>
                     <h2 className = {classnames.style}>{"Стиль: " + group.category}</h2>
                     <div>

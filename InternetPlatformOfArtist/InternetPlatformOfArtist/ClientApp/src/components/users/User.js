@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect} from "react";
-import { useParams,Link } from "react-router-dom";
+import { useParams,Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { inputTitle } from "../../Constant";
 import { roles } from "../../Constant";
@@ -8,6 +8,11 @@ import { roles } from "../../Constant";
 import './User.scss';
 
 export const User = () =>{
+
+    let navigate = useNavigate();
+    const store = require('store');
+    const userAuth = store.get('user');
+    const role = userAuth.idRole;
 
     const [name, setName] = useState('');
     const [surName, setSurname] = useState('');
@@ -24,7 +29,10 @@ export const User = () =>{
     const apiUrl = `https://localhost:44344/api/users/${current}`;
 
     useEffect(() => {
-        const getUser = async() => {
+        if(role != 1){
+            navigate(`/*`)
+        } else{
+            const getUser = async() => {
             await axios.get(apiUrl).then((resp) => {
                 console.log(resp.data);
                 setUser(resp.data);
@@ -36,9 +44,10 @@ export const User = () =>{
                 setMail(resp.data.mailUser);
                 setIdRole(resp.data.idRole);
             }).catch((error) => console.log(error));
-            
         }
         getUser();
+        }
+
       }, [apiUrl,setUser,current]); 
       
 

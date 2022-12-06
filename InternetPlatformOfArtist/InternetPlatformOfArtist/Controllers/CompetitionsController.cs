@@ -78,6 +78,7 @@ namespace InternetPlatformOfArtist.Controllers
                 c.IdUser,
                 c.NameCompetition,
                 c.DescriptionCompetition,
+                c.Organizer,
                 start = c.DateStart.ToShortDateString(),
                 finish = c.DateFinish.ToShortDateString(),
                 c.CityCompetition,

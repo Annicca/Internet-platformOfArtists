@@ -54,6 +54,9 @@
             background: #FFA15E;
         }
     }
+    &__list{
+        margin-top: 40px;
+    }
     &__participant{
         display: flex;
         justify-content: space-between;
@@ -78,22 +81,36 @@
 .mycompetition{
     color: black;
     font-weight: 400;
-    width: 270px;
-    height: 310px;
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
     box-sizing: border-box;
     margin-right: 40px;
+    font-weight: 400;
+    font-size: 16px;
+    position: relative;
     &-container{
-        width: 230px;
-        height: 162px;
-        margin-left: 0;
-        margin-bottom: 10px;
+        width: 222px;
+        height: 170px;
+        margin-top: 25px;
+        &-img{
+            margin-bottom: 0;
+            border: 1px solid #D9D9D9;
+            border-radius: 10px;
+        }
+    }
+    &__title{
+        position: absolute;
+        top: 15px;
+        font-size: 18px;
+    }
+    &__status{
+        color:#FF6B00;
     }
     &__city{
         color:#FF6B00;
-        margin-top: 10px;
+        font-size: 16px;
+        margin-top: 0px;
         margin-bottom: 10px;
     }
     &__button{
@@ -102,4 +119,16 @@
 }
 .mycompetition-contact{
     margin-bottom: 0;
+}
+
+.statement{
+    width: 70%;
+    &__article:nth-child(2n){
+        padding-top: 30px;
+    }
+    &__status{
+        font-size: 18px;
+        color:#FA8A4C;
+        margin-bottom: 10px;
+    }
 }

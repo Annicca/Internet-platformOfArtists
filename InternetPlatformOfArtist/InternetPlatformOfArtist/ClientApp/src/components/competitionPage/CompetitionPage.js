@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Contact } from "../contact/Contact";
 import { Image } from "../img/Image";
@@ -9,7 +9,8 @@ import '../groupPage/GroupPage.scss';
 export const CompetitionPage= () =>{
         const params = useParams();
         const current = params.id;
-    
+
+        let navigate = useNavigate();
         const [competition, setCompetition] = useState();
     
         const apiUrl = `https://localhost:44344/api/competitions/${current}`;
@@ -19,7 +20,10 @@ export const CompetitionPage= () =>{
                 await axios.get(apiUrl).then((resp) => {
                     console.log(resp.data);
                     setCompetition(resp.data);
-                }).catch((error) => console.log(error));
+                }).catch((error) => {
+                    console.log(error)
+                }
+                );
                 
             }
             getCompetition();

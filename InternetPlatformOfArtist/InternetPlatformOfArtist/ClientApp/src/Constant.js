@@ -143,7 +143,7 @@ export const listUserWindow = [
     },
     {
         title: 'Moи заявки',
-        link: ''
+        link: '/mystatements'
     },
 ]
 
@@ -164,4 +164,4 @@ export const listAdminWindow = [
 
 export const groupForm = ['Название:', 'Стиль:', 'Город:', 'Адрес:', 'Описание:'];
 export const competitionForm = ['Название', 'Дата начала', 'Дата окончания', 'Город', 'О конкурсе'];
-export const participantTitle = ['Название', 'Руководитель', 'Телефон', 'Адрес', 'Подробнее'];
+export const participantTitle = ['Название','Адрес', 'Руководитель', 'Телефон', 'Email'];

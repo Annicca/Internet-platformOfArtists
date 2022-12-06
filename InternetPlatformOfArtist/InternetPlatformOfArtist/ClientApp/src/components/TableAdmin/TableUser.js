@@ -11,35 +11,42 @@ import './Table.scss';
 
 export const TableUser = () =>{
 
-    let navigate = useNavigate(); 
-    const change = (id) =>{ 
-      let path = `/users/${id}`; 
-      navigate(path);
-    }
-    const addredirect = () =>{
-      let pathAdd = ``;
-      navigate(pathAdd);
-    }
+  const store = require('store');
+  const user = store.get('user');
+  const role = user.idRole;
 
-    const [data, setState] = useState();
-    const [loginSearch, setLoginSearch] = useState('');
+  let navigate = useNavigate(); 
+  const change = (id) =>{ 
+    let path = `/users/${id}`; 
+    navigate(path);
+  }
+  const addredirect = () =>{
+    let pathAdd = ``;
+    navigate(pathAdd);
+  }
 
-    const url = "https://localhost:44344/api/users";
-    const urlSearch = `https://localhost:44344/api/users/userLogin/${loginSearch}`;
+  const [data, setState] = useState();
+  const [loginSearch, setLoginSearch] = useState('');
+
+  const url = "https://localhost:44344/api/users";
+  const urlSearch = `https://localhost:44344/api/users/userLogin/${loginSearch}`;
   
-    useEffect(() => {
-      const urlData = handleValue(loginSearch, url, urlSearch);
-      const dataFetch = async (urlData) => {
-        const data = await (
-          await fetch(urlData)).json();
-        //const arrData = [];
-        
-        setState(data);
-      };
-      dataFetch(urlData);
-    }, [loginSearch]);
+  useEffect(() => {
+      if(role != 1){
+        navigate(`/*`)
+      }
+      else{
+        const urlData = handleValue(loginSearch, url, urlSearch);
+        const dataFetch = async (urlData) => {
+          const data = await (
+            await fetch(urlData)).json();
+          setState(data);
+        };
+        dataFetch(urlData);
+      }
+  }, [loginSearch]);
 
-    const deleteUser = (idUser,e)  =>{
+  const deleteUser = (idUser,e)  =>{
         e.preventDefault();
         const url = `https://localhost:44344/api/users/${idUser}`;
         if(window.confirm("Вы действительно хотите удалить пользователя?")){
@@ -52,13 +59,13 @@ export const TableUser = () =>{
                 console.log(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
             })
         }
-    };
+  };
 
-    const classnames = {
+  const classnames = {
         table: 'table',
         tableButton: 'table-button',
         addButton: 'table-button_add'
-      }
+  }
 
     return(
       <>
@@ -80,7 +87,7 @@ export const TableUser = () =>{
               <td>{data.loginUser}</td>
               <td>{data.surnameUser +" " + data.nameUser +" " + data.patronimycUser}</td>
               <td>{data.mailUser}</td>
-              <td>{data.phoneUser}</td>
+              {data.phoneUesr != null ? <td>{data.phoneUser}</td> : <td>-</td> }
               <td>
                 <button className = {classnames.tableButton} onClick={() => change(data.idUser)}>
                   <Image 

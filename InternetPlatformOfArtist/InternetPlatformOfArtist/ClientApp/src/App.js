@@ -14,8 +14,10 @@ import { MyGroup } from './components/myGroupsPage/MyGroup';
 import { GroupChange } from './components/groupChange/GroupChange';
 import { MyCompetition } from './components/myCompetitionPage/MyCompetition';
 import { CompetitionChange } from './components/groupChange/CompetitionChange';
+import { MyStatement } from './components/mystatementPage/MyStatement';
 
 import './index.scss';
+
 
 export default function App() {
     
@@ -23,7 +25,7 @@ export default function App() {
         <Routes>
             <Route path  = '/' element = {<Layout />}>
               <Route index element={<Home />} />
-                <Route path=':id' element = {<GroupPage />} />
+                <Route path = ':id' element = {<GroupPage />} />
               <Route path= 'competitions/:id' element = {<CompetitionPage />} />
               <Route path='competitions' element={<Competitions/>} />
               <Route path='users/:id' element={<User/>} />
@@ -32,10 +34,11 @@ export default function App() {
               <Route path = 'mygroups/change/:id' element = {<GroupChange/>} />
               <Route path = 'mycompetitions' element = {<MyCompetition />} />
               <Route path = 'mycompetitions/change/:id' element = {<CompetitionChange />} />
+              <Route path = 'mystatements' element = {<MyStatement />} />
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />
-            <Route path = "*" element = {<NotFound />} />
+            <Route path = "/*" element = {<NotFound />} />
         </Routes> 
     );
 }

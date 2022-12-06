@@ -31,10 +31,6 @@ export const MyCompetition = () =>{
 
     }
 
-    // const cancelCompetition = () =>{
-    //     dataFetch(cancelUrl)
-    // }
-
     if(id === undefined){
         return(
             <div className={classnames.container}>

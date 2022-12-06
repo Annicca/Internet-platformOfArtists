@@ -38,7 +38,8 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
         delete: 'card-info__delete',
         competition: 'card__participant',
         linkcompetition: 'card-competition__link' ,
-        cancel: 'card__cancel'
+        cancel: 'card__cancel',
+        participant: 'card__list'
     }
 
     return(
@@ -71,7 +72,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
                 }
         </article>
         {!isActive ? ' ' :
-        <article>
+        <article className = {classnames.participant}>
             <TableParticipant participants={competition.groups} />
         </article>}
     </section>

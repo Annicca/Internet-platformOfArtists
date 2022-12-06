@@ -10,12 +10,14 @@ const Competition = ({competition, classnames}) =>{
     return(
         <div className = {classnames.competition}>
             <div className={classnames.imgContainer}>
-                <Image src= {competition.img} alt = ' Нет фото' width = {230} height = {162} className = {classnames.img} />
+                <Image src= {competition.img} alt = ' Нет фото' width = {220} height = {142} className = {classnames.img} />
+                <p className = {classnames.status}>{'Статус: ' + competition.status.nameStatus}</p>
             </div>
             <div className={classnames.info}>
-                <div className={classnames.name}>
-                    <p>{competition.nameCompetition}</p>
+                <div className={classnames.title}>
+                    <p className={classnames.name}>{competition.nameCompetition}</p>
                     <p className = {classnames.city}>{'Город: ' + competition.cityCompetition}</p>
+                    
                 </div>
                 <Contact contact = {competition.start + "-" + competition.finish} src = './icons/calendar.svg' alt = 'Адрес: ' width = {20} height = {21}  classnames = {classnames} />
                 <div className= {classnames.buttonContainer}>

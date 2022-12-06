@@ -36,6 +36,15 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("address")]
         public string Address { get; set; }
 
+        [JsonPropertyName("dateStart")]
+        [DataType(DataType.Date)]
+
+        public DateTime? DateStart { get; set; }
+
+        [JsonPropertyName("dateFinish")]
+        [DataType(DataType.Date)]
+
+        public DateTime? DateFinish { get; set; }
 
         [ForeignKey("Status")]
         [JsonPropertyName("idStatusStatement")]

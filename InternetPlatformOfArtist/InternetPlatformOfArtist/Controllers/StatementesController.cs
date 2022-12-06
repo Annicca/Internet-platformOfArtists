@@ -97,7 +97,8 @@ namespace InternetPlatformOfArtist.Controllers
                     competition.NameCompetition = statement.Name;
                     competition.DescriptionCompetition = statement.Description;
                     competition.CityCompetition = statement.City;
-                    competition.CityCompetition = statement.Address;
+                    competition.DateStart = (DateTime)statement.DateStart;
+                    competition.DateFinish = (DateTime)statement.DateStart;
                     competition.IdStatusCompetition = 1;
                     CompetitionsController groupsController = new CompetitionsController(context);
                     await groupsController.AddCompetition(competition);
@@ -126,6 +127,32 @@ namespace InternetPlatformOfArtist.Controllers
             }
 
             return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
+        }
+
+        //заявки пользователя
+        //GET api/mystatement/5
+        [HttpGet("mystatement/{idUser:int}")]
+        public async Task<object> GetStatementByUserAsync(int idUser)
+        {
+            return
+                new
+                {
+                    Results = await context.Statement.Select(s =>
+                    new
+                    {
+                        s.IdStatement,
+                        s.Name,
+                        s.IdUser,
+                        s.City,
+                        s.Address,
+                        s.Description,
+                        start = s.DateStart,
+                        finish = s.DateFinish,
+                        type = s.Type.NameType,
+                        status = s.Status.NameStatus
+                    }
+                    ).Where(s => s.IdUser == idUser).ToListAsync()
+                };
         }
 
         // DELETE api/statements/5
