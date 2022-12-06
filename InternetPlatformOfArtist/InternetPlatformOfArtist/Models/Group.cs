@@ -34,7 +34,7 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("category")]
         public string Category { get; set; }
 
-        [JsonPropertyName("imgUrl")]
+        [JsonPropertyName("img")]
         public string Img { get; set; }
 
         public List<Competition> Competitions { get; set; } = new List<Competition>();

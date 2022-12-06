@@ -32,7 +32,7 @@ export const Group = ({group}) =>{
     return(
         <div className={classnames.group}>
             <div className={classnames.imgContainer}>
-                <Image src= {group.imgUrl} alt = ' Нет фото' width = {189} height = {121} className = {classnames.img} />
+                <Image src= {group.img} alt = ' Нет фото' width = {189} height = {121} className = {classnames.img} />
             </div>
             <div className={classnames.info}>
                 <div className={classnames.nameGroup}>

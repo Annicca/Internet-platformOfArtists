@@ -12,12 +12,10 @@ import { CompetitionPage } from './components/competitionPage/CompetitionPage';
 import { GroupPage } from './components/groupPage/GroupPage';
 import { MyGroup } from './components/myGroupsPage/MyGroup';
 import { GroupChange } from './components/groupChange/GroupChange';
+import { MyCompetition } from './components/myCompetitionPage/MyCompetition';
+import { CompetitionChange } from './components/groupChange/CompetitionChange';
 
 import './index.scss';
-
-
-
-
 
 export default function App() {
     
@@ -32,6 +30,8 @@ export default function App() {
               <Route path='users' element={<Users/>} />
               <Route path = 'mygroups' element = {<MyGroup/>} />
               <Route path = 'mygroups/change/:id' element = {<GroupChange/>} />
+              <Route path = 'mycompetitions' element = {<MyCompetition />} />
+              <Route path = 'mycompetitions/change/:id' element = {<CompetitionChange />} />
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />

@@ -43,8 +43,7 @@ const classnames ={
     edit: 'card-info__edit',
     delete: 'card-info__delete',
     competition: 'card-competition',
-    linkcompetition: 'card-competition__link'
-    
+    linkcompetition: 'card-competition__link' 
 }
 const competitionclass = {
     list: 'list-mygroup',

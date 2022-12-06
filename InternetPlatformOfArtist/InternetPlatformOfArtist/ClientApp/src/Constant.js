@@ -129,17 +129,17 @@ export let roles = [
 ];
 
 export const listUserWindow = [
-    {
-        title: 'Личный кабинет',
-        link: '/accaunt'
-    },
+    // {
+    //     title: 'Личный кабинет',
+    //     link: '/accaunt'
+    // },
     {
         title: 'Moи коллективы',
         link: '/mygroups'
     },
     {
         title: 'Moи конкурсы',
-        link: ''
+        link: '/mycompetitions'
     },
     {
         title: 'Moи заявки',
@@ -148,10 +148,10 @@ export const listUserWindow = [
 ]
 
 export const listAdminWindow = [
-    {
-        title: 'Личный кабинет',
-        link: '/accaunt'
-    },
+    // {
+    //     title: 'Личный кабинет',
+    //     link: '/accaunt'
+    // },
     {
         title: 'Пользователи',
         link: '/users'
@@ -163,3 +163,5 @@ export const listAdminWindow = [
 ];
 
 export const groupForm = ['Название:', 'Стиль:', 'Город:', 'Адрес:', 'Описание:'];
+export const competitionForm = ['Название', 'Дата начала', 'Дата окончания', 'Город', 'О конкурсе'];
+export const participantTitle = ['Название', 'Руководитель', 'Телефон', 'Адрес', 'Подробнее'];

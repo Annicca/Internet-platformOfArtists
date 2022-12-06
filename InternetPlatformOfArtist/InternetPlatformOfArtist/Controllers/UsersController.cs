@@ -219,7 +219,7 @@ namespace InternetPlatformOfArtist.Controllers
                 g.Category,
                 Competitions = g
                     .Competitions
-                    .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status.NameStatus })
+                    .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status.NameStatus, c.Img })
                     .ToList()
             }).ToListAsync()
             };
@@ -227,32 +227,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         //конкурсы пользователя
-        //GET api/mycompetitions/5
-        [HttpGet("mycompetitions/{idUser:int}")]
-        public async Task<object> GetCompetitionsByUserAsync(int idUser)
-        {
-            return new
-            {
-                Results = await context
-                    .Competition
-                    .Where(c => c.IdUser == idUser)
-                    .Select(c => new
-                    {
-                        c.IdCompetition,
-                        c.NameCompetition,
-                        c.DescriptionCompetition,
-                        c.DateStart,
-                        c.DateFinish,
-                        c.CityCompetition,
-                        c.Status.NameStatus,
-                        Groups = c
-                            .Groups
-                            .Select(g => new { g.IdGroup, mail = g.Director.MailUser, tele = g.Director.PhoneUser, g.NameGroup, g.CityGroup, g.AddressGroup })
-                            .ToList()
-                    }).ToListAsync()
-                                };
 
-        }
 
         //заявки пользователя
         //GET api/mystatement/5

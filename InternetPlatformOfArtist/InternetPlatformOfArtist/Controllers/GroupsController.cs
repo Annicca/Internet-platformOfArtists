@@ -56,6 +56,7 @@ namespace InternetPlatformOfArtist.Controllers
                 g.DescriptionGroup,
                 g.CityGroup,
                 g.AddressGroup,
+                g.Img,
                 Groups = g
                     .Competitions
                     .Select(c => new { c.IdCompetition, c.NameCompetition, c.DateStart, c.DateFinish, c.CityCompetition, c.Status.NameStatus })

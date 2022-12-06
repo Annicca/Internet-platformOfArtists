@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,9 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<object> GetAllCompetition()
         {
-            //return await context.Competition.Include("Status").AsNoTracking().ToListAsync();
+            //FormatDate format = new FormatDate(context);
+            //format.ChangeStatus();
+
             return await context
             .Competition
             .Select(c => new
@@ -60,7 +63,7 @@ namespace InternetPlatformOfArtist.Controllers
                 c.Status.NameStatus,
                 Groups = c
                     .Groups
-                    .Select(g => new { g.IdGroup, g.NameGroup, g.CityGroup, g.AddressGroup })
+                    .Select(g => new { g.Director, g.IdGroup, g.NameGroup, g.CityGroup, g.AddressGroup })
                     .ToList()
             }).ToListAsync()
             };
@@ -72,14 +75,15 @@ namespace InternetPlatformOfArtist.Controllers
         {
             var competition = await context.Competition.Select(c => new {
                 c.IdCompetition,
-                c.Organizer,
+                c.IdUser,
                 c.NameCompetition,
                 c.DescriptionCompetition,
                 start = c.DateStart.ToShortDateString(),
                 finish = c.DateFinish.ToShortDateString(),
                 c.CityCompetition,
                 c.Img,
-                c.Status.NameStatus
+                c.Status.NameStatus,
+                c.IdStatusCompetition,
             }).FirstOrDefaultAsync(com => com.IdCompetition == id);
 
             if (competition == null)
@@ -89,12 +93,6 @@ namespace InternetPlatformOfArtist.Controllers
             return Ok(competition);
         }
 
-        //public Models.Competition FindCompetitionById(int id)
-        //{
-        //   return context.Competition.Find(id);
-        //}
-
-        // POST api/competitions
         [HttpPost]
         public async Task<ActionResult<Models.Competition>> AddCompetition(Models.Competition competition)
         {
@@ -177,6 +175,59 @@ namespace InternetPlatformOfArtist.Controllers
                 return BadRequest(new { message = "Мы не нашли то, что вы искали" });
             }
             return Ok(competition);
+        }
+
+        //GET api/competitions/mycompetitions/5
+        [HttpGet("mycompetitions/{idUser:int}")]
+        public async Task<object> GetCompetitionsByUserAsync(int idUser)
+        {
+
+            return new
+            {
+                Results = await context
+                    .Competition
+                    .Where(c => c.IdUser == idUser)
+                    .Select(c => new
+                    {
+                        c.IdCompetition,
+                        c.IdUser,
+                        c.NameCompetition,
+                        c.DescriptionCompetition,
+                        start = c.DateStart.ToShortDateString(),
+                        finish = c.DateFinish.ToShortDateString(),
+                        c.CityCompetition,
+                        c.IdStatusCompetition,
+                        c.Status.NameStatus,
+                        c.Img,
+                        Groups = c
+                            .Groups
+                            .Select(g => new { g.IdGroup, g.NameGroup, g.Director, g.CityGroup, g.AddressGroup })
+                            .ToList()
+                    }).ToListAsync()
+            };
+
+        }
+
+        [HttpGet("cancel/{idCompetition}")]
+        public async Task<object> CancelCompetition(int idCompetition)
+        {
+            Models.Competition competition = await context.Competition.FindAsync(idCompetition);
+            if (competition == null)
+            {
+                return BadRequest();
+            }
+            competition.IdStatusCompetition = 4;
+            context.Entry(competition).State = EntityState.Modified;
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch(DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+            
+            return await GetCompetitionsByUserAsync(competition.IdUser);
         }
     }
 }

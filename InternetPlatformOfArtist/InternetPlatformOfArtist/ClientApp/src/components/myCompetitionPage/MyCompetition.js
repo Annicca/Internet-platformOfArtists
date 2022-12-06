@@ -1,25 +1,27 @@
 import React, {useState, useEffect} from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
-import { MyGroupList } from "./MyGroupList";
 import { Link } from "react-router-dom";
+import { MyCompetitionList } from "./MyCompetitionList";
 
-export const MyGroup = () =>{
+
+export const MyCompetition = () =>{
 
     const store = require('store');
     const user = store.get('user');
     const id = user.idUser;
-    //let id;
 
-    const [groups, setGroups] = useState([]);
-    let url = `https://localhost:44344/api/users/mygroups/${id}`;
+    const [competitions, setCompetitions] = useState([]);
+    let url = `https://localhost:44344/api/competitions/mycompetitions/${id}`;
+    
+
 
     useEffect(() => {
         const dataFetch = async (url) => {
-          const data = await (
+            const data = await (
             await fetch(url)).json();
             console.log(data.results);
-          setGroups(data.results);
-        };
+            setCompetitions(data.results);
+    };
         dataFetch(url);
       }, []);
 
@@ -29,23 +31,27 @@ export const MyGroup = () =>{
 
     }
 
+    // const cancelCompetition = () =>{
+    //     dataFetch(cancelUrl)
+    // }
+
     if(id === undefined){
         return(
             <div className={classnames.container}>
                 <h3 className={classnames.request}>
-                    Чтобы посмотреть свои коллективы необходимо <Link  to = '/login'>авторизоваться</Link> 
+                    Чтобы посмотреть свои конкурсы необходимо <Link  to = '/login'>авторизоваться</Link> 
                 </h3>
             </div>
         )
-    } else if(groups == []){
+    } else if(competitions == []){
         <div className={classnames.container}>
-            <h3 className={classnames.request}>У вас ещё нет коллективов</h3>
+            <h3 className={classnames.request}>У вас ещё нет конкурсов</h3>
         </div>
     } else{
         return(
             <div className={classnames.container}>
-                <TitlePage title={'Мои коллективы'} />
-                <MyGroupList groups = {groups} setState = {setGroups} />
+                <TitlePage title={'Мои конкурсы'} />
+                <MyCompetitionList competitions={competitions} setCompetitions = {setCompetitions} />
             </div>
         )
     }

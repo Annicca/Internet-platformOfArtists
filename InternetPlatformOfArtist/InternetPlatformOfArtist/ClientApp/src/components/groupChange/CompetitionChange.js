@@ -2,39 +2,41 @@ import React, {useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { groupForm } from "../../Constant";
+import { competitionForm} from "../../Constant";
 import { Image } from "../img/Image";
 
 import './GroupChange.scss';
+import { formatdate } from "../helpers/formatdate";
 
-export const GroupChange = () =>{
+export const CompetitionChange = () =>{
     const params = useParams();
     const current = params.id;
-    const [group, setGroup] = useState();
+
+    const [competition, setCompetition] = useState();
     const [name, setName] = useState();
-    const [category, setCategory] = useState();
     const [city, setCity] = useState();
-    const [address, setAddress] = useState();
+    const [start, setStart] = useState();
+    const [finish, setFinish] = useState();
     const [description, setDescription] = useState();
 
-    const apiUrl = `https://localhost:44344/api/groups/${current}`;
+    const apiUrl = `https://localhost:44344/api/competitions/${current}`;
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        const getGroup= async() => {
+        const getCompetition= async() => {
             await axios.get(apiUrl).then((resp) => {
                 console.log(resp.data);
-                setGroup(resp.data);
-                setName(resp.data.nameGroup);
-                setCategory(resp.data.category);
-                setDescription(resp.data.descriptionGroup);
-                setCity(resp.data.cityGroup);
-                setAddress(resp.data.addressGroup);
+                setCompetition(resp.data);
+                setName(resp.data.nameCompetition);
+                setDescription(resp.data.descriptionCompetition);
+                setStart(formatdate(resp.data.start));
+                setFinish(formatdate(resp.data.finish));
+                setCity(resp.data.cityCompetition);
             }).catch((error) => console.log(error));
         }
-        getGroup();
-      }, [apiUrl, setGroup, current]); 
+        getCompetition();
+      }, [apiUrl, setCompetition, current]); 
 
     const {
         register,
@@ -45,22 +47,23 @@ export const GroupChange = () =>{
     });
 
     const onSubmit = () =>{
-        const groupChange = {
-            idGroup: group.idGroup,
-            idUser: group.idUser,
-            nameGroup: name,
-            descriptionGroup: description,
-            cityGroup: city,
-            addressGroup: address,
-            category: category,
-            imgUrl: group.imgUrl,
+        const competitionChange = {
+            idCompetition: competition.idCompetition,
+            idUser: competition.idUser,
+            nameCompetition: name,
+            descriptionCompetition: description,
+            dateStart: start,
+            dateFinish: finish,
+            cityCompetition: city,
+            idStatusCompetition: competition.idStatusCompetition,
+            img: competition.img,
         }
-        console.log(groupChange);
+        console.log(competitionChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
-            axios.put(apiUrl, groupChange).then((result) =>{
+            axios.put(apiUrl, competitionChange).then((result) =>{
                 console.log(result.data);
                 alert("Успешно");
-                navigate('/mygroups');
+                navigate('/mycompetitions');
             }).catch((e)=>{
                 alert("Мы не смогли изменить данные(")
                 console.log(e.response.request._response);
@@ -86,18 +89,18 @@ export const GroupChange = () =>{
     return(
         <div className={classnames.container}>
             <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
-                <div className={classnames.buttonContainer}>
+            <div className={classnames.buttonContainer}>
                     <button type = "submit" className={classnames.button}>
                         <Image src = './icons/ok.svg' alt = 'Сохранить' width = {24} height = {24} />
                     </button>
                 </div>
                 <div className={classnames.formContainer}>
                     <div className={classnames.labels}>
-                        {groupForm.map((item,id) =>
+                        {competitionForm.map((item,id) =>
                             <p className={classnames.label} key = {id}>{item}</p>
                         )}
                     </div>
-                    {group == undefined ? <div>Loading..</div> :
+                    {competition == undefined ? <div>Loading..</div> :
                     <div> 
                         <div className = {classnames.group}>
                             <input 
@@ -105,7 +108,7 @@ export const GroupChange = () =>{
                                 {...register('name',{
                                     required : 'Поле обязательно',
                                 })}
-                                defaultValue = {group.nameGroup}
+                                defaultValue = {competition.nameCompetition}
                                 className = {classnames.input}
                                 autoFocus 
                                 onChange = {(e) => setName(e.target.value)} />
@@ -113,39 +116,40 @@ export const GroupChange = () =>{
                         </div>
                         <div className = {classnames.group}>  
                             <input 
-                            type ="text"
-                            {...register('category', {
+                            type ="date"
+                            {...register('start', {
                                 required : 'Поле обязательно',
                             })}
-                            defaultValue = {group.category}
+                            defaultValue = {start}
                             className = {classnames.input}
-                            onChange = {(e) => setCategory(e.target.value)} />
-                            {errors?.category && < div className = {classnames.error}>{errors?.category?.message}</div>}
+                            onChange = {(e) => setStart(e.target.value)} />
+                            {errors?.start && < div className = {classnames.error}>{errors?.start?.message}</div>}
                         </div>
                         <div className = {classnames.group}>
                             <input 
-                                type = "text" 
-                                {...register('city',{
+                                type = "date" 
+                                defaultValue = {finish}
+                                {...register('finish',{
                                     required : 'Поле обязательно',
                                 })}
-                                defaultValue = {group.cityGroup}
+                               
                                 className = {classnames.input}
-                                onChange = {(e) => setCity(e.target.value)} />
-                            {errors?.city && < div className = {classnames.error}>{errors?.city?.message}</div>}
+                                onChange = {(e) => setFinish(e.target.value)} />
+                            {errors?.finish && < div className = {classnames.error}>{errors?.finish?.message}</div>}
                         </div>
                         <div className = {classnames.group}>
                             <input 
                                 type ="text"
-                                {...register('address', {
+                                {...register('city', {
                                     required : 'Поле обязательно',
                                 })}
-                                defaultValue = {group.addressGroup}
+                                defaultValue = {competition.cityCompetition}
                                 className = {classnames.input}
                                 placeholder = " "
-                                onChange = {(e) => setAddress(e.target.value)} />
-                            {errors?.address && <div className = {classnames.error}>{errors?.address?.message}</div>}
+                                onChange = {(e) => setCity(e.target.value)} />
+                            {errors?.city && <div className = {classnames.error}>{errors?.city?.message}</div>}
                         </div>
-                        <textarea className={classnames.textarea} cols={43} defaultValue = {group.descriptionGroup} onChange = {(e) => setDescription(e.target.value)} />
+                        <textarea className={classnames.textarea} cols={43} defaultValue = {competition.descriptionCompetition} onChange = {(e) => setDescription(e.target.value)} />
                     </div>}
                 </div>
 
