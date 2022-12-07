@@ -36,13 +36,7 @@ export const GroupChange = () =>{
         getGroup();
       }, [apiUrl, setGroup, current]); 
 
-    const {
-        register,
-        formState: {errors},
-        handleSubmit
-    } = useForm({
-        mode: "onBlur"
-    });
+
 
     const onSubmit = () =>{
         const groupChange = {
@@ -68,8 +62,15 @@ export const GroupChange = () =>{
         }
     }
 
+    const {
+        register,
+        formState: {errors},
+        handleSubmit
+    } = useForm({
+        mode: "onBlur"
+    });
+
     const classnames = {
-        container: 'main-container',
         form: 'change',
         formContainer: 'change-container',
         group : 'change__group',
@@ -81,10 +82,10 @@ export const GroupChange = () =>{
         buttonContainer: 'change-button',
         button: 'change-button__submit',
         buttonImg: 'change-button__img'
-
     }
+
     return(
-        <div className={classnames.container}>
+        <div className="main-container">
             <form className = {classnames.form} onSubmit={handleSubmit(onSubmit)}>
                 <div className={classnames.buttonContainer}>
                     <button type = "submit" className={classnames.button}>

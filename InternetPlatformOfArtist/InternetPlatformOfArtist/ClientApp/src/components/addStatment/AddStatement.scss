@@ -1,0 +1,90 @@
+.statement{
+    max-width: 630px;
+    padding: 0;
+}
+.field-choose, .field-open{
+    margin-top: -25px;
+    margin: 0px;
+    padding: 0;
+    width: 100%;
+    border: none;
+    &__title{
+        border-radius: 20px 20px 0px 0px;
+        width: 100%;
+        padding: 15px 52px;
+        box-sizing: border-box;
+        background-color: #FFB800;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 22px;
+        color: #FFFFFF;
+    }
+}
+
+.field-open{
+    display: none;
+}
+
+.form-container{
+    margin: 30px 52px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    &__radio{
+        border: 2px solid #FFD700;
+        outline: none;
+        margin-right: 8px;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        transition: 0.3s all;
+        &:checked {
+            border: 5px solid #FF6B00;
+          }
+    }
+    &__then{
+        box-sizing: border-box;
+        background-color: #FFD700;
+        padding-top: 3px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+}
+.button-container{
+    margin-top: 10px;
+    text-align: right;
+}
+.field-active{
+    display: block;
+    transition: 0.3s all;
+}
+
+.change-container_margin{
+    margin: 40px 80px;
+}
+
+.submit-container{
+    margin: 10px 80px 40px;
+    display: flex;
+    justify-content: space-between;
+}
+.submit{
+    background: #FFD700;
+    border-radius: 15px;
+    text-align: center;
+    padding: 13px 33px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.file-container{
+    position: relative;
+    margin-top: 25px;
+    left: -70%;
+}

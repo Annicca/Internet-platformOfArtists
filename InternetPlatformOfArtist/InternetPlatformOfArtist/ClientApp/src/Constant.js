@@ -10,7 +10,7 @@ export let header = [
     },
     {
         title: 'Разместить коллектив и конкурс',
-        link: '',
+        link: '/statement',
     }
 ];
 
@@ -55,11 +55,11 @@ export let tableUsersImg = [
 export let footerList = [
     {
         title: 'Разместить коллектив',
-        link: ''
+        link: '/statement'
     },
     {
         title: 'Разместить конкурс',
-        link: ''
+        link: '/statement'
     },
     // {
     //     title: 'Продавай вместе с нами',
@@ -165,3 +165,4 @@ export const listAdminWindow = [
 export const groupForm = ['Название:', 'Стиль:', 'Город:', 'Адрес:', 'Описание:'];
 export const competitionForm = ['Название', 'Дата начала', 'Дата окончания', 'Город', 'О конкурсе'];
 export const participantTitle = ['Название','Адрес', 'Руководитель', 'Телефон', 'Email'];
+export const statementGroup = ['Название:', 'Город:', 'Адрес:', 'Описание:'];

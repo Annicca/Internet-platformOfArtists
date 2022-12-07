@@ -168,7 +168,7 @@ namespace InternetPlatformOfArtist.Controllers
                 finish = c.DateFinish.ToShortDateString(),
                 c.CityCompetition,
                 c.Img,
-                c.Status.NameStatus
+                c.Status
             }).ToListAsync();
 
             if(competition == null)
