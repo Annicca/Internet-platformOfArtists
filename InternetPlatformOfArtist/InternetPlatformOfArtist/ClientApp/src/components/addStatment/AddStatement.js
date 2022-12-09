@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
 import {Image} from "../img/Image";
 import { useForm } from "react-hook-form";
-import { statementGroup } from "../../Constant";
+import { statementGroup, competitionForm } from "../../Constant";
 import classNames from "classnames";
 
 import './AddStatement.scss';
@@ -16,6 +16,7 @@ export const AddStatement = () =>{
 
     const [isActive, setIsActive] = useState(false);
     const [type, setType] = useState();
+    const[isDisabled, setDisabled] = useState(true);
 
     const [name, setName] = useState();
     const [city, setCity] = useState();
@@ -82,15 +83,15 @@ export const AddStatement = () =>{
                     </legend>
                     <div className={classnames.radioContainer}>
                         <label htmlFor="radioGroup">
-                            <input className = {classnames.radio} type="radio" name="idType"  value ="1" id="radioGroup" onChange={(e) => setType(e.target.value)}/>
+                            <input className = {classnames.radio} type="radio" name="idType" value ="1" id="radioGroup" onChange={(e) => {setType(e.target.value); setDisabled(false)}}/>
                             <span>Коллектив</span>
                         </label>
                         <label htmlFor="radioCompetition">
-                            <input className = {classnames.radio} type="radio" name="idType" value ="2" id = "radioCompetition" onChange={(e) => setType(e.target.value)} />
+                            <input className = {classnames.radio} type="radio" name="idType" value ="2" id = "radioCompetition" onChange={(e) => {setType(e.target.value); setDisabled(false)}} />
                             <span>Конкурс</span>
                         </label>
                         <div className={classnames.buttonContainer} >
-                            <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
+                            <button className={classnames.button} disabled = {isDisabled} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
                                 <Image src = './icons/then.svg' alt="Далее" width = {20} height = {20} />
                             </button>
                         </div>
@@ -155,6 +156,66 @@ export const AddStatement = () =>{
                     <legend className={classnames.title} >
                         2. Заполните данные о конкурсе
                     </legend>
+                    <div className={classnames.formContainer}>
+                        <div className={classnames.labels}>
+                            {competitionForm.map((item,id) =>
+                                <p className={classnames.label} key = {id}>{item}</p>
+                            )}
+                        </div>
+                        <div> 
+                            <div className = {classnames.group}>
+                                <input 
+                                    type = "text" 
+                                    {...register('name',{
+                                        required : 'Поле обязательно',
+                                    })}
+                                    className = {classnames.input}
+                                    autoFocus 
+                                    onChange = {(e) => setName(e.target.value)} />
+                                {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
+                            </div>
+                            <div className = {classnames.group}>  
+                                <input 
+                                type ="date"
+                                {...register('start', {
+                                    required : 'Поле обязательно',
+                                })}
+                                className = {classnames.input}
+                                onChange = {(e) => setStart(e.target.value)} />
+                                {errors?.start && < div className = {classnames.error}>{errors?.start?.message}</div>}
+                            </div>
+                            <div className = {classnames.group}>
+                                <input 
+                                    type = "date" 
+                                    {...register('finish',{
+                                        required : 'Поле обязательно',
+                                    })}
+                                
+                                    className = {classnames.input}
+                                    onChange = {(e) => setFinish(e.target.value)} />
+                                {errors?.finish && < div className = {classnames.error}>{errors?.finish?.message}</div>}
+                            </div>
+                            <div className = {classnames.group}>
+                                <input 
+                                    type ="text"
+                                    {...register('city', {
+                                        required : 'Поле обязательно',
+                                    })}
+                                    className = {classnames.input}
+                                    placeholder = " "
+                                    onChange = {(e) => setCity(e.target.value)} />
+                                {errors?.city && <div className = {classnames.error}>{errors?.city?.message}</div>}
+                            </div>
+                            <textarea className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
+                            <FileInput fileContainerClass={classnames.file} />
+                        </div>
+                    </div>
+                    <div className={classNames(classnames.buttonContainer, classnames.submitContainer)}>
+                        <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
+                            <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
+                        </button>
+                        <button type = "submit" className={classnames.submit}>Подать заявку</button>
+                    </div>
                 </fieldset>
             </form>
         </div>

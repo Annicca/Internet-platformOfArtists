@@ -52,6 +52,10 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        transition: 0.3s all;
+        &:disabled{
+            background-color: #E5E5E5;
+        }
     }
 }
 .button-container{

@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
 import { Link } from "react-router-dom";
 import { Image } from "../img/Image";
+import classNames from "classnames";
+
+import '../myGroupsPage/MyGroup.scss'
 
 export const MyStatement = () =>{
 
@@ -22,7 +25,7 @@ export const MyStatement = () =>{
           setStatements(data.results);
         };
         dataFetch(url);
-      }, [setStatements]);
+      }, [setStatements, url]);
 
     const classnames = {
         container: 'main-container',
@@ -55,15 +58,16 @@ export const MyStatement = () =>{
 
 const Statement = ({statement}) =>{
     const classnames = {
-        card: 'card statement',
+        card: 'card',
+        statement: 'mystatement',
         info: 'card-info',
         title: 'card-info__title',
-        status: 'statement__status',
-        child: 'statement__article',
+        status: 'mystatement__status',
+        child: 'mystatement__article',
         text: 'card-info__text'
     }
     return(
-        <section className={classnames.card}>
+        <section className={classNames(classnames.card, classnames.statement)}>
             <section  className={classnames.info}>
                 <article className={classnames.child}>
                     <p className={classnames.title} >{"Заявка № " + statement.idStatement}</p>

@@ -63,7 +63,7 @@
     }
     &-competition{
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
         &__link{
             color: #FF6B00;
@@ -74,7 +74,7 @@
 .list-mygroup{
     margin-top: 40px;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     margin-right: -40px;
     margin-bottom: -60px;
 }
@@ -121,7 +121,7 @@
     margin-bottom: 0;
 }
 
-.statement{
+.mystatement{
     width: 70%;
     &__article:nth-child(2n){
         padding-top: 30px;
