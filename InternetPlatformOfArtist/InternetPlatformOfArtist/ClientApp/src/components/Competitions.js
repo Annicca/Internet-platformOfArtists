@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import { Competition, CompetitionList } from './competition/Competition';
+import {CompetitionList } from './competition/Competition';
 import { handleValue } from './helpers/handleValue';
 import { SearchForm } from './SearchForm/SearchForm';
 
@@ -44,12 +43,12 @@ export const Competitions = ()=>{
   }
 
   return (
-      <div className={classnames.container}>
-          <div className={classnames.inputContainer}>
+      <>
+        <div className={classnames.inputContainer}>
           <button className = {classnames.button}>+Разместить свой конкурс</button>
           <SearchForm searchText={'Введите город'} setValue = {setCity} />
         </div>
         <CompetitionList competitions = {competitions}  classnames = {classnames} />
-      </div>
+      </>
   )
 }

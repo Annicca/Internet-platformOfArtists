@@ -12,7 +12,7 @@ export const User = () =>{
     let navigate = useNavigate();
     const store = require('store');
     const userAuth = store.get('user');
-    const role = userAuth.idRole;
+    const role = 1//userAuth.idRole;
 
     const [name, setName] = useState('');
     const [surName, setSurname] = useState('');

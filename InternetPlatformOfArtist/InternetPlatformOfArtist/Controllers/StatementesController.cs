@@ -33,7 +33,7 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Statement>>> Get()
         {
-            return await context.Statement.Include("User").Include("Type").ToListAsync();
+            return await context.Statement.Include("User").Include("Type").Include("Status").ToListAsync();
         }
 
         // GET api/statementes/5
@@ -67,7 +67,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/statementes/5
         [HttpPut("{id}/{idStatusStatement}")]
-        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, int idStatusStatement)
+        public async Task<ActionResult<IEnumerable<Models.Statement>>> ChangeStatement(int id, int idStatusStatement)
         {
 
             int role = 0;
@@ -128,7 +128,7 @@ namespace InternetPlatformOfArtist.Controllers
                 }
             }
 
-            return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
+            return await Get();
         }
 
         //заявки пользователя

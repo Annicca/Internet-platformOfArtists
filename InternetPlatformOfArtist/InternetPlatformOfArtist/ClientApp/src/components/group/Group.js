@@ -37,7 +37,10 @@ export const Group = ({group}) =>{
             <div className={classnames.info}>
                 <div className={classnames.nameGroup}>
                     <p>{group.nameGroup}</p>
-                    <p className = {classnames.red}>{'Стиль: ' + group.category}</p>
+                    {group.category != null ? 
+                    <p className = {classnames.red}>{'Стиль: ' + group.category}</p> :
+                    <p className = {classnames.red}>Стиль: -</p>
+                    }
                 </div>
                 <div className = {classnames.address}>
                     <Image src = './icons/group.svg' alt = 'Адрес: ' />

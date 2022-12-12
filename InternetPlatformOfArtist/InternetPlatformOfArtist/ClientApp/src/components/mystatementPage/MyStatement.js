@@ -71,7 +71,10 @@ const Statement = ({statement}) =>{
             <section  className={classnames.info}>
                 <article className={classnames.child}>
                     <p className={classnames.title} >{"Заявка № " + statement.idStatement}</p>
-                    <p className={classnames.status} >{"Статус: " + statement.status}</p>
+                    { statement.status != null ?
+                    <p className={classnames.status} >{"Статус: " + statement.status}</p> :
+                    <p className={classnames.status} >Статус: На рассмотрении</p>
+                    }
                     <Image src = './icons/mystatement.svg' alt = {'Заявка'} width = {200} height = {200} />
                 </article>
                 <article className={classnames.child}>

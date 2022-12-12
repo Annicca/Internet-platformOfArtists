@@ -1,7 +1,7 @@
 
 .item{
     display:flex;
-    //flex-wrap: wrap;
+    
     width: 484px;
     height: 176px;
     align-items: center;
@@ -11,6 +11,7 @@
     box-shadow: 0px 4px 14px 8px rgba(0, 0, 0, 0.14);
     border-radius: 15px;
     margin-bottom: 60px;
+    margin-right: 5.7rem;
     color: black;
     &-container{
         width: 189px;
@@ -63,7 +64,10 @@
 .input-container{
     display: flex;
     justify-content: space-between;
+    max-width: 1620px;
     margin-bottom: 67px;
+    margin-left: 8rem;
+    // margin: 0 7rem auto 67px;
     &_button{
         background: linear-gradient(90deg, #FFE974 0%, #FFA15E 100%);
         border: none;

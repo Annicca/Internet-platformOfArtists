@@ -4,9 +4,13 @@ import {Image} from "../img/Image";
 import { useForm } from "react-hook-form";
 import { statementGroup, competitionForm } from "../../Constant";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import './AddStatement.scss';
 import { FileInput } from "../fileInput/FileInput";
+
+
 
 export const AddStatement = () =>{
 
@@ -14,27 +18,27 @@ export const AddStatement = () =>{
     const user = store.get('user');
     const id = user.idUser;
 
+    let navigate = useNavigate();
+
     const [isActive, setIsActive] = useState(false);
     const [type, setType] = useState();
     const[isDisabled, setDisabled] = useState(true);
 
     const [name, setName] = useState();
     const [city, setCity] = useState();
-    const [address, setAddress] = useState(null);
+    const [address, setAddress] = useState();
     const [description, setDescription] = useState();
-    const [start, setStart] = useState(null);
-    const [finish, setFinish] = useState(null);
-    const [img, setImg] = useState(null);
+    const [start, setStart] = useState();
+    const [finish, setFinish] = useState();
 
     const {
         register,
-        formState: {errors},
-        handleSubmit
+        formState: {errors}
     } = useForm({
         mode: "onBlur"
     });
 
-    const onSubmit = () =>{
+    const onSubmit = async() =>{
         let statement = {
             idUser: id,
             idType: type,
@@ -43,8 +47,18 @@ export const AddStatement = () =>{
             city: city,
             address: address,
             dateStart: start,
-            dateFinish: finish,
+            dateFinish: finish
         }
+        console.log(statement);
+        await axios({
+            method: 'post',
+            url: 'https://localhost:44344/api/statementes',
+            headers: {'Content-Type': 'application/json'},
+            data : JSON.stringify(statement)
+        })
+        .then(() => navigate('/mystatements'))
+        .catch((error) => console.log(error))
+
     }
 
     const classnames = {
@@ -72,11 +86,22 @@ export const AddStatement = () =>{
         file: 'file-container',
     }
 
+    const FormFooter = () =>{
+        return(
+            <div className={classNames(classnames.buttonContainer, classnames.submitContainer)}>
+                <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
+                    <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
+                </button>
+                <button type="submit" className={classnames.submit} onClick={() => onSubmit()} >Подать заявку</button>
+            </div>
+        )
+    }
+
     return(
         <div className={classnames.container}>
             <TitlePage title={'Подать заявку'} />
 
-            <form className={classnames.form} onSubmit={handleSubmit(onSubmit)}>
+            <form className={classnames.form}>
                 <fieldset className = {classNames(classnames.open, { 'field-active': !isActive})}>
                     <legend className={classnames.title}>
                         1. Выберете, что хотите разместить
@@ -111,23 +136,25 @@ export const AddStatement = () =>{
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 
-                                    {...register('name',{
+                                    name = "nameGroup"
+                                    {...register('nameGroup',{
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
                                     autoFocus 
-                                    onChange = {(e) => setName(e.target.value)} />
-                                {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
+                                    onInput = {(e) => setName(e.target.value)} />
+                                {errors?.nameGroup && < div className = {classnames.error}>{errors?.nameGroup?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 
-                                    {...register('city',{
+                                    {...register('cityGroup',{
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
+                                    name = "cityGroup"
                                     onChange = {(e) => setCity(e.target.value)} />
-                                {errors?.city && < div className = {classnames.error}>{errors?.city?.message}</div>}
+                                {errors?.cityGroup && < div className = {classnames.error}>{errors?.cityGroup?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
@@ -136,21 +163,16 @@ export const AddStatement = () =>{
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
-                                    placeholder = " "
+                                    name = "address"
                                     onChange = {(e) => setAddress(e.target.value)} />
                                 {errors?.address && <div className = {classnames.error}>{errors?.address?.message}</div>}
                             </div>
-                            <textarea className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
-                            <FileInput fileContainerClass={classnames.file} />
+                            <textarea name = "descriptionGroup" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
+                            {/* <FileInput fileContainerClass={classnames.file} /> */}
                         </div>
-                        
+                        <FormFooter />
                     </div>
-                    <div className={classNames(classnames.buttonContainer, classnames.submitContainer)}>
-                        <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
-                            <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
-                        </button>
-                        <button type = "submit" className={classnames.submit}>Подать заявку</button>
-                    </div>
+
                 </fieldset>
                 <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 2 })} >
                     <legend className={classnames.title} >
@@ -171,6 +193,7 @@ export const AddStatement = () =>{
                                     })}
                                     className = {classnames.input}
                                     autoFocus 
+                                    name = "nameCompetition"
                                     onChange = {(e) => setName(e.target.value)} />
                                 {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
                             </div>
@@ -181,6 +204,7 @@ export const AddStatement = () =>{
                                     required : 'Поле обязательно',
                                 })}
                                 className = {classnames.input}
+                                name = "start"
                                 onChange = {(e) => setStart(e.target.value)} />
                                 {errors?.start && < div className = {classnames.error}>{errors?.start?.message}</div>}
                             </div>
@@ -190,7 +214,7 @@ export const AddStatement = () =>{
                                     {...register('finish',{
                                         required : 'Поле обязательно',
                                     })}
-                                
+                                    name = "finish"
                                     className = {classnames.input}
                                     onChange = {(e) => setFinish(e.target.value)} />
                                 {errors?.finish && < div className = {classnames.error}>{errors?.finish?.message}</div>}
@@ -198,24 +222,19 @@ export const AddStatement = () =>{
                             <div className = {classnames.group}>
                                 <input 
                                     type ="text"
-                                    {...register('city', {
+                                    {...register('cityCompetition', {
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
-                                    placeholder = " "
+                                    name = "cityCompetition"
                                     onChange = {(e) => setCity(e.target.value)} />
-                                {errors?.city && <div className = {classnames.error}>{errors?.city?.message}</div>}
+                                {errors?.cityCompetition && <div className = {classnames.error}>{errors?.cityCompetition?.message}</div>}
                             </div>
-                            <textarea className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
-                            <FileInput fileContainerClass={classnames.file} />
+                            <textarea name = "descriptionCompetition" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
+                            {/* <FileInput fileContainerClass={classnames.file} /> */}
                         </div>
                     </div>
-                    <div className={classNames(classnames.buttonContainer, classnames.submitContainer)}>
-                        <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
-                            <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
-                        </button>
-                        <button type = "submit" className={classnames.submit}>Подать заявку</button>
-                    </div>
+                    <FormFooter />
                 </fieldset>
             </form>
         </div>

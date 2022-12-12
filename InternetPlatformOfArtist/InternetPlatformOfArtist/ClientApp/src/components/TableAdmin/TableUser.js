@@ -16,10 +16,6 @@ export const TableUser = () =>{
     let path = `/users/${id}`; 
     navigate(path);
   }
-  // const addredirect = () =>{
-  //   let pathAdd = ``;
-  //   navigate(pathAdd);
-  // }
 
   const [data, setState] = useState();
   const [loginSearch, setLoginSearch] = useState('');

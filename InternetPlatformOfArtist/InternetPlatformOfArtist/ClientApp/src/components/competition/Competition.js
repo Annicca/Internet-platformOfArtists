@@ -11,7 +11,11 @@ const Competition = ({competition, classnames}) =>{
         <div className = {classnames.competition}>
             <div className={classnames.imgContainer}>
                 <Image src= {competition.img} alt = ' Нет фото' width = {220} height = {142} className = {classnames.img} />
-                <p className = {classnames.status}>{'Статус: ' + competition.status.nameStatus}</p>
+                { competition.status.nameStatus!= null ?
+                    <p className = {classnames.status}>{'Статус: ' + competition.status.nameStatus}</p> :
+                    <p className = {classnames.status}>Статус: Набор участников</p>
+                }
+                
             </div>
             <div className={classnames.info}>
                 <div className={classnames.title}>

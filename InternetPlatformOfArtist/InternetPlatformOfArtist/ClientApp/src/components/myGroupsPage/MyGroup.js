@@ -8,7 +8,6 @@ export const MyGroup = () =>{
     const store = require('store');
     const user = store.get('user');
     const id = user.idUser;
-    //let id;
 
     const [groups, setGroups] = useState([]);
     let url = `https://localhost:44344/api/users/mygroups/${id}`;

@@ -73,7 +73,11 @@ const MyGroupItem = ({group}) =>{
                         {/* <button>Изменить фото</button> */}
                     </article>
                     <article className={classnames.child}>
-                        <p className={classnames.text}><span>Стиль:</span>{" " + group.category}</p>
+                        {group.category != null ?
+                            <p className={classnames.text}><span>Стиль:</span>{" " + group.category}</p> :
+                            <p className={classnames.text}>Стиль: -</p>
+                        }
+                        
                         <p className={classnames.text}><span>Адрес: </span>{"г." + group.cityGroup + ", " + group.addressGroup}</p>
                         <p className={classnames.text}>{group.descriptionGroup}</p>
                     </article> 

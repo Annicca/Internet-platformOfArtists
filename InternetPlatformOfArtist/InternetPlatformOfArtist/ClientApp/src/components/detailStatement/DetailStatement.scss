@@ -1,0 +1,37 @@
+.description-statement{
+    margin-top: -35px;
+    &__title{
+        font-weight: 500;
+        color: #FF6B00;
+        margin-bottom: 15px;
+        
+    }
+    &__text{
+        background: #FFF9C1;
+        border-radius: 10px;
+        padding: 15px;
+        max-width: 440px;
+    }
+    &__button{
+        padding: 8px 30px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        color: #FFFFFF;
+        border-radius: 10px;
+        &:nth-child(1){
+            background: #01C22B;
+            margin-right: 40px;
+        }
+        &:nth-child(2){
+            background: #FF6B00;
+        }
+    }
+    &__img-status{
+        margin-left: 21px;
+    }
+}
+.statement-title{
+    display: flex;
+    align-items: center;
+}
