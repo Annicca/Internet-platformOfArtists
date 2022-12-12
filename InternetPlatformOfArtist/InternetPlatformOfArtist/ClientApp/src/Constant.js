@@ -166,3 +166,4 @@ export const groupForm = ['Название:', 'Стиль:', 'Город:', 'А
 export const competitionForm = ['Название', 'Дата начала', 'Дата окончания', 'Город', 'О конкурсе'];
 export const participantTitle = ['Название','Адрес', 'Руководитель', 'Телефон', 'Email'];
 export const statementGroup = ['Название:', 'Город:', 'Адрес:', 'Описание:'];
+export const tablestatement = ['№','Пользователь', 'Тип', 'Название', 'Город', 'Подробнее', 'Принять', 'Отклонить' ];

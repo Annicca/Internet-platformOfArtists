@@ -10,6 +10,7 @@ namespace InternetPlatformOfArtist.Models
     public class StatusStatement
     {
         [Key]
+        [JsonPropertyName("idStatusStatement")]
         public int IdStatusStatement { get; set; }
         public string NameStatus { get; set; }
     }

@@ -38,9 +38,9 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/statementes/5
         [HttpGet("{id}")]
-        public IActionResult GetStatementById(int id)
+        public async Task<ActionResult> GetStatementById(int id)
         {
-            var statement = context.Statement.Include("User").Include("Type").Include("Status").Where(s => s.IdStatement == id);
+            var statement = await context.Statement.Include("User").Include("Type").Include("Status").FirstAsync(s => s.IdStatement == id);
             if (statement == null)
             {
                 return NotFound();
@@ -66,12 +66,14 @@ namespace InternetPlatformOfArtist.Controllers
         //обработка заяявок
 
         // PUT api/statementes/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Models.Statement>> ChangeStatement(Models.Statement statement, int id)
+        [HttpPut("{id}/{idStatusStatement}")]
+        public async Task<ActionResult<Models.Statement>> ChangeStatement(int id, int idStatusStatement)
         {
 
             int role = 0;
             string message;
+            var statement = await context.Statement.FindAsync(id);
+            statement.IdStatusStatement = idStatusStatement;
 
             try
             {
@@ -105,12 +107,12 @@ namespace InternetPlatformOfArtist.Controllers
                     role = roleOrganizer;
                 }
 
-                if(role != 0)
+                if (role != 0)
                 {
                     UsersController userController = new UsersController(context, jwtService);
-                    await userController .ChangeUserRole(statement.IdUser, role);
+                    await userController.ChangeUserRole(statement.IdUser, role);
                 }
-                
+
             }
             catch (DbUpdateConcurrencyException)
 

@@ -18,6 +18,7 @@ import { MyStatement } from './components/mystatementPage/MyStatement';
 import { AddStatement } from './components/addStatment/AddStatement';
 
 import './index.scss';
+import { Statements } from './components/statements/Statements';
 
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
               <Route path='competitions' element={<Competitions/>} />
               <Route path='users/:id' element={<User/>} />
               <Route path='users' element={<Users/>} />
+              <Route path='statements' element={<Statements />} />
               <Route path = 'mygroups' element = {<MyGroup/>} />
               <Route path = 'mygroups/change/:id' element = {<GroupChange/>} />
               <Route path = 'mycompetitions' element = {<MyCompetition />} />

@@ -11,19 +11,15 @@ import './Table.scss';
 
 export const TableUser = () =>{
 
-  const store = require('store');
-  const user = store.get('user');
-  const role = user.idRole;
-
   let navigate = useNavigate(); 
   const change = (id) =>{ 
     let path = `/users/${id}`; 
     navigate(path);
   }
-  const addredirect = () =>{
-    let pathAdd = ``;
-    navigate(pathAdd);
-  }
+  // const addredirect = () =>{
+  //   let pathAdd = ``;
+  //   navigate(pathAdd);
+  // }
 
   const [data, setState] = useState();
   const [loginSearch, setLoginSearch] = useState('');
@@ -32,10 +28,7 @@ export const TableUser = () =>{
   const urlSearch = `https://localhost:44344/api/users/userLogin/${loginSearch}`;
   
   useEffect(() => {
-      if(role != 1){
-        navigate(`/*`)
-      }
-      else{
+
         const urlData = handleValue(loginSearch, url, urlSearch);
         const dataFetch = async (urlData) => {
           const data = await (
@@ -43,7 +36,7 @@ export const TableUser = () =>{
           setState(data);
         };
         dataFetch(urlData);
-      }
+
   }, [loginSearch]);
 
   const deleteUser = (idUser,e)  =>{
@@ -74,7 +67,7 @@ export const TableUser = () =>{
         <tbody>
           <tr>
             <td colSpan={tabletitle.length}>
-              <button className = {classnames.addButton} onClick={() => addredirect()}>+</button>
+              {/* <button className = {classnames.addButton} onClick={() => addredirect()}>+</button> */}
             </td>
           </tr>
           <tr>
