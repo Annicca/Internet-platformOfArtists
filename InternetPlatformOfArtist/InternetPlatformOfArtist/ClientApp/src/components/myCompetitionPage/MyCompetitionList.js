@@ -54,7 +54,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
                 <p className={classnames.text}><span>Город:</span>{" " + competition.cityCompetition}</p>
                 <p className={classnames.text}><span>Дата начала: </span>{" " + competition.start}</p>
                 <p className={classnames.text}><span>Дата окончания: </span>{" " + competition.finish}</p>
-                { competition.nameStatus != null ?
+                { competition.idStatusCompetition != 1 ?
                     <p className={classnames.text}><span>Статус: </span>{" " + competition.nameStatus}</p> :
                     <p className={classnames.text}>Статус: Набор участников</p>
                 }

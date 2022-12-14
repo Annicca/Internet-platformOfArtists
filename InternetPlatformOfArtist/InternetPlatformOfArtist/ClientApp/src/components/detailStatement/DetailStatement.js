@@ -3,16 +3,17 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { detailCompetition, detailGroup } from "../../Constant";
-
-import './DetailStatement.scss';
 import { Image } from "../img/Image";
+import { changeStatus } from "../helpers/changeStatus";
+import './DetailStatement.scss';
+
 
 export const DetailStatement = () =>{
 
     let navigate = useNavigate();
     const store = require('store');
     const userAuth = store.get('user');
-    const role = 1;//userAuth.idRole;
+    const role = userAuth.idRole;
 
     const params = useParams();
     const current = params.id;
@@ -24,23 +25,12 @@ export const DetailStatement = () =>{
     const apiUrl = `https://localhost:44344/api/statementes/${current}`;
     const [statementData, setStatementData] = useState();
     const [titles, setTitles] = useState();
+    const [isStatus, setStatus] = useState(true);
 
-    const changeStatus = async(idStatement, idStatus) =>{
-        let message;
-        if(idStatus == accept){
-          message = "Вы действительно хотите принять заявку?"
-        } else{
-          message  = "Вы действительно хотите отклонить заявку?"
-        }
-        if(window.confirm(message)){
-            await axios.put(`https://localhost:44344/api/statementes/${idStatement}/${idStatus}`)
-            .then(() => {
-                navigate('/statements');
-            })
-            .catch((error) => console.log(error))
-        };
-      }
-
+    const change = (idStatement, idStatus, setStatementData) => {
+        changeStatus(idStatement, idStatus, setStatementData)
+        .then(() => navigate('/statements'))
+    }
     useEffect(() => {
         if(role != 1){
             navigate(`/*`)
@@ -50,12 +40,14 @@ export const DetailStatement = () =>{
                 console.log(resp.data);
                 setStatement(resp.data);
                 if(resp.data.idType == group){
-                    setStatementData([resp.data.user.surnameUser +" " + resp.data.user.nameUser +" " + resp.data.user.patronimycUser, resp.data.user.mailUser, resp.data.user.phoneUser, resp.data.name, resp.data.city, resp.data.address]);
+                    setStatementData([resp.data.user.surnameUser +" " + resp.data.user.nameUser +" " + resp.data.user.patronimycUser, resp.data.user.mailUser, resp.data.name, resp.data.city, resp.data.address]);
                     setTitles(detailGroup);
                 } else{
-                    setStatementData([resp.data.user.surnameUser +" " + resp.data.user.nameUser +" " + resp.data.user.patronimycUser, resp.data.user.mailUser, resp.data.user.phoneUser, resp.data.name, resp.data.city, resp.data.dateStart, resp.data.dateFinish]);
+                    setStatementData([resp.data.user.surnameUser +" " + resp.data.user.nameUser +" " + resp.data.user.patronimycUser, resp.data.user.mailUser, resp.data.name, resp.data.city, resp.data.dateStart.split('T')[0], resp.data.dateFinish.split('T')[0]]);
                     setTitles(detailCompetition);
-                    
+                }
+                if(resp.data.idStatusStatement == null){
+                    setStatus(false)
                 }
                 
             }).catch((error) => console.log(error));
@@ -63,7 +55,7 @@ export const DetailStatement = () =>{
         getStatement();
         }
 
-      }, [apiUrl,setStatement,current, setStatementData, setTitles]); 
+      }, [apiUrl,setStatement,current, setStatementData, setTitles, setStatus]); 
 
     const classnames = {
         main: 'main-container',
@@ -117,12 +109,10 @@ export const DetailStatement = () =>{
                 <p className={classnames.descriptionTitle}>Описание:</p>
                 <p className={classnames.descriptionText}>{statement.description}</p>
             </div>}
-            
             <div className={classnames.buttonContainer}>
-                <button className={classnames.button} onClick={() => changeStatus(statement.idStatement, accept)}>Принять</button>
-                <button className={classnames.button} onClick={() => changeStatus(statement.idStatement, reject)}>Отклонить</button>
+                <button className={classnames.button} disabled = {isStatus} onClick={() => change(statement.idStatement, accept)}>Принять</button>
+                <button className={classnames.button} disabled = {isStatus} onClick={() => change(statement.idStatement, reject)}>Отклонить</button>
             </div>
-            {/* </div>  : <></>} */}
         </div>
     )
 }

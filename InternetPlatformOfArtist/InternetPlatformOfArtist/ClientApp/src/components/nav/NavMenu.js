@@ -1,9 +1,5 @@
 import React, {useState} from "react";
-import { NavList } from './../list/List';
-import { navMenuButton } from '../../Constant';
 import {UserIcon} from '../../icon/UserIcon';
-// import {ShoppingCartIcon} from '../../icon/ShoppingCartIcon';
-// import {CompetitionIcon} from '../../icon/CompetitionIcon';
 import { UserWindow } from '../userWindow/UserWindow';
 import {Image} from '../img/Image';
 
@@ -21,7 +17,10 @@ export const NavMenu = ({user}) =>{
     }
 
     const [activeWindow, setActiveWindow] = useState(false);
-
+    const logout = () =>{
+        const store = require('store');
+        store.remove('user');
+    }
     return(
         <nav>
             <div className = {classnames.container}>
@@ -37,9 +36,7 @@ export const NavMenu = ({user}) =>{
                     </NavLink>
                 </div>
                 <div className = {classnames.icons}>
-                    {/* <ShoppingCartIcon className = {classnames.icon} /> */}
-                    <Image src = {'/icons/competion.svg'} alt = "Мои конкурсы" className = {classnames.icon} />
-                    {/* <CompetitionIcon className = {classnames.icon} /> */}
+                    <Image src = './icons/logout.svg' alt='Выход' onClick ={() => logout()} />
                     <div onMouseEnter={() => setActiveWindow(true)} className = {classnames.icon}>
                         <UserIcon  />
                         <UserWindow user = {user} activeWindow = {activeWindow} setActiveWindow = {setActiveWindow}/>

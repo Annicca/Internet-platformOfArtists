@@ -82,8 +82,8 @@ const Statement = ({statement}) =>{
                     <p className={classnames.text}><span>Название: </span>{" " + statement.name}</p>
                     <p className={classnames.text}><span>Город: </span>{"г." + statement.city}</p>
                     {statement.address != null ? <p className={classnames.text}><span>Адрес: </span>{" " + statement.address}</p> : ''}
-                    {statement.start != null ? <p className={classnames.text}><span>Дата нчала: </span>{" " + statement.start}</p> : ''}
-                    {statement.finish != null ? <p className={classnames.text}><span>Дата окончания: </span>{" " + statement.finish}</p> : ''}
+                    {statement.start != null ? <p className={classnames.text}><span>Дата начала: </span>{" " + statement.start.split('T')[0]}</p> : ''}
+                    {statement.finish != null ? <p className={classnames.text}><span>Дата окончания: </span>{" " + statement.finish.split('T')[0]}</p> : ''}
                     <p className={classnames.text}>{statement.description}</p>
                 </article> 
             </section>

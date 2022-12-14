@@ -26,6 +26,9 @@
         &:nth-child(2){
             background: #FF6B00;
         }
+        &:disabled{
+            background-color: #E5E5E5;
+        }
     }
     &__img-status{
         margin-left: 21px;

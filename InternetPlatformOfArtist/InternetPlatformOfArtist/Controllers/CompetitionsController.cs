@@ -18,7 +18,10 @@ namespace InternetPlatformOfArtist.Controllers
         public CompetitionsController(Context.ArtContext _context)
         {
             context = _context;
+            UpdateStatus();
         }
+
+
 
         // GET: api/competitions
         [HttpGet]
@@ -118,11 +121,22 @@ namespace InternetPlatformOfArtist.Controllers
                 return BadRequest();
             }
 
+            if(competition.IdStatusCompetition != 4)
+            {
+                if (competition.DateStart <= DateTime.Today && competition.DateFinish != DateTime.Today)
+                {
+                    competition.IdStatusCompetition = 2;
+                }
+                else if (competition.DateFinish < DateTime.Today)
+                {
+                    competition.IdStatusCompetition = 3;
+                }
+            }
+
             context.Entry(competition).State = EntityState.Modified;
 
-            try
-            {
-
+            try 
+            { 
                 await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -229,6 +243,33 @@ namespace InternetPlatformOfArtist.Controllers
             }
             
             return await GetCompetitionsByUserAsync(competition.IdUser);
+        }
+
+        public async void UpdateStatus()
+        {
+            List<Models.Competition> competitions = await context.Competition.Where(c => c.IdStatusCompetition != 4).ToListAsync();
+            foreach (Models.Competition competition in competitions)
+            {
+                if (competition.DateStart == DateTime.Today)
+                {
+                    competition.IdStatusCompetition = 2;
+                    context.Entry(competition).State = EntityState.Modified;
+                }
+                else if (competition.DateFinish > DateTime.Today)
+                {
+                    competition.IdStatusCompetition = 3;
+                    context.Entry(competition).State = EntityState.Modified;
+                }
+                try
+                {
+                    await context.SaveChangesAsync();
+                    
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+            }
         }
     }
 }

@@ -5,11 +5,9 @@ import classNames from "classnames";
 import { tablestatement, tableUsersImg } from "../../Constant";
 import { useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
+import { changeStatus } from "../helpers/changeStatus";
 
 import './Table.scss';
-import axios from "axios";
-
-
 
 export const TableStatement = () =>{
 
@@ -40,24 +38,8 @@ export const TableStatement = () =>{
           dataFetch(urlData);
   
     }, [numberSearch]);
+      // e.preventDefault();
 
-    const changeStatus = async(idStatement, idStatus, e) =>{
-      e.preventDefault();
-      let message;
-      if(idStatus == accept){
-        message = "Вы действительно хотите принять заявку?"
-      } else{
-        message  = "Вы действительно хотите отклонить заявку?"
-      }
-      if(window.confirm(message)){
-          await axios.put(`https://localhost:44344/api/statementes/${idStatement}/${idStatus}`)
-          .then((result) => {
-            console.log(result.data);
-            setStatement(result.data);
-          })
-          .catch((error) => console.log(error))
-      };
-    }
 
     const classnames = {
         table: 'table',
@@ -115,7 +97,7 @@ export const TableStatement = () =>{
                     </button>
                   </td> :
                   <td>
-                    <button className = {classnames.tableButton} onClick={(e) => changeStatus(statement.idStatement, reject, e)}>
+                    <button className = {classnames.tableButton} onClick={(e) => {e.preventDefault(); changeStatus(statement.idStatement, reject, setStatement)}}>
                       <span className= {classnames.status}><Image src = './icons/del.svg' alt = 'Отклонить' width = {30} height = {30} /></span>
                     </button>
                   </td> 

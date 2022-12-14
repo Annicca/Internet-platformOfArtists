@@ -18,15 +18,12 @@ export const MyGroupList = ({groups}) =>{
 }
 
 
-const deleteGroup = (idGroup,e)  =>{
-    //e.preventDefault();
+const deleteGroup = (idGroup)  =>{
     const url = `https://localhost:44344/api/groups/${idGroup}`;
     if(window.confirm("Вы действительно хотите удалить коллектив?")){
         axios.delete(url)
         .then(alert("Успешно"))
-        // .then((result) =>{
-        //     console.log(result.data);
-        // })
+
         .catch((error)=>{
             alert("Мы не смогли удалить коллектив(");
             console.log(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

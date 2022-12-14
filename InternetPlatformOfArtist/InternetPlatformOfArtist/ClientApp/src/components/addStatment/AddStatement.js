@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import './AddStatement.scss';
-import { FileInput } from "../fileInput/FileInput";
 
 
 
@@ -38,7 +37,8 @@ export const AddStatement = () =>{
         mode: "onBlur"
     });
 
-    const onSubmit = async() =>{
+    const onSubmit = async(e) =>{
+        e.preventDefault();
         let statement = {
             idUser: id,
             idType: type,
@@ -83,7 +83,7 @@ export const AddStatement = () =>{
         labels: 'change-title',
         label : 'change-title__label',
 
-        file: 'file-container',
+        // file: 'file-container',
     }
 
     const FormFooter = () =>{
@@ -92,7 +92,7 @@ export const AddStatement = () =>{
                 <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
                     <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
                 </button>
-                <button type="submit" className={classnames.submit} onClick={() => onSubmit()} >Подать заявку</button>
+                <button type="submit" className={classnames.submit} onClick={(e) => onSubmit(e)} >Подать заявку</button>
             </div>
         )
     }
@@ -170,9 +170,9 @@ export const AddStatement = () =>{
                             <textarea name = "descriptionGroup" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
                             {/* <FileInput fileContainerClass={classnames.file} /> */}
                         </div>
-                        <FormFooter />
+                        
                     </div>
-
+                    <FormFooter />
                 </fieldset>
                 <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 2 })} >
                     <legend className={classnames.title} >

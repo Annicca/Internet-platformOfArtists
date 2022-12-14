@@ -8,7 +8,7 @@ export const Statements = () =>{
     let navigate = useNavigate();
     const store = require('store');
     const user = store.get('user');
-    const role = 1 //user.idRole;
+    const role = user.idRole;
   
     useEffect(() =>{
       if(role != 1){
