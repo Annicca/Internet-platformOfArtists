@@ -40,7 +40,7 @@ namespace InternetPlatformOfArtist.Models
         public int IdRole { get; set; }
         public Role UserRole { get; set; }
 
-        public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, int idRole)
+        public User(string surnameUser, string nameUser, string patronimycUser, string loginUser, string passwordUser, string mailUser, string phoneUser, int idRole)
         {
             this.SurnameUser = surnameUser;
             this.NameUser = nameUser;
@@ -48,10 +48,8 @@ namespace InternetPlatformOfArtist.Models
             this.LoginUser = loginUser;
             this.PasswordUser = passwordUser;
             this.MailUser = mailUser;
+            this.PhoneUser = phoneUser;
             this.IdRole = idRole;
-
         }
-
-
     }
 }

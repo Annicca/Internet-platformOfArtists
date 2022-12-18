@@ -3,11 +3,17 @@ import { Image } from "../img/Image";
 import { Contact } from "../contact/Contact";
 import { Link } from "react-router-dom";
 import { TakePart } from "./TakePart";
+import { fetchMyGroups } from "../helpers/fetchMyGroups";
 
 import './Competition.scss';
 
 
 const Competition = ({competition, classnames, setIsActivePart, setIdComp}) =>{
+
+    let isDisabled = false;
+    if(competition.status.idStatusCompetition == 3 || competition.status.idStatusCompetition == 4){
+        isDisabled = true;
+    }
 
     return(
         <div className = {classnames.competition}>
@@ -27,7 +33,8 @@ const Competition = ({competition, classnames, setIsActivePart, setIdComp}) =>{
                 </div>
                 <Contact contact = {competition.start + "-" + competition.finish} src = './icons/calendar.svg' alt = 'Адрес: ' width = {20} height = {21}  classnames = {classnames} />
                 <div className= {classnames.buttonContainer}>
-                    <button className={classnames.button} onClick={(e) =>{e.preventDefault(); setIsActivePart(true); setIdComp(competition.idCompetition)}}>Принять участие</button>
+                    
+                    <button className={classnames.button} disabled={isDisabled} onClick={(e) =>{e.preventDefault(); setIsActivePart(true); setIdComp(competition.idCompetition)}}>Принять участие</button>
                 </div>
             </div>
             
@@ -38,7 +45,7 @@ const Competition = ({competition, classnames, setIsActivePart, setIdComp}) =>{
 export const CompetitionList = ({competitions, classnames}) =>{
     const store = require('store');
     const user = store.get('user');
-    const id = user.idUser;
+    const id = user?.idUser;
 
     const [isActivePart, setIsActivePart] = useState(false);
     const [idComp, setIdComp] = useState();
@@ -47,14 +54,8 @@ export const CompetitionList = ({competitions, classnames}) =>{
     let url = `https://localhost:44344/api/users/mygroups/${id}`;
 
     useEffect(() => {
-        const dataFetch = async (url) => {
-          const data = await (
-            await fetch(url)).json();
-            console.log(data.results);
-          setGroups(data.results);
-        };
-        dataFetch(url);
-      }, []);
+        fetchMyGroups(url, setGroups);
+      }, [url]);
 
     return(
         <div className = {classnames.list}>

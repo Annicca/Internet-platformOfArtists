@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
 import classNames from "classnames";
 
@@ -14,46 +14,39 @@ export const MyStatement = () =>{
     const user = store.get('user');
     const id = user.idUser;
 
-    const [statements, setStatements] = useState();
+    let navigate = useNavigate();
+
+    const [statements, setStatements] = useState([]);
     let url = `https://localhost:44344/api/statementes/mystatement/${id}`
 
     useEffect(() => {
+        if(!user){
+            navigate('/notfound');
+        }
         const dataFetch = async (url) => {
           const data = await (
             await fetch(url)).json();
-            console.log(data.results);
-          setStatements(data.results);
+          console.log(data);
+          setStatements(data);
         };
         dataFetch(url);
-      }, [setStatements, url]);
+      }, []);
 
     const classnames = {
         container: 'main-container',
         request: 'request',
     }
 
-    if(id === undefined){
-        return(
-            <div className={classnames.container}>
-                <h3 className={classnames.request}>
-                    Чтобы посмотреть свои коллективы необходимо <Link  to = '/login'>авторизоваться</Link> 
-                </h3>
-            </div>
-        )
-    } else if(statements == []){
-        <div className={classnames.container}>
-            <h3 className={classnames.request}>У вас ещё нет коллективов</h3>
-        </div>
-    } else{
-        return(
+    return(
             <div className = {classnames.container} >
                 <TitlePage title={'Мои заявки'}/>
-                {statements == undefined ? <p>Loading...</p> : statements.map((statement) =>
+                {statements.length == 0 ? 
+                <h3 className={classnames.request}>У вас ещё нет заявок</h3> : 
+                statements.map((statement) =>
                     <Statement statement = {statement} key = {statement.idStatement} />
                 )}
             </div>
-        )
-    }
+    )
 }
 
 const Statement = ({statement}) =>{

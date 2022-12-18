@@ -1,4 +1,6 @@
 ﻿using InternetPlatformOfArtist.Helpers;
+using InternetPlatformOfArtist.IRepository;
+using InternetPlatformOfArtist.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,41 +8,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace InternetPlatformOfArtist.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class StatementesController : ControllerBase
     {
-        private Context.ArtContext context;
-        private JwtService jwtService;
+        private readonly IStatementRepository repository;
 
-        private int groupType = 1;
-        private int competitionType = 2;
-        private int statusAccept = 1;
-        private int roleDirector = 3;
-        private int roleOrganizer = 4;
-
-        public StatementesController(Context.ArtContext _context, JwtService _jwtService)
+        public StatementesController(IStatementRepository _repository)
         {
-            context = _context;
-            jwtService = _jwtService;
+            repository = _repository;
         }
 
         // GET: api/statementes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Statement>>> Get()
+        public async Task<ActionResult<IEnumerable<Statement>>> Get()
         {
-            return await context.Statement.Include("User").Include("Type").Include("Status").ToListAsync();
+            return await repository.Get();
         }
 
         // GET api/statementes/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetStatementById(int id)
         {
-            var statement = await context.Statement.Include("User").Include("Type").Include("Status").FirstAsync(s => s.IdStatement == id);
+            var statement = await repository.GetStatementById(id);
             if (statement == null)
             {
                 return NotFound();
@@ -50,77 +42,38 @@ namespace InternetPlatformOfArtist.Controllers
 
         // POST api/statementes
         [HttpPost]
-        public async Task<ActionResult<Models.Statement>> AddStatement(Models.Statement statement)
+        public async Task<ActionResult<Statement>> AddStatement(Statement statement)
         {
-            context.Statement.Add(statement);
-            await context.SaveChangesAsync();
+            await repository.AddStatement(statement);
 
             return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
         }
 
-        private bool StatementExists(int id)
-        {
-            return context.Statement.Any(s => s.IdStatement == id);
-        }
-
-        //обработка заяявок
+        //обработка заявок
 
         // PUT api/statementes/5
         [HttpPut("{id}/{idStatusStatement}")]
-        public async Task<ActionResult<IEnumerable<Models.Statement>>> ChangeStatement(int id, int idStatusStatement)
+        public async Task<ActionResult<IEnumerable<Statement>>> ChangeStatement(int id, int idStatusStatement)
         {
-
-            int role = 0;
-            string message;
-            var statement = await context.Statement.FindAsync(id);
-            statement.IdStatusStatement = idStatusStatement;
+            //int role = 0;
+            //var statement = await context.Statement.FindAsync(id);
+            //statement.IdStatusStatement = idStatusStatement;
 
             try
             {
-                context.Entry(statement).State = EntityState.Modified;
-                await context.SaveChangesAsync();
-
-                if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
+                var statement = await repository.ChangeStatement(id, idStatusStatement);
+                if(statement == null)
                 {
-                    var group = new Models.Group();
-                    group.IdUser = statement.IdUser;
-                    group.NameGroup = statement.Name;
-                    group.DescriptionGroup = statement.Description;
-                    group.CityGroup = statement.City;
-                    group.AddressGroup = statement.Address;
-                    GroupsController groupsController = new GroupsController(context);
-                    await groupsController.AddGroup(group);
-                    role = roleDirector;
-                }
-                else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
-                {
-                    var competition = new Models.Competition();
-                    competition.IdUser = statement.IdUser;
-                    competition.NameCompetition = statement.Name;
-                    competition.DescriptionCompetition = statement.Description;
-                    competition.CityCompetition = statement.City;
-                    competition.DateStart = (DateTime)statement.DateStart;
-                    competition.DateFinish = (DateTime)statement.DateStart;
-                    competition.IdStatusCompetition = 1;
-                    CompetitionsController groupsController = new CompetitionsController(context);
-                    await groupsController.AddCompetition(competition);
-                    role = roleOrganizer;
-                }
-
-                if (role != 0)
-                {
-                    UsersController userController = new UsersController(context, jwtService);
-                    await userController.ChangeUserRole(statement.IdUser, role);
+                    return BadRequest(new { message = "Мы не смогли изменить пользователя" });
                 }
 
             }
             catch (DbUpdateConcurrencyException)
 
             {
-                if (!StatementExists(id))
+                if (!repository.StatementExists(id))
                 {
-                    message = "Заявка не существует";
-                    return NotFound(message);
+                    return NotFound(new { message = "Заявка не существует" });
                 }
                 else
                 {
@@ -136,40 +89,22 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet("mystatement/{idUser:int}")]
         public async Task<object> GetStatementByUserAsync(int idUser)
         {
-            return
-                new
-                {
-                    Results = await context.Statement.Select(s =>
-                    new
-                    {
-                        s.IdStatement,
-                        s.Name,
-                        s.IdUser,
-                        s.City,
-                        s.Address,
-                        s.Description,
-                        start = s.DateStart,
-                        finish = s.DateFinish,
-                        type = s.Type.NameType,
-                        status = s.Status.NameStatus
-                    }
-                    ).Where(s => s.IdUser == idUser).ToListAsync()
-                };
+            return await repository.GetStatementByUserAsync(idUser);
         }
 
         // DELETE api/statements/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.Statement>>> DeleteStatement(int id)
-        {
-            var statement = await context.Statement.FindAsync(id);
-            if (statement == null)
-            {
-                return NotFound();
-            }
-            context.Statement.Remove(statement);
-            await context.SaveChangesAsync();
-            return await context.Statement.ToListAsync();
-        }
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<IEnumerable<Models.Statement>>> DeleteStatement(int id)
+        //{
+        //    var statement = await context.Statement.FindAsync(id);
+        //    if (statement == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    context.Statement.Remove(statement);
+        //    await context.SaveChangesAsync();
+        //    return await context.Statement.ToListAsync();
+        //}
 
     }
 }

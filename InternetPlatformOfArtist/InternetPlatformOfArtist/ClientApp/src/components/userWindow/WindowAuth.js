@@ -1,5 +1,5 @@
 import React from "react";
-import { roles } from "../../Constant";
+import { defineRole } from "../helpers/defineRole";
 
 import { List } from "../list/List";
 
@@ -10,10 +10,7 @@ export const WindowAuth = ({user, list}) =>{
         li: 'userlist-item',
         link: 'userlist-item-link'
     }
-
-    let role = roles.map((role, index) => {if(role.idRole === user.idRole){
-        return(<span key = {index}>{role.name}</span>) ;
-    }});
+    const role = defineRole(user.idRole);
 
     return(
         <>

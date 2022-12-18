@@ -51,7 +51,10 @@ export const GroupPage = () =>{
                 <>
                     <Image src = {group.img} alt = {group.nameGroup} width = {780} height = {450} className = {classnames.img} />
                     <h1 className = {classnames.title}>{group.nameGroup}</h1>
-                    <h2 className = {classnames.style}>{"Стиль: " + group.category}</h2>
+                    {group.category ?
+                    <h2 className = {classnames.style}>{"Стиль: " + group.category}</h2> :
+                    <h2 className = {classnames.style}>Стиль: -</h2>
+                    }
                     <div>
                         <div className={classnames.address}>
                             <p className={classnames.addressTitle}>Контакты</p>

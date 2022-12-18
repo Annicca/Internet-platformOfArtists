@@ -12,6 +12,9 @@ using System;
 using InternetPlatformOfArtist.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using InternetPlatformOfArtist.IRepository;
+using Repository;
+using InternetPlatformOfArtist.Repository;
 
 namespace InternetPlatformOfArtist
 {
@@ -58,9 +61,12 @@ namespace InternetPlatformOfArtist
                     };
                 });
 
+            services.AddScoped<IUserRepository, RepositoryUser>();
+            services.AddScoped<IGroupRepository, RepositoryGroup>();
+            services.AddScoped <ICompetitionRepository, RepositoryCompetition> ();
+            services.AddScoped<IStatementRepository, RepositoryStatement>();
             services.AddScoped<JwtService>();
 
-            // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";

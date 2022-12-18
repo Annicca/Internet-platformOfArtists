@@ -6,89 +6,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace InternetPlatformOfArtist.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CompetitionsController : ControllerBase
     {
-        private Context.ArtContext context;
-        public CompetitionsController(Context.ArtContext _context)
+        private readonly IRepository.ICompetitionRepository repository;
+        public CompetitionsController(IRepository.ICompetitionRepository _repository)
         {
-            context = _context;
-            UpdateStatus();
+            repository = _repository;
         }
-
-
-
         // GET: api/competitions
         [HttpGet]
         public async Task<object> GetAllCompetition()
         {
-            //FormatDate format = new FormatDate(context);
-            //format.ChangeStatus();
-
-            return await context
-            .Competition
-            .Select(c => new
-            {
-                c.IdCompetition,
-                c.Organizer,
-                c.NameCompetition,
-                c.DescriptionCompetition,
-                start = c.DateStart.ToShortDateString(),
-                finish = c.DateFinish.ToShortDateString(),
-                c.CityCompetition,
-                c.Status,
-                c.Img
-            }).ToListAsync();
-        }
-        // GET: api/competitions/participant
-        [HttpGet("participant")]
-        public async Task<object> GetCompetitionsWithGroups()
-        {
-            return new
-            {
-                Results = await context
-            .Competition
-            .Select(c => new
-            {
-                c.IdCompetition,
-                c.Organizer,
-                c.NameCompetition,
-                c.DescriptionCompetition,
-                start = c.DateStart.ToShortDateString(),
-                finish = c.DateFinish.ToShortDateString(),
-                c.CityCompetition,
-                c.Img,
-                c.Status.NameStatus,
-                Groups = c
-                    .Groups
-                    .Select(g => new { g.Director, g.IdGroup, g.NameGroup, g.CityGroup, g.AddressGroup })
-                    .ToList()
-            }).ToListAsync()
-            };
+            return await repository.GetAllCompetition();
         }
 
         // GET api/competitions/5
         [HttpGet("{id}")]
         public async Task<object> GetCompetitionById(int id)
         {
-            var competition = await context.Competition.Select(c => new {
-                c.IdCompetition,
-                c.IdUser,
-                c.NameCompetition,
-                c.DescriptionCompetition,
-                c.Organizer,
-                start = c.DateStart.ToShortDateString(),
-                finish = c.DateFinish.ToShortDateString(),
-                c.CityCompetition,
-                c.Img,
-                c.Status.NameStatus,
-                c.IdStatusCompetition,
-            }).FirstOrDefaultAsync(com => com.IdCompetition == id);
+            var competition = await repository.GetCompetitionById(id);
 
             if (competition == null)
             {
@@ -100,15 +40,9 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpPost]
         public async Task<ActionResult<Models.Competition>> AddCompetition(Models.Competition competition)
         {
-            context.Competition.Add(competition);
-            await context.SaveChangesAsync();
+            await repository.AddCompetition(competition);
 
             return CreatedAtAction("GetCompetitionById", new { id = competition.IdCompetition }, competition);
-        }
-
-        private bool CompetitionExists(int id)
-        {
-            return context.Competition.Any(e => e.IdCompetition == id);
         }
 
         // PUT api/competitions/5
@@ -121,27 +55,13 @@ namespace InternetPlatformOfArtist.Controllers
                 return BadRequest();
             }
 
-            if(competition.IdStatusCompetition != 4)
-            {
-                if (competition.DateStart <= DateTime.Today && competition.DateFinish != DateTime.Today)
-                {
-                    competition.IdStatusCompetition = 2;
-                }
-                else if (competition.DateFinish < DateTime.Today)
-                {
-                    competition.IdStatusCompetition = 3;
-                }
-            }
-
-            context.Entry(competition).State = EntityState.Modified;
-
             try 
-            { 
-                await context.SaveChangesAsync();
+            {
+                await repository.ChangeCompetition(id, competition);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CompetitionExists(id))
+                if (!repository.CompetitionExists(id))
                 {
                     message = "Конкурс не существует";
                     return NotFound(message);
@@ -155,40 +75,12 @@ namespace InternetPlatformOfArtist.Controllers
             return CreatedAtAction("GetCompetitionById", new { id = competition.IdCompetition }, competition);
         }
 
-        // DELETE api/competitions/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.Competition>>> DeleteCompetition(int id)
-        {
-            var competition = await context.Competition.FindAsync(id);
-            if (competition == null)
-            {
-                return NotFound();
-            }
-            context.Competition.Remove(competition);
-            await context.SaveChangesAsync();
-            return await context.Competition.ToListAsync();
-        }
-
         //GET api/competitions/Владимир
         [HttpGet("city/{city}")]
-        public async Task<object> GetCompetitionByCity(string city)
+        public async Task<ActionResult> GetCompetitionByCity(string city)
         {
-            var competition = await context.Competition.Where(c => c.CityCompetition == city).Select(c => new {
-                c.IdCompetition,
-                c.Organizer,
-                c.NameCompetition,
-                c.DescriptionCompetition,
-                start = c.DateStart.ToShortDateString(),
-                finish = c.DateFinish.ToShortDateString(),
-                c.CityCompetition,
-                c.Img,
-                c.Status
-            }).ToListAsync();
+            var competition = await repository.GetCompetitionByCity(city);
 
-            if(competition == null)
-            {
-                return BadRequest(new { message = "Мы не нашли то, что вы искали" });
-            }
             return Ok(competition);
         }
 
@@ -196,46 +88,20 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpGet("mycompetitions/{idUser:int}")]
         public async Task<object> GetCompetitionsByUserAsync(int idUser)
         {
-
-            return new
-            {
-                Results = await context
-                    .Competition
-                    .Where(c => c.IdUser == idUser)
-                    .Select(c => new
-                    {
-                        c.IdCompetition,
-                        c.IdUser,
-                        c.NameCompetition,
-                        c.DescriptionCompetition,
-                        start = c.DateStart.ToShortDateString(),
-                        finish = c.DateFinish.ToShortDateString(),
-                        c.CityCompetition,
-                        c.IdStatusCompetition,
-                        c.Status.NameStatus,
-                        c.Img,
-                        Groups = c
-                            .Groups
-                            .Select(g => new { g.IdGroup, g.NameGroup, g.Director, g.CityGroup, g.AddressGroup })
-                            .ToList()
-                    }).ToListAsync()
-            };
-
+            return await repository.GetCompetitionsByUserAsync(idUser);
         }
 
         [HttpGet("cancel/{idCompetition}")]
         public async Task<object> CancelCompetition(int idCompetition)
         {
-            Models.Competition competition = await context.Competition.FindAsync(idCompetition);
-            if (competition == null)
-            {
-                return BadRequest();
-            }
-            competition.IdStatusCompetition = 4;
-            context.Entry(competition).State = EntityState.Modified;
+            Models.Competition competition;
             try
             {
-                await context.SaveChangesAsync();
+                competition = await repository.CancelCompetition(idCompetition);
+                if (competition == null)
+                {
+                    return BadRequest();
+                }
             }
             catch(DbUpdateConcurrencyException)
             {
@@ -243,33 +109,6 @@ namespace InternetPlatformOfArtist.Controllers
             }
             
             return await GetCompetitionsByUserAsync(competition.IdUser);
-        }
-
-        public async void UpdateStatus()
-        {
-            List<Models.Competition> competitions = await context.Competition.Where(c => c.IdStatusCompetition != 4).ToListAsync();
-            foreach (Models.Competition competition in competitions)
-            {
-                if (competition.DateStart == DateTime.Today)
-                {
-                    competition.IdStatusCompetition = 2;
-                    context.Entry(competition).State = EntityState.Modified;
-                }
-                else if (competition.DateFinish > DateTime.Today)
-                {
-                    competition.IdStatusCompetition = 3;
-                    context.Entry(competition).State = EntityState.Modified;
-                }
-                try
-                {
-                    await context.SaveChangesAsync();
-                    
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    throw;
-                }
-            }
         }
     }
 }

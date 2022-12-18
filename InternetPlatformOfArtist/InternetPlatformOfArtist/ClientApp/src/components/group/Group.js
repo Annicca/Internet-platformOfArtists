@@ -43,7 +43,7 @@ export const Group = ({group}) =>{
                     }
                 </div>
                 <div className = {classnames.address}>
-                    <Image src = './icons/group.svg' alt = 'Адрес: ' />
+                    <Image src = './icons/group.svg' alt = 'Адрес: '/>
                     <div className={classnames.addressText}>
                         <p>{group.cityGroup}</p>
                         <p>{group.addressGroup}</p>

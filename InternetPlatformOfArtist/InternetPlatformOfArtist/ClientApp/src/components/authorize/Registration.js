@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
 import {useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { Button } from "../button/Button";
 import { AuthTitle } from "./AuthTitle";
 import { useForm } from "react-hook-form";
@@ -13,6 +12,7 @@ export const Registration = () =>{
     const [surName, setSurName] = useState('');
     const [name, setName] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
+    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [login, setLogin] = useState('');
     const [password, setPussword] = useState('');
@@ -20,7 +20,6 @@ export const Registration = () =>{
     let navigate = useNavigate(); 
 
     const store =  require('store');
-    // const css = require().toString();
 
     const {
         register,
@@ -39,7 +38,8 @@ export const Registration = () =>{
                 patronimycUser: patronimyc,
                 loginUser: login,
                 passwordUser: password,
-                mailUser: email
+                mailUser: email,
+                phoneUser: phone
             };
 
         await axios({
@@ -48,15 +48,14 @@ export const Registration = () =>{
             headers: {'Content-Type': 'application/json'},
             data : JSON.stringify(user)
         })
-        .then((response) => alert(response.data.message))
         .then((response) => {
-                setCookie('jwt',response.data.token,{
-                                path:"/"
-                            });
+                alert("Успешно")
+                setCookie('jwt',response.data.token,{path:"/"});
                 store.set('user', response.data.user);
-            })
-        .then(() => navigate(`/`))
+                navigate(`/`);
+        })
         .catch((error) =>{
+            alert(error.message);
             console.log(error);
         })
     }
@@ -75,11 +74,6 @@ export const Registration = () =>{
 
     return(
             <div className={classnames.container}>
-                {/* <Helmet>
-                    <style>
-                        {css}
-                    </style>
-                </Helmet> */}
                 <form className = {classnames.form} onSubmit = {handleSubmit(onSubmit)} >
                         <AuthTitle classnames={classnames} title = {'Регистрация'} linkText = {'Уже зарегистрированы?'} path = {'/login'} />
                         <div className = {classnames.group}>
@@ -126,6 +120,19 @@ export const Registration = () =>{
                                 onChange = {(e) => setPatronimyc(e.target.value)} />
                                 <label className = {classnames.label}>Отчество</label>
                                 {errors?.patronimyc && <p className = {classnames.error}>{errors?.patronimyc?.message}</p>}
+                        </div>
+                        <div className = {classnames.group}>
+                            <input 
+                                type = "phone" 
+                                name = "phone"
+                                {...register('phone',{
+                                    pattern: {value: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/, message: "Неккоректно введён номер телефона"}
+                                })}
+                                className = {classnames.input}
+                                placeholder = " "
+                                onChange = {(e) => setPhone(e.target.value)} />
+                                <label className = {classnames.label}>Телефон</label>
+                                {errors?.phone && <p className = {classnames.error}>{errors?.phone?.message}</p>}
                         </div>
                         <div className = {classnames.group}>
                             <input 

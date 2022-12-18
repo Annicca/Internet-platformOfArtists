@@ -1,5 +1,4 @@
 .competition{
-    // position: relative;
     display:flex;
     align-items: center;
     justify-content: flex-start;
@@ -60,6 +59,9 @@
         font-size: 14px;
         line-height: 15px;
         padding: 9px 21px;
+        &:disabled{
+            background: #E5E5E5
+        }
     }
 }
 
@@ -68,6 +70,8 @@
     font-weight: 300;
     font-size: 15px;
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
     &-img{
         padding-right: 11px;
     }

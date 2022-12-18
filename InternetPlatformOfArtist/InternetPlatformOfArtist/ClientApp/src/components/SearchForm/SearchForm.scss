@@ -1,7 +1,6 @@
 .search{
         position: relative;
         width: 578px;
-        //margin-bottom: 40px;
         &-input{
             position: relative;
             background: #FFF8EE;
@@ -14,6 +13,7 @@
             font-weight: 500;
             font-size: 14px;
             line-height: 17px;
+            outline: none;
         }
         &-button{
             position: absolute;

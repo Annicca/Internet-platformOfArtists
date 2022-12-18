@@ -10,6 +10,8 @@ import { changeStatus } from "../helpers/changeStatus";
 import './Table.scss';
 
 export const TableStatement = () =>{
+    const store = require('store');
+    const user = store.get('user');
 
     const [statement, setStatement] = useState();
     const [numberSearch, setNumberSearch] = useState('');
@@ -27,7 +29,9 @@ export const TableStatement = () =>{
       }
     
     useEffect(() => {
-  
+          if(user?.idRole != 1){
+            navigate(`/notfound`)
+          }
           const urlData = handleValue(numberSearch, url, urlSearch);
           const dataFetch = async (urlData) => {
             const data = await (
@@ -37,9 +41,7 @@ export const TableStatement = () =>{
           };
           dataFetch(urlData);
   
-    }, [numberSearch]);
-      // e.preventDefault();
-
+    }, [numberSearch, user]);
 
     const classnames = {
         table: 'table',

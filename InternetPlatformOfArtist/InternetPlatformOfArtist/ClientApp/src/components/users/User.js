@@ -12,14 +12,13 @@ export const User = () =>{
     let navigate = useNavigate();
     const store = require('store');
     const userAuth = store.get('user');
-    const role = 1//userAuth.idRole;
 
     const [name, setName] = useState('');
     const [surName, setSurname] = useState('');
     const [patronimyc, setPatronimyc] = useState('');
     const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
     const [mail, setMail] = useState('');
+    const [phone, setPhone] = useState('');
     const [idRole, setIdRole] = useState('');
 
     const params = useParams();
@@ -29,8 +28,8 @@ export const User = () =>{
     const apiUrl = `https://localhost:44344/api/users/${current}`;
 
     useEffect(() => {
-        if(role != 1){
-            navigate(`/*`)
+        if(userAuth?.idRole != 1){
+            navigate(`/notfound`)
         } else{
             const getUser = async() => {
             await axios.get(apiUrl).then((resp) => {
@@ -40,7 +39,7 @@ export const User = () =>{
                 setName(resp.data.nameUser);
                 setPatronimyc(resp.data.patronimycUser);
                 setLogin(resp.data.loginUser);
-                setPassword(resp.data.passwordUser);
+                setPhone(resp.data.phoneUser)
                 setMail(resp.data.mailUser);
                 setIdRole(resp.data.idRole);
             }).catch((error) => console.log(error));
@@ -48,7 +47,7 @@ export const User = () =>{
         getUser();
         }
 
-      }, [apiUrl,setUser,current]); 
+      }, [apiUrl,current]); 
       
 
     const changeUser = () => {
@@ -58,8 +57,9 @@ export const User = () =>{
             nameUser: name,
             patronimycUser: patronimyc,
             loginUser: login,
-            passwordUser : password,
+            passwordUser: user.passwordUser,
             mailUser: mail,
+            phoneUser:phone,
             idRole: idRole
         };
 
@@ -103,9 +103,9 @@ export const User = () =>{
                 <div className = {classnames.form}>
                     <div className = {classnames.childFirst}>
                         {inputTitle.map((item,index) =>
-                            <p key = {index} className = {classnames.child1Element}>
+                            <div key = {index} className = {classnames.child1Element}>
                                 <span>{item}</span>
-                            </p>
+                            </div>
                         )}
                     </div>
                     <div className = {classnames.childSecond}>
@@ -159,6 +159,13 @@ export const User = () =>{
                                         defaultValue = {user.mailUser} 
                                         onChange={(e) =>setMail(e.target.value)} 
                                         required/>
+                                </p>
+                                <p className={classnames.child2Element} >
+                                    <input 
+                                        className={classnames.input}
+                                        type = 'phone' 
+                                        defaultValue = {user.phoneUser} 
+                                        onChange={(e) =>setPhone(e.target.value)} />
                                 </p>
                             </form>
                         }

@@ -12,8 +12,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using InternetPlatformOfArtist.Models;
+using InternetPlatformOfArtist.IRepository;
 
 namespace InternetPlatformOfArtist.Controllers
 {  
@@ -21,26 +21,23 @@ namespace InternetPlatformOfArtist.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private Context.ArtContext context;
-        private JwtService jwtService;
-        public UsersController(Context.ArtContext _context, JwtService _jwtService)
+        private readonly IUserRepository repository;
+        public UsersController(IUserRepository _repository)
         {
-            context = _context;
-            jwtService = _jwtService;
-
+            repository = _repository;
         }
         // GET: api/users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.User>>>  GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>>  GetUsers()
         {
-            return await context.User.Include("UserRole").ToListAsync();
+            return await repository.GetUsers();
         }
 
         // GET api/users/5
         [HttpGet("{id}")]
         public async Task<ActionResult> GetUserById(int id)
         {
-            var user = await context.User.Include("UserRole").FirstOrDefaultAsync(u => u.IdUser == id);
+            var user = await repository.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
@@ -50,37 +47,35 @@ namespace InternetPlatformOfArtist.Controllers
 
         // GET api/users/login
         [HttpGet("userLogin/{login}")]
-        public Task<List<Models.User>> GetUserByLogin(string login)
+        public async Task<List<User>> GetUserByLogin(string login)
         {
-            return context.User.Where(u => u.LoginUser == login).ToListAsync();
+            return await repository.GetUserByLogin(login);
         }
+
         // POST api/users/register
         [HttpPost("register")]
-        public async Task<ActionResult<Models.User>> Register(Models.User user)
+        public async Task<IActionResult> Register(User user)
         {
-            var registerUser = new Models.User(
-                user.SurnameUser,
-                user.NameUser,
-                user.PatronimycUser,
-                user.LoginUser,
-                BCrypt.Net.BCrypt.HashPassword(user.PasswordUser),
-                user.MailUser,
-                2);
 
-            context.User.Add(registerUser);
-            await context.SaveChangesAsync();
+            try
+            {
+                var userResult = await repository.Register(user);
+                if(userResult == null)
+                {
+                    return BadRequest(new { message = "Пользователь с таким login уже существует" });
+                }
+            }
+            catch
+            {
+                BadRequest(new { message = "Что-то пошло не так" });
+            }
 
-            var userRegister = GetUserByLogin(user.LoginUser).Result.First();
-
-            Models.LoginModel loginUser = new Models.LoginModel();
-            loginUser.Login = user.LoginUser;
-            loginUser.Password = user.PasswordUser;
-
-            return CreatedAtAction("Login",loginUser);
+            LoginModel loginUser = new LoginModel(user.LoginUser, user.PasswordUser);
+            return await Login(loginUser);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(Models.LoginModel log)
+        public async Task<IActionResult> Login(LoginModel log)
         {
             var user = GetUserByLogin(log.Login).Result.First();
 
@@ -93,19 +88,9 @@ namespace InternetPlatformOfArtist.Controllers
                 return BadRequest(new { message = "Вы ввели неправльно логин или пароль" });
             }
 
-            var jwt = jwtService.Geterate(user.IdUser);
+            var logining = await repository.Login(user.IdUser);
 
-            var token = jwtService.Verify(jwt);
-            int userId = int.Parse(token.Issuer);
-
-            var userLogining =  await GetUserById(userId);
-
-            return Ok(new 
-            { 
-                message = "success",
-                token = jwt,
-                user = user
-            });
+            return Ok(logining);
         }
 
         //[HttpGet("user")]
@@ -132,47 +117,24 @@ namespace InternetPlatformOfArtist.Controllers
         //    }
         //}
 
-        [HttpPost("logout")]
-        public IActionResult Logout()
-        {
-            Response.Cookies.Delete("jwt");
-
-            return Ok(new
-            {
-                message = "success"
-            });
-        }
-
-
-
-        private bool UserExists(int id)
-        {
-            return context.User.Any(e => e.IdUser == id);
-        }
-
         // PUT api/users/5
         [HttpPut("{id}")]
-        public async Task<ActionResult> ChangeUser(int id, Models.User user)
+        public async Task<ActionResult> ChangeUser(int id, User user)
         {
-            string message;
             if (id != user.IdUser)
             {
                 return BadRequest();
             }
 
-            context.Entry(user).State = EntityState.Modified;
-
             try
-            { 
-            
-                await context.SaveChangesAsync();
+            {
+                await repository.ChangeUser(id, user);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!repository.UserExists(id))
                 {
-                    message = "Пользователь не существует";
-                    return NotFound(message);
+                    return NotFound(new { message = "Пользователь не существует" });
                 }
                 else
                 {
@@ -186,85 +148,14 @@ namespace InternetPlatformOfArtist.Controllers
 
         // DELETE api/users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<IEnumerable<Models.User>>> DeleteUser(int id)
+        public async Task<ActionResult<IEnumerable<User>>> DeleteUser(int id)
         {
-            var user = await context.User.FindAsync(id);
-               if (user == null)
-               {
-                        return NotFound();
-               }     
-            context.User.Remove(user);
-            await context.SaveChangesAsync();
-            return await context.User.ToListAsync();
-        }
-
-        //коллективы пользователя
-        //GET api/mygroups/5
-        [HttpGet("mygroups/{idUser:int}")]
-        public async Task<object> GetGroupsByUserAsync(int idUser)
-        {
-            return new
+            var user = await repository.DeleteUser(id);
+            if (user == null)
             {
-                Results = await context
-            .Group
-            .Where(group => group.IdUser == idUser)
-            .Select(g => new
-            {
-                g.IdGroup,
-                g.Director,
-                g.NameGroup,
-                g.DescriptionGroup,
-                g.CityGroup,
-                g.AddressGroup,
-                g.Category,
-                Competitions = g
-                    .Competitions
-                    .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status, c.Img })
-                    .ToList()
-            }).ToListAsync()
-            };
-
-        }
-
-        //конкурсы пользователя
-
-        // PUT api/users/5
-        [HttpPut("setrole/{id}")]
-        public async Task<ActionResult> ChangeUserRole(int id, int idRole)
-        {
-            var user = context.User.Find(id);
-            string message;
-            if (id != user.IdUser)
-            {
-                return BadRequest();
+                return NotFound();
             }
-
-            try
-            {
-                if(user.IdRole != idRole)
-                {
-                    user.IdRole = idRole;
-                    context.Entry(user).State = EntityState.Modified;
-                    await context.SaveChangesAsync();
-                }
-                
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    message = "Пользователь не существует";
-                    return NotFound(message);
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return await GetUserById(user.IdUser);
+            return await GetUsers();
         }
-
-
     }
 }

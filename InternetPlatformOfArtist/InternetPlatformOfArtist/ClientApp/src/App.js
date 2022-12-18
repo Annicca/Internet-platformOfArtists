@@ -43,6 +43,7 @@ export default function App() {
             </Route>
             <Route exact path = '/login' element = {<Login />} />
             <Route exact path = '/signin' element = {<Registration />} />
+            <Route path = "/notfound" element = {<NotFound />} />
             <Route path = "/*" element = {<NotFound />} />
         </Routes> 
     );

@@ -1,7 +1,6 @@
 
 .item{
     display:flex;
-    
     width: 484px;
     height: 176px;
     align-items: center;
@@ -14,10 +13,11 @@
     margin-right: 5.7rem;
     color: black;
     &-container{
-        width: 189px;
-        height: 121px;
+        display: flex;
         margin-left: 23px;
         &-img{
+            width: 189px;
+            height: 121px;
             border: 1px solid #D9D9D9;
             border-radius: 10px;
         }

@@ -13,7 +13,6 @@ export const DetailStatement = () =>{
     let navigate = useNavigate();
     const store = require('store');
     const userAuth = store.get('user');
-    const role = userAuth.idRole;
 
     const params = useParams();
     const current = params.id;
@@ -32,8 +31,8 @@ export const DetailStatement = () =>{
         .then(() => navigate('/statements'))
     }
     useEffect(() => {
-        if(role != 1){
-            navigate(`/*`)
+        if(userAuth?.idRole != 1){
+            navigate(`/notfound`)
         } else{
             const getStatement = async() => {
             await axios.get(apiUrl).then((resp) => {
@@ -55,7 +54,7 @@ export const DetailStatement = () =>{
         getStatement();
         }
 
-      }, [apiUrl,setStatement,current, setStatementData, setTitles, setStatus]); 
+      }, [apiUrl,setStatement,current, setStatementData, setTitles, setStatus, userAuth]); 
 
     const classnames = {
         main: 'main-container',

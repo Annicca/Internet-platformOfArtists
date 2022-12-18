@@ -22,13 +22,11 @@
     }
     &-form{
         display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
         max-width: 460px;
-        column-count: 2;
-        height: 380px;
+        min-height: 380px;
         &-child1{
             max-width: 155px;
+            flex: 1 1;
             &-item{
                 margin: 0;
                 margin-bottom: 19px;
@@ -36,10 +34,12 @@
                 font-size: 16px;
                 line-height: 19px;
                 padding-top: 16px;
+                box-sizing: border-box;
             }
         }
         &-child2{
             max-width: 300px;
+            flex: 2 1;
             &-item{
                 margin: 0;
                 margin-bottom: 19px;
@@ -58,6 +58,11 @@
                     border-radius: 10px;
                     padding: 7px;
                     border: 2px solid #FFD700;
+                    outline: none;
+                    transition: 0.3s all;
+                    &:focus{
+                        border: 2px solid #ff9100;
+                    }
                 }
             }
             &-box{
@@ -75,6 +80,9 @@
                     font-weight: 500;
                     font-size: 16px;
                     padding: 8px 23px;
+                    &:hover{
+                        background-color: #ffe75e;
+                    }
                 }
             }
 

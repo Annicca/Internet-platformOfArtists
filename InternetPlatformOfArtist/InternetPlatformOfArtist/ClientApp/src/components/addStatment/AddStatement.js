@@ -6,16 +6,14 @@ import { statementGroup, competitionForm } from "../../Constant";
 import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import './AddStatement.scss';
-
-
 
 export const AddStatement = () =>{
 
     const store = require('store');
     const user = store.get('user');
-    const id = user.idUser;
 
     let navigate = useNavigate();
 
@@ -23,24 +21,25 @@ export const AddStatement = () =>{
     const [type, setType] = useState();
     const[isDisabled, setDisabled] = useState(true);
 
-    const [name, setName] = useState();
-    const [city, setCity] = useState();
-    const [address, setAddress] = useState();
-    const [description, setDescription] = useState();
+    const [name, setName] = useState('');
+    const [city, setCity] = useState('');
+    const [address, setAddress] = useState('');
+    const [description, setDescription] = useState('');
     const [start, setStart] = useState();
     const [finish, setFinish] = useState();
 
     const {
         register,
-        formState: {errors}
+        formState: {errors},
+        handleSubmit
     } = useForm({
         mode: "onBlur"
     });
 
     const onSubmit = async(e) =>{
-        e.preventDefault();
+        //e.preventDefault();
         let statement = {
-            idUser: id,
+            idUser: user.idUser,
             idType: type,
             name: name,
             description: description,
@@ -83,8 +82,12 @@ export const AddStatement = () =>{
         labels: 'change-title',
         label : 'change-title__label',
 
-        // file: 'file-container',
+        request: 'request'
     }
+
+    const handleChange = event => {
+        setName(event.target.value)
+     }
 
     const FormFooter = () =>{
         return(
@@ -97,11 +100,9 @@ export const AddStatement = () =>{
         )
     }
 
-    return(
-        <div className={classnames.container}>
-            <TitlePage title={'Подать заявку'} />
-
-            <form className={classnames.form}>
+    const FormStatement = () =>{
+        return(
+            <form className={classnames.form} onSubmit={handleSubmit(onSubmit)} >
                 <fieldset className = {classNames(classnames.open, { 'field-active': !isActive})}>
                     <legend className={classnames.title}>
                         1. Выберете, что хотите разместить
@@ -142,7 +143,8 @@ export const AddStatement = () =>{
                                     })}
                                     className = {classnames.input}
                                     autoFocus 
-                                    onInput = {(e) => setName(e.target.value)} />
+                                    defaultValue = {name}
+                                    onChange = {(e) => handleChange(e)} />
                                 {errors?.nameGroup && < div className = {classnames.error}>{errors?.nameGroup?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
@@ -153,6 +155,7 @@ export const AddStatement = () =>{
                                     })}
                                     className = {classnames.input}
                                     name = "cityGroup"
+                                    defaultValue = {city}
                                     onChange = {(e) => setCity(e.target.value)} />
                                 {errors?.cityGroup && < div className = {classnames.error}>{errors?.cityGroup?.message}</div>}
                             </div>
@@ -167,8 +170,7 @@ export const AddStatement = () =>{
                                     onChange = {(e) => setAddress(e.target.value)} />
                                 {errors?.address && <div className = {classnames.error}>{errors?.address?.message}</div>}
                             </div>
-                            <textarea name = "descriptionGroup" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
-                            {/* <FileInput fileContainerClass={classnames.file} /> */}
+                            <textarea name = "descriptionGroup" className={classnames.textarea} cols={43} onInput = {(e) => setDescription(e.target.value)} />
                         </div>
                         
                     </div>
@@ -231,12 +233,22 @@ export const AddStatement = () =>{
                                 {errors?.cityCompetition && <div className = {classnames.error}>{errors?.cityCompetition?.message}</div>}
                             </div>
                             <textarea name = "descriptionCompetition" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
-                            {/* <FileInput fileContainerClass={classnames.file} /> */}
                         </div>
                     </div>
                     <FormFooter />
                 </fieldset>
             </form>
+        )
+    }
+
+    return(
+        <div className={classnames.container}>
+            <TitlePage title={'Подать заявку'} />
+            {!user ? 
+            <h3 className={classnames.request}>Необходимо <Link to="/login">авторизоваться</Link></h3> :
+            <FormStatement />
+            }
         </div>
     )
 }
+

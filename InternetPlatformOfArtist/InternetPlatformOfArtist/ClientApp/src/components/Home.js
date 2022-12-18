@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { GroupList } from './group/Group';
 import { SearchForm } from './SearchForm/SearchForm';
 import { handleValue } from './helpers/handleValue';
+import { Link } from 'react-router-dom';
 
 import './group/Group.scss';
 
@@ -31,13 +32,13 @@ export const Home = ()=>{
     container: 'main-container',
     groupList: 'main-container-list',
     inputContainer: 'input-container',
-    button: 'input-container_button'
+    button: 'button-container_participant'
   }
 
   return (
       <>
         <div className={classnames.inputContainer}>
-          <button className = {classnames.button}>+Разместить свой коллектив</button>
+        <Link to='/statement' ><button className = {classnames.button}>+Разместить свой коллектив</button></Link>
           <SearchForm searchText={'Введите город'} setValue = {setCity} />
         </div>
         <GroupList groups = {groups} classnames= {classnames} />

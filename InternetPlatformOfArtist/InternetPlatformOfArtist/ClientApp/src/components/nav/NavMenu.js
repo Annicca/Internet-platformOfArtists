@@ -2,11 +2,12 @@ import React, {useState} from "react";
 import {UserIcon} from '../../icon/UserIcon';
 import { UserWindow } from '../userWindow/UserWindow';
 import {Image} from '../img/Image';
+import { NavLink, useNavigate } from "react-router-dom";
 
 import './NavMenu.scss';
-import { NavLink } from "react-router-dom";
 
 export const NavMenu = ({user}) =>{
+
     const classnames = {
         container: 'nav-container',
         icons: 'nav-container-icon',
@@ -16,15 +17,16 @@ export const NavMenu = ({user}) =>{
         link: 'nav-container-list-items-link'
     }
 
+    let navigate = useNavigate();
     const [activeWindow, setActiveWindow] = useState(false);
     const logout = () =>{
         const store = require('store');
         store.remove('user');
+        navigate('/');
     }
     return(
         <nav>
             <div className = {classnames.container}>
-                {/* //<NavList data = {navMenuButton} classnames = {classnames} /> */}
                 <div className = {classnames.ul}>
                     <NavLink to = "/" end className = {({ isActive }) =>
                         classnames.li + (!isActive ? "" : " select")}  >
@@ -36,7 +38,9 @@ export const NavMenu = ({user}) =>{
                     </NavLink>
                 </div>
                 <div className = {classnames.icons}>
-                    <Image src = './icons/logout.svg' alt='Выход' onClick ={() => logout()} />
+                    <div onClick ={() => logout()} className = {classnames.icon}>
+                        <Image src = './icons/logout.svg' alt='Выход' />
+                    </div>
                     <div onMouseEnter={() => setActiveWindow(true)} className = {classnames.icon}>
                         <UserIcon  />
                         <UserWindow user = {user} activeWindow = {activeWindow} setActiveWindow = {setActiveWindow}/>

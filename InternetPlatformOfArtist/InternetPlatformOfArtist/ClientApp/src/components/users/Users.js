@@ -11,13 +11,12 @@ export const Users = () =>{
   let navigate = useNavigate();
   const store = require('store');
   const user = store.get('user');
-  const role = user.idRole;
 
   useEffect(() =>{
-    if(role != 1){
-      navigate(`/*`)
+    if(user?.idRole != 1){
+      navigate(`/notfound`)
     }
-  }, [role])
+  }, [user])
 
     return(
           <div className="main-container">

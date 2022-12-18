@@ -68,7 +68,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
             </article>
         </section>
         <article className={classnames.competition}>
-            <button className={classnames.cancel} onClick = {(e) => cancelCompetition(competition.idCompetition)} >Отменить конкурс</button>
+            <button className={classnames.cancel} onClick = {() => cancelCompetition(competition.idCompetition)} >Отменить конкурс</button>
                 {!isActive ? 
                 <p className={classnames.linkcompetition} onClick = {() =>{setIsActive(!isActive)}} >Посмотреть участников </p>
                 :

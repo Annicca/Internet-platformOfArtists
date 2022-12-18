@@ -39,15 +39,11 @@ export const Login = () =>{
             data : JSON.stringify(loginUser)
         })
         .then((response) => {
-
             store.set('user', response.data.user);
-            console.log(store.get('user'));
-            //setUser(response.data.user);
             setCookie('jwt', response.data.token, {
                 path:"/"
             });
-            alert(response.data.message);
-            
+            alert("Успешно");
         })
         .then(() => navigate(`/`))
         .catch((error) =>{

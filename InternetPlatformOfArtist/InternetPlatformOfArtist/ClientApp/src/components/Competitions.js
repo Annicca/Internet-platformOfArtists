@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import {CompetitionList } from './competition/Competition';
 import { handleValue } from './helpers/handleValue';
 import { SearchForm } from './SearchForm/SearchForm';
@@ -13,7 +14,7 @@ export const Competitions = ()=>{
 
   useEffect(() => {
     let urlData = handleValue(city, url, urlSearch);
-    const dataFetch = async (urlData) => {
+    const dataFetch = async(urlData) => {
       const data = await (
         await fetch(urlData)).json();
       console.log(data);
@@ -22,6 +23,7 @@ export const Competitions = ()=>{
 
     dataFetch(urlData);
   }, [city]);
+
 
   const classnames = {
     container: 'main-container',
@@ -45,7 +47,7 @@ export const Competitions = ()=>{
   return (
       <>
         <div className={classnames.inputContainer}>
-          <button className = {classnames.button}>+Разместить свой конкурс</button>
+          <Link to='/statement' ><button className = {classnames.button}>+Разместить свой конкурс</button></Link>
           <SearchForm searchText={'Введите город'} setValue = {setCity} />
         </div>
         <CompetitionList competitions = {competitions}  classnames = {classnames} />

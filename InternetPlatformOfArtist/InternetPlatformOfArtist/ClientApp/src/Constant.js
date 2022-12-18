@@ -108,7 +108,7 @@ export let socials = [
     }
 ];
 
-export let inputTitle = ['ID','Привилегии', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Почта']
+export let inputTitle = ['ID','Привилегии', 'Фамилия', 'Имя', 'Отчество', 'Логин', 'Почта', "Телефон"]
 export let roles = [
     {
         idRole: 1,
@@ -158,7 +158,7 @@ export const listAdminWindow = [
     },
     {
         title: 'Заявки о размещении',
-        link: ''
+        link: '/statements'
     }
 ];
 
