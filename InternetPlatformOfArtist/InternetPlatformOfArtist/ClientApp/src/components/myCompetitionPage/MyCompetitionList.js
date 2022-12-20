@@ -32,6 +32,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
         card: 'card',
         info: 'card-info',
         title: 'card-info__title',
+        img: 'card-info__img',
         child: 'card-info__article',
         text: 'card-info__text',
         edit: 'card-info__edit',
@@ -47,7 +48,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
         <section  className={classnames.info}>
             <article className={classnames.child}>
                 <p className={classnames.title} >{competition.nameCompetition}</p>
-                <Image src = {competition.img} alt = {competition.nameCompetition} width = {460} height = {240} />
+                <Image src = {competition.img} alt = {competition.nameCompetition} width = {460} height = {240} className={classnames.img} />
                 {/* <button>Изменить фото</button> */}
             </article>
             <article className={classnames.child}>

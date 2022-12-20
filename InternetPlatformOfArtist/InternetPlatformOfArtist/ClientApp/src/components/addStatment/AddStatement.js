@@ -24,9 +24,10 @@ export const AddStatement = () =>{
     const [name, setName] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
+    const [dateStart, setStart] = useState('');
+    const [dateFinish, setFinish] = useState('');
     const [description, setDescription] = useState('');
-    const [start, setStart] = useState();
-    const [finish, setFinish] = useState();
+
 
     const {
         register,
@@ -36,17 +37,13 @@ export const AddStatement = () =>{
         mode: "onBlur"
     });
 
-    const onSubmit = async(e) =>{
-        //e.preventDefault();
+    const onSubmit = handleSubmit(async (data) => {
+        // console.log(data);
+
         let statement = {
-            idUser: user.idUser,
             idType: type,
-            name: name,
-            description: description,
-            city: city,
-            address: address,
-            dateStart: start,
-            dateFinish: finish
+            idUser: user.idUser,
+            ...data,
         }
         console.log(statement);
         await axios({
@@ -56,8 +53,15 @@ export const AddStatement = () =>{
             data : JSON.stringify(statement)
         })
         .then(() => navigate('/mystatements'))
-        .catch((error) => console.log(error))
+        .catch((error) =>{ 
+            alert("Что-топошло не так");
+            console.log(error);
+        })
+    })
 
+    const handleChangeRadio = (e) =>{
+        setType(e.target.value);
+        setDisabled(false);
     }
 
     const classnames = {
@@ -73,6 +77,7 @@ export const AddStatement = () =>{
         buttonContainer: 'button-container',
         submitContainer: 'submit-container',
         submit: 'submit',
+        message: 'message-statement',
 
         formContainer: 'change-container change-container_margin',
         group : 'change__group',
@@ -85,35 +90,36 @@ export const AddStatement = () =>{
         request: 'request'
     }
 
-    const handleChange = event => {
-        setName(event.target.value)
-     }
-
     const FormFooter = () =>{
         return(
             <div className={classNames(classnames.buttonContainer, classnames.submitContainer)}>
                 <button className={classnames.button} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
                     <Image src = './icons/leftarrow.svg' alt="Далее" width = {20} height = {20} />
                 </button>
-                <button type="submit" className={classnames.submit} onClick={(e) => onSubmit(e)} >Подать заявку</button>
+                <button type="submit" className={classnames.submit} >Подать заявку</button>
             </div>
         )
     }
 
     const FormStatement = () =>{
         return(
-            <form className={classnames.form} onSubmit={handleSubmit(onSubmit)} >
+            <>
+            <p className={classnames.message}>Внимание, если вы являетесь руководителем коллектива,то вы можете подать заявку только на размещение коллектива.
+                <p>А если вы организатор конкурса, то только на размещение конкурса.</p>
+            </p>
+            
+            <form className={classnames.form} onSubmit={onSubmit} >
                 <fieldset className = {classNames(classnames.open, { 'field-active': !isActive})}>
                     <legend className={classnames.title}>
                         1. Выберете, что хотите разместить
                     </legend>
                     <div className={classnames.radioContainer}>
                         <label htmlFor="radioGroup">
-                            <input className = {classnames.radio} type="radio" name="idType" value ="1" id="radioGroup" onChange={(e) => {setType(e.target.value); setDisabled(false)}}/>
+                            <input className = {classnames.radio} type="radio" name="idType" value ="1" id="radioGroup" checked={type === "1"} onChange={(e) => handleChangeRadio(e)}/>
                             <span>Коллектив</span>
                         </label>
                         <label htmlFor="radioCompetition">
-                            <input className = {classnames.radio} type="radio" name="idType" value ="2" id = "radioCompetition" onChange={(e) => {setType(e.target.value); setDisabled(false)}} />
+                            <input className = {classnames.radio} type="radio" name="idType" value ="2" id = "radioCompetition" checked={type === "2"} onChange={(e) => handleChangeRadio(e)} />
                             <span>Конкурс</span>
                         </label>
                         <div className={classnames.buttonContainer} >
@@ -123,7 +129,7 @@ export const AddStatement = () =>{
                         </div>
                     </div>
                 </fieldset>
-                <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 1 })} >
+                {type === "1" && <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 1 })} >
                     <legend className={classnames.title} >
                         2. Заполните данные о коллективе
                     </legend>
@@ -137,27 +143,21 @@ export const AddStatement = () =>{
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 
-                                    name = "nameGroup"
-                                    {...register('nameGroup',{
+                                    {...register('name',{
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
-                                    autoFocus 
-                                    defaultValue = {name}
-                                    onChange = {(e) => handleChange(e)} />
-                                {errors?.nameGroup && < div className = {classnames.error}>{errors?.nameGroup?.message}</div>}
+                                    autoFocus  />
+                                {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 
-                                    {...register('cityGroup',{
+                                    {...register('city',{
                                         required : 'Поле обязательно',
                                     })}
-                                    className = {classnames.input}
-                                    name = "cityGroup"
-                                    defaultValue = {city}
-                                    onChange = {(e) => setCity(e.target.value)} />
-                                {errors?.cityGroup && < div className = {classnames.error}>{errors?.cityGroup?.message}</div>}
+                                    className = {classnames.input} />
+                                {errors?.city && < div className = {classnames.error}>{errors?.city?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
@@ -165,18 +165,16 @@ export const AddStatement = () =>{
                                     {...register('address', {
                                         required : 'Поле обязательно',
                                     })}
-                                    className = {classnames.input}
-                                    name = "address"
-                                    onChange = {(e) => setAddress(e.target.value)} />
+                                    className = {classnames.input} />
                                 {errors?.address && <div className = {classnames.error}>{errors?.address?.message}</div>}
                             </div>
-                            <textarea name = "descriptionGroup" className={classnames.textarea} cols={43} onInput = {(e) => setDescription(e.target.value)} />
+                            <textarea className={classnames.textarea} cols={43} {...register('description')} />
                         </div>
                         
                     </div>
                     <FormFooter />
-                </fieldset>
-                <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 2 })} >
+                </fieldset>}
+                {type === "2" && <fieldset  className = {classNames(classnames.open, { 'field-active': isActive && type == 2 })} >
                     <legend className={classnames.title} >
                         2. Заполните данные о конкурсе
                     </legend>
@@ -190,54 +188,48 @@ export const AddStatement = () =>{
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 
+                                    name="name"
                                     {...register('name',{
                                         required : 'Поле обязательно',
                                     })}
                                     className = {classnames.input}
-                                    autoFocus 
-                                    name = "nameCompetition"
-                                    onChange = {(e) => setName(e.target.value)} />
+                                    autoFocus />
                                 {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
                             </div>
                             <div className = {classnames.group}>  
                                 <input 
                                 type ="date"
-                                {...register('start', {
+                                {...register('dateStart', {
                                     required : 'Поле обязательно',
                                 })}
-                                className = {classnames.input}
-                                name = "start"
-                                onChange = {(e) => setStart(e.target.value)} />
-                                {errors?.start && < div className = {classnames.error}>{errors?.start?.message}</div>}
+                                className = {classnames.input}/>
+                                {errors?.dateStart && < div className = {classnames.error}>{errors?.dateStart?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
                                     type = "date" 
-                                    {...register('finish',{
+                                    {...register('dateFinish',{
                                         required : 'Поле обязательно',
                                     })}
-                                    name = "finish"
-                                    className = {classnames.input}
-                                    onChange = {(e) => setFinish(e.target.value)} />
-                                {errors?.finish && < div className = {classnames.error}>{errors?.finish?.message}</div>}
+                                    className = {classnames.input} />
+                                {errors?.dateFinish && < div className = {classnames.error}>{errors?.dateFinish?.message}</div>}
                             </div>
                             <div className = {classnames.group}>
                                 <input 
                                     type ="text"
-                                    {...register('cityCompetition', {
+                                    {...register('city', {
                                         required : 'Поле обязательно',
                                     })}
-                                    className = {classnames.input}
-                                    name = "cityCompetition"
-                                    onChange = {(e) => setCity(e.target.value)} />
-                                {errors?.cityCompetition && <div className = {classnames.error}>{errors?.cityCompetition?.message}</div>}
+                                    className = {classnames.input} />
+                                {errors?.city && <div className = {classnames.error}>{errors?.city?.message}</div>}
                             </div>
-                            <textarea name = "descriptionCompetition" className={classnames.textarea} cols={43} onChange = {(e) => setDescription(e.target.value)} />
+                            <textarea className={classnames.textarea} cols={43} {...register('description')} />
                         </div>
                     </div>
                     <FormFooter />
-                </fieldset>
+                </fieldset>}
             </form>
+            </>
         )
     }
 

@@ -40,7 +40,6 @@
         width: 16px;
         height: 16px;
         border-radius: 50%;
-        transition: 0.3s all;
         &:checked {
             border: 5px solid #FF6B00;
         }
@@ -91,4 +90,15 @@
     position: relative;
     margin-top: 25px;
     left: -70%;
+}
+.message-statement{
+    background: #FFF9C1;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    width: 36%;
+    line-height: 25px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
 }

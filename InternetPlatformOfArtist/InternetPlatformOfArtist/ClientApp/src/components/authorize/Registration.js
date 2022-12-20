@@ -55,7 +55,7 @@ export const Registration = () =>{
                 navigate(`/`);
         })
         .catch((error) =>{
-            alert(error.message);
+            alert("Что-то пошло не так");
             console.log(error);
         })
     }
