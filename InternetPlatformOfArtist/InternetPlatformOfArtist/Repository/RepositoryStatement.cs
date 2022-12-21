@@ -33,7 +33,7 @@ namespace InternetPlatformOfArtist.Repository
 
         public async Task<ActionResult<IEnumerable<Statement>>> Get()
         {
-            return await context.Statement.Include("User").Include("Type").Include("Status").ToListAsync();
+            return await context.Statement.Include("User").Include("Type").Include("Status").OrderByDescending(s => s.IdStatement).ToListAsync();
         }
 
         public async Task<Statement> GetStatementById(int id)
@@ -69,7 +69,7 @@ namespace InternetPlatformOfArtist.Repository
         public async Task<Statement> ChangeStatement(int id, int idStatusStatement)
         {
             int role = 0;
-            var statement = await context.Statement.FindAsync(id); //Include("User").Where(s => s.IdStatement == id).FirstAsync()
+            var statement = await context.Statement.FindAsync(id);
             if (statement == null)
             {
                 return statement;
@@ -160,7 +160,7 @@ namespace InternetPlatformOfArtist.Repository
                         type = s.Type.NameType,
                         status = s.Status.NameStatus
                     }
-                    ).Where(s => s.IdUser == idUser).ToListAsync();
+                    ).Where(s => s.IdUser == idUser).OrderByDescending(s => s.IdStatement).ToListAsync();
         }
 
         //public async Task<ActionResult<IEnumerable<Models.Statement>>> DeleteStatement(int id)

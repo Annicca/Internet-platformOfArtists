@@ -53,7 +53,8 @@ export const TableUser = () =>{
   const classnames = {
         table: 'table',
         tableButton: 'table-button',
-        addButton: 'table-button_add'
+        addButton: 'table-button_add',
+        status: 'status'
   }
 
     return(
@@ -86,9 +87,11 @@ export const TableUser = () =>{
               </td>
               <td>
               <button className = {classnames.tableButton} onClick={(e) => deleteUser(data.idUser, e)}>
-                  <Image 
+              
+                <Image 
                     src = {tableUsersImg[2].src}
-                    alt = {tableUsersImg[2].alt}/>
+                    alt = {tableUsersImg[2].alt} 
+                    width = {30} height = {30} />
                 </button>
               </td>
              </tr>

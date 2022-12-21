@@ -15,15 +15,6 @@ export let header = [
 ];
 
 export let navMenuButton = [
-    // {
-    //     title: 'Атрибутика',
-    //     link: ''
-    // },
-    // {
-    //     title: 'Услуги',
-    //     link: ''
-    // },
-
     {
         title: 'Коллективы',
         link: '/'
@@ -61,18 +52,6 @@ export let footerList = [
         title: 'Разместить конкурс',
         link: '/statement'
     },
-    // {
-    //     title: 'Продавай вместе с нами',
-    //     link: ''
-    // },
-    // {
-    //     title: 'Атрибутика',
-    //     link: ''
-    // },
-    // {
-    //     title: 'Услуги',
-    //     link: ''
-    // },
     {
         title: 'Конкурсы' ,
         link: '/competitions'
@@ -158,10 +137,6 @@ export const listOrganizerWindow = [
 ]
 
 export const listAdminWindow = [
-    // {
-    //     title: 'Личный кабинет',
-    //     link: '/accaunt'
-    // },
     {
         title: 'Пользователи',
         link: '/users'

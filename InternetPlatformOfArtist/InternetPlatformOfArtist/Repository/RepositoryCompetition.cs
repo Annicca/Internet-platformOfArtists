@@ -36,7 +36,7 @@ namespace InternetPlatformOfArtist.Repository
                 c.CityCompetition,
                 c.Status,
                 c.Img
-            }).ToListAsync();
+            }).OrderBy(c => c.IdCompetition).ToListAsync();
         }
 
         public async Task UpdateStatus(List<Competition> competitions)
@@ -118,7 +118,7 @@ namespace InternetPlatformOfArtist.Repository
                 c.CityCompetition,
                 c.Img,
                 c.Status
-            }).ToListAsync();
+            }).OrderBy(c => c.IdCompetition).ToListAsync();
         }
 
         public async Task<object> GetCompetitionsByUserAsync(int idUser)
@@ -146,7 +146,7 @@ namespace InternetPlatformOfArtist.Repository
                             .Groups
                             .Select(g => new { g.IdGroup, g.NameGroup, g.Director, g.CityGroup, g.AddressGroup })
                             .ToList()
-                    }).ToListAsync()
+                    }).OrderByDescending(c => c.IdCompetition).ToListAsync()
             };
         }
 

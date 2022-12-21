@@ -36,12 +36,12 @@ export const TableStatement = () =>{
           const dataFetch = async (urlData) => {
             const data = await (
               await fetch(urlData)).json();
-              console.log(data);
-              setStatement(data);
+            console.log(data);
+            setStatement(data);
           };
           dataFetch(urlData);
   
-    }, [numberSearch, user]);
+    }, [numberSearch]);
 
     const classnames = {
         table: 'table',

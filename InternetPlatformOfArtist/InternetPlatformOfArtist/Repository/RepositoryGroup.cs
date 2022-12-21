@@ -20,7 +20,7 @@ namespace Repository
 
         public async Task<ActionResult<IEnumerable<Group>>> GetAllGroup()
         {
-             return await context.Group.Include("Director").ToListAsync();
+             return await context.Group.Include("Director").OrderByDescending(g => g.IdGroup).ToListAsync();
         }
 
         public async Task<Group> GetGroupById(int id)
@@ -61,7 +61,7 @@ namespace Repository
 
         public async Task<ActionResult<IEnumerable<Group>>> GetGroupsByCity(string city)
         {
-            return await context.Group.Include("Director").Where(c => c.CityGroup == city).ToListAsync();
+            return await context.Group.Include("Director").Where(c => c.CityGroup == city).OrderByDescending(g => g.IdGroup).ToListAsync();
         }
 
         public async Task<object> GetGroupsByUserAsync(int idUser)
@@ -82,7 +82,7 @@ namespace Repository
                     .Competitions
                     .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status, c.Img })
                     .ToList()
-            }).ToListAsync();
+            }).OrderByDescending(g => g.IdGroup).ToListAsync();
 
         }
 

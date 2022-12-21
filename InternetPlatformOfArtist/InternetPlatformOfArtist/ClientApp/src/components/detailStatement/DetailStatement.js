@@ -53,8 +53,7 @@ export const DetailStatement = () =>{
         }
         getStatement();
         }
-
-      }, [apiUrl,setStatement,current, setStatementData, setTitles, setStatus, userAuth]); 
+      }, []); 
 
     const classnames = {
         main: 'main-container',
