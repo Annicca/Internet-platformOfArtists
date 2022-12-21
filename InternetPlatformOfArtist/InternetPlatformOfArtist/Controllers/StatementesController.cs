@@ -44,7 +44,12 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpPost]
         public async Task<ActionResult<Statement>> AddStatement(Statement statement)
         {
-            await repository.AddStatement(statement);
+            var statementResult = await repository.AddStatement(statement);
+
+            if(statementResult == null)
+            {
+                return BadRequest(new { message = "У вас нет соответствующих прав" });
+            }
 
             return CreatedAtAction("GetStatementById", new { id = statement.IdStatement }, statement);
         }
@@ -55,10 +60,6 @@ namespace InternetPlatformOfArtist.Controllers
         [HttpPut("{id}/{idStatusStatement}")]
         public async Task<ActionResult<IEnumerable<Statement>>> ChangeStatement(int id, int idStatusStatement)
         {
-            //int role = 0;
-            //var statement = await context.Statement.FindAsync(id);
-            //statement.IdStatusStatement = idStatusStatement;
-
             try
             {
                 var statement = await repository.ChangeStatement(id, idStatusStatement);

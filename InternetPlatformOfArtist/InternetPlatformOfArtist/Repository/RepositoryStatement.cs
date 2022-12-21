@@ -43,7 +43,24 @@ namespace InternetPlatformOfArtist.Repository
 
         public async Task<Statement> AddStatement(Statement statement)
         {
-            context.Statement.Add(statement);
+            var user = await context.User.FindAsync(statement.IdUser);
+            if(user == null)
+            {
+                return null;
+            } else if(statement.IdType == 1 && (user.IdRole == roleDirector || user.IdRole == roleAdmin))
+            {
+
+                context.Statement.Add(statement);
+
+            } else if(statement.IdType == 2 && (user.IdRole == roleOrganizer || user.IdRole == roleAdmin))
+            {
+                context.Statement.Add(statement);
+            }
+            else
+            {
+                return null;
+            }
+            
             await context.SaveChangesAsync();
 
             return statement;
@@ -52,8 +69,8 @@ namespace InternetPlatformOfArtist.Repository
         public async Task<Statement> ChangeStatement(int id, int idStatusStatement)
         {
             int role = 0;
-            var statement = await context.Statement.FindAsync(id);
-            if(statement == null)
+            var statement = await context.Statement.FindAsync(id); //Include("User").Where(s => s.IdStatement == id).FirstAsync()
+            if (statement == null)
             {
                 return statement;
             }
@@ -62,7 +79,7 @@ namespace InternetPlatformOfArtist.Repository
             context.Entry(statement).State = EntityState.Modified;
             await context.SaveChangesAsync();
 
-            if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType && (statement.User.IdRole == roleDirector || statement.User.IdRole == roleAdmin))
+            if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
             {
                 var group = new Models.Group();
                 group.IdUser = statement.IdUser;
@@ -73,7 +90,7 @@ namespace InternetPlatformOfArtist.Repository
                 await repositoryGroup.AddGroup(group);
                 role = roleDirector;
             }
-            else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType && (statement.User.IdRole == roleOrganizer || statement.User.IdRole == roleAdmin))
+            else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
             {
                 var competition = new Models.Competition();
                 competition.IdUser = statement.IdUser;
