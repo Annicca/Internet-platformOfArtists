@@ -29,6 +29,7 @@ namespace InternetPlatformOfArtist.Repository
         private readonly int statusAccept = 1;
         private readonly int roleDirector = 3;
         private readonly int roleOrganizer = 4;
+        private readonly int roleAdmin = 1;
 
         public async Task<ActionResult<IEnumerable<Statement>>> Get()
         {
@@ -61,7 +62,7 @@ namespace InternetPlatformOfArtist.Repository
             context.Entry(statement).State = EntityState.Modified;
             await context.SaveChangesAsync();
 
-            if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType)
+            if (statement.IdStatusStatement == statusAccept && statement.IdType == groupType && (statement.User.IdRole == roleDirector || statement.User.IdRole == roleAdmin))
             {
                 var group = new Models.Group();
                 group.IdUser = statement.IdUser;
@@ -72,7 +73,7 @@ namespace InternetPlatformOfArtist.Repository
                 await repositoryGroup.AddGroup(group);
                 role = roleDirector;
             }
-            else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType)
+            else if (statement.IdStatusStatement == statusAccept && statement.IdType == competitionType && (statement.User.IdRole == roleOrganizer || statement.User.IdRole == roleAdmin))
             {
                 var competition = new Models.Competition();
                 competition.IdUser = statement.IdUser;
@@ -84,6 +85,10 @@ namespace InternetPlatformOfArtist.Repository
                 competition.IdStatusCompetition = 1;
                 await repositoryCompetition.AddCompetition(competition);
                 role = roleOrganizer;
+            }
+            else
+            {
+                return null;
             }
 
             if (role != 0)
@@ -101,9 +106,9 @@ namespace InternetPlatformOfArtist.Repository
         private async Task<User> ChangeUserRole(int id, int idRole)
         {
             var user = context.User.Find(id);
-            if (id != user.IdUser || user == null)
+            if (user == null)
             {
-                return null;
+                return user;
             }
 
             if (user.IdRole != idRole)

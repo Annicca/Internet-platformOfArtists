@@ -114,14 +114,16 @@ export const AddStatement = () =>{
                         1. Выберете, что хотите разместить
                     </legend>
                     <div className={classnames.radioContainer}>
+                        {user.idRole != 4 &&
                         <label htmlFor="radioGroup">
                             <input className = {classnames.radio} type="radio" name="idType" value ="1" id="radioGroup" checked={type === "1"} onChange={(e) => handleChangeRadio(e)}/>
                             <span>Коллектив</span>
-                        </label>
+                        </label>}
+                        {user.idRole != 3 &&
                         <label htmlFor="radioCompetition">
                             <input className = {classnames.radio} type="radio" name="idType" value ="2" id = "radioCompetition" checked={type === "2"} onChange={(e) => handleChangeRadio(e)} />
                             <span>Конкурс</span>
-                        </label>
+                        </label>}
                         <div className={classnames.buttonContainer} >
                             <button className={classnames.button} disabled = {isDisabled} onClick={(e) => {e.preventDefault(); setIsActive(!isActive)}} >
                                 <Image src = './icons/then.svg' alt="Далее" width = {20} height = {20} />

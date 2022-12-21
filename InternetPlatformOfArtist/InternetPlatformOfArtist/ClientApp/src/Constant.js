@@ -128,15 +128,25 @@ export let roles = [
     }
 ];
 
-export const listUserWindow = [
-    // {
-    //     title: 'Личный кабинет',
-    //     link: '/accaunt'
-    // },
+export const listClientWindow = [
+    {
+        title: 'Moи заявки',
+        link: '/mystatements'
+    },
+];
+export const listDirectorWindow = [
     {
         title: 'Moи коллективы',
         link: '/mygroups'
     },
+    {
+        title: 'Moи заявки',
+        link: '/mystatements'
+    },
+];
+
+
+export const listOrganizerWindow = [
     {
         title: 'Moи конкурсы',
         link: '/mycompetitions'

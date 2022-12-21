@@ -15,7 +15,7 @@ export const MyCompetition = () =>{
     let url = `https://localhost:44344/api/competitions/mycompetitions/${id}`;
     
     useEffect(() => {
-        if(!user){
+        if(!user || user.idRole == 3){
             navigate('/notfound');
         }
         const dataFetch = async (url) => {

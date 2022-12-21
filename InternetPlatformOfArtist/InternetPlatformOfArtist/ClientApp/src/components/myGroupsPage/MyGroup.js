@@ -13,7 +13,7 @@ export const MyGroup = () =>{
     let url = `https://localhost:44344/api/groups/mygroups/${user?.idUser}`;
 
     useEffect(() => {
-        if(!user){
+        if(!user || user.idRole == 4){
             navigate('/notfound');
         }
         const dataFetch = async (url) => {

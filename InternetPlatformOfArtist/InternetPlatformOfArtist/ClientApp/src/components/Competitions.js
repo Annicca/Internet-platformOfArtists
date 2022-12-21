@@ -9,6 +9,9 @@ export const Competitions = ()=>{
   const [competitions, setCompetitions] = useState();
   const [city, setCity] = useState('');
 
+  const store = require('store');
+  const userAuth = store.get('user');
+
   const url = "https://localhost:44344/api/competitions";
   const urlSearch = `https://localhost:44344/api/competitions/city/${city}`;
 
@@ -30,6 +33,7 @@ export const Competitions = ()=>{
     list: 'main-container-list',
     inputContainer: 'input-container',
     button: 'input-container_button',
+
     competition: 'competition',
     imgContainer: 'competition-container',
     img : 'competition-container-img',
@@ -47,7 +51,10 @@ export const Competitions = ()=>{
   return (
       <>
         <div className={classnames.inputContainer}>
+        { userAuth?.idRole != 3  ?
           <Link to='/statement' ><button className = {classnames.button}>+Разместить свой конкурс</button></Link>
+          : <div></div>
+        }
           <SearchForm searchText={'Введите город'} setValue = {setCity} />
         </div>
         <CompetitionList competitions = {competitions}  classnames = {classnames} />

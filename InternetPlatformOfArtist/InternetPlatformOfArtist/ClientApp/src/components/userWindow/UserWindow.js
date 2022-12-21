@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { listUserWindow } from "../../Constant";
+import { listClientWindow, listDirectorWindow, listOrganizerWindow } from "../../Constant";
 import { listAdminWindow } from "../../Constant";
 import './UserWindow.scss';
 import { WindowAuth } from "./WindowAuth";
@@ -38,10 +38,22 @@ export const UserWindow = ({activeWindow, setActiveWindow}) =>{
                 <WindowAuth user = {user} list = {listAdminWindow} />
             </div>
         )
-    } else{
+    } else if(user.idRole == 2){
         return(
             <div className ={activeWindow ? classnames.auth : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
-                <WindowAuth user = {user} list = {listUserWindow} />
+                <WindowAuth user = {user} list = {listClientWindow} />
+            </div>
+        )
+    } else if(user.idRole == 3){
+        return(
+            <div className ={activeWindow ? classnames.auth : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
+                <WindowAuth user = {user} list = {listDirectorWindow} />
+            </div>
+        )
+    } else if(user.idRole == 4){
+        return(
+            <div className ={activeWindow ? classnames.auth : classnames.container} onMouseLeave={() => setActiveWindow(false)}>
+                <WindowAuth user = {user} list = {listOrganizerWindow} />
             </div>
         )
     }
