@@ -4,9 +4,11 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { competitionForm} from "../../Constant";
 import { Image } from "../img/Image";
+import { formatdate } from "../helpers/formatdate";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import './GroupChange.scss';
-import { formatdate } from "../helpers/formatdate";
+
 
 export const CompetitionChange = () =>{
     const params = useParams();
@@ -25,7 +27,7 @@ export const CompetitionChange = () =>{
 
     useEffect(() => {
         const getCompetition= async() => {
-            await axios.get(apiUrl).then((resp) => {
+            await axios.get(apiUrl, getRequestConfig()).then((resp) => {
                 console.log(resp.data);
                 setCompetition(resp.data);
                 setName(resp.data.nameCompetition);

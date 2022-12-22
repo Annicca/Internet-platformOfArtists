@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Link} from "react-router-dom";
+import { urlSrc } from "../../Constant";
 import { useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
 import axios from "axios";
 import { CompetitionList } from "../competition/Competition";
 
 import './MyGroup.scss';
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 export const MyGroupList = ({groups}) =>{
     return(
@@ -21,7 +22,7 @@ export const MyGroupList = ({groups}) =>{
 const deleteGroup = (idGroup)  =>{
     const url = `https://localhost:44344/api/groups/${idGroup}`;
     if(window.confirm("Вы действительно хотите удалить коллектив?")){
-        axios.delete(url)
+        axios.delete(url, getRequestConfig())
         .then(alert("Успешно"))
 
         .catch((error)=>{
@@ -40,7 +41,8 @@ const classnames ={
     edit: 'card-info__edit',
     delete: 'card-info__delete',
     competition: 'card-competition',
-    linkcompetition: 'card-competition__link' 
+    linkcompetition: 'card-competition__link' ,
+    img: 'card-info__img',
 }
 const competitionclass = {
     list: 'list-mygroup',
@@ -66,8 +68,7 @@ const MyGroupItem = ({group}) =>{
                 <section  className={classnames.info}>
                     <article className={classnames.child}>
                         <p className={classnames.title} >{group.nameGroup}</p>
-                        <Image src = {group.img} alt = {group.nameGroup} width = {460} height = {240} />
-                        {/* <button>Изменить фото</button> */}
+                        <Image src = {urlSrc + group.img} alt = {group.nameGroup} width = {460} height = {240} className={classnames.img} />
                     </article>
                     <article className={classnames.child}>
                         {group.category != null ?

@@ -96,7 +96,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         [Authorize]
-        [HttpGet("cancel/{idCompetition}")]
+        [HttpPut("cancel/{idCompetition}")]
         public async Task<object> CancelCompetition(int idCompetition)
         {
             Models.Competition competition;

@@ -86,6 +86,7 @@ namespace InternetPlatformOfArtist.Repository
 
         public async Task<Competition> AddCompetition(Competition competition)
         {
+            competition.Img = competition.RandomDefaultImageCompetition();
             context.Competition.Add(competition);
             await context.SaveChangesAsync();
 

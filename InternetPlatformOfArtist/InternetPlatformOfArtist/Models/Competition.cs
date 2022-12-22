@@ -52,7 +52,26 @@ namespace InternetPlatformOfArtist.Models
         [System.Text.Json.Serialization.JsonIgnore]
         public List<Participant> Participants { get; set; } = new List<Participant>();
 
-        
+        private static string[] DefaultImageCompetition =
+{
+            "random1.jpg",
+            "random2.jpg",
+            "random3.jpg",
+            "random4.jpg",
+            "random5.jpg",
+            "random6.jpg",
+            "random7.jpg",
+            "random8.jpg",
+            "random9.jpg",
+            "random10.jpg",
+            "random11.jpg",
+            "tanzuiipoi.jpg"
+        };
+
+        public string RandomDefaultImageCompetition()
+        {
+            return "/static/Images/Competition/" + DefaultImageCompetition[new Random().Next(0, DefaultImageCompetition.Length)];
+        }
 
     }
 }

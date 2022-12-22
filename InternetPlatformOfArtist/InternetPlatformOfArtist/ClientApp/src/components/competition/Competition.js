@@ -4,6 +4,7 @@ import { Contact } from "../contact/Contact";
 import { Link } from "react-router-dom";
 import { TakePart } from "./TakePart";
 import { fetchMyGroups } from "../helpers/fetchMyGroups";
+import { urlSrc } from "../../Constant";
 
 import './Competition.scss';
 
@@ -18,7 +19,7 @@ const Competition = ({competition, classnames, setIsActivePart, setIdComp}) =>{
     return(
         <div className = {classnames.competition}>
             <div className={classnames.imgContainer}>
-                <Image src= {competition.img} alt = ' Нет фото' width = {220} height = {142} className = {classnames.img} />
+                <Image src= {urlSrc + competition.img} alt = ' Нет фото' width = {220} height = {142} className = {classnames.img} />
                 { competition.status.idStatusCompetition != 1 ?
                     <p className = {classnames.status}>{'Статус: ' + competition.status.nameStatus}</p> :
                     <p className = {classnames.status}>Статус: Набор участников</p>
@@ -51,7 +52,7 @@ export const CompetitionList = ({competitions, classnames}) =>{
     const [idComp, setIdComp] = useState();
     const [groups, setGroups] = useState([]);
     
-    let url = `https://localhost:44344/api/users/mygroups/${id}`;
+    let url = `https://localhost:44344/api/groups/mygroups/${id}`;
 
     useEffect(() => {
         fetchMyGroups(url, setGroups);

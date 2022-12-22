@@ -3,6 +3,7 @@ import { redirect, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Image } from "../img/Image";
 import { Contact } from "../contact/Contact";
+import { urlSrc } from "../../Constant";
 
 import './GroupPage.scss';
 
@@ -49,7 +50,7 @@ export const GroupPage = () =>{
         <div className = {classnames.detail}>
             {group === undefined ? (<span>Loading...</span>) :
                 <>
-                    <Image src = {group.img} alt = {group.nameGroup} width = {780} height = {450} className = {classnames.img} />
+                    <Image src = {urlSrc + group.img} alt = {group.nameGroup} width = {780} height = {450} className = {classnames.img} />
                     <h1 className = {classnames.title}>{group.nameGroup}</h1>
                     {group.category ?
                     <h2 className = {classnames.style}>{"Стиль: " + group.category}</h2> :
@@ -59,7 +60,7 @@ export const GroupPage = () =>{
                         <div className={classnames.address}>
                             <p className={classnames.addressTitle}>Контакты</p>
                             <Contact classnames={classnames} contact = {group.cityGroup + ' ' + group.addressGroup} src = './icons/home.svg' alt = 'Адрес: ' width=  {25} height ={22} />
-                            {group.director.phoneUser == null ? ' ' :
+                            {!group.director.phoneUser ? ' ' :
                                 <Contact classnames={classnames} contact = {group.director.phoneUser} src = './icons/phone.svg' alt = 'Тел: '  width=  {25} height ={22} />
                             }
                             <Contact classnames={classnames} contact = {group.director.mailUser} src = './icons/mail.svg' alt = 'Email: '  width=  {25} height ={20}/>

@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Contact } from "../contact/Contact";
 import { Image } from "../img/Image";
+import { urlSrc } from "../../Constant";
 
 export const Group = ({group}) =>{
+
     const classnames = {
         group: 'item',
         imgContainer: 'item-container',
@@ -18,7 +20,7 @@ export const Group = ({group}) =>{
     }
 
     const ContactChose = ({phoneUser, mailUser}) =>{
-        if(group.director.phoneUser != null){
+        if(group.director.phoneUser){
             return(
                 <Contact classnames={classnames} contact = {phoneUser} src = './icons/phone.svg' alt = 'Тел: ' />
             )}
@@ -32,7 +34,7 @@ export const Group = ({group}) =>{
     return(
         <div className={classnames.group}>
             <div className={classnames.imgContainer}>
-                <Image src= {group.img} alt = ' Нет фото' width = {189} height = {121} className = {classnames.img} />
+                <Image src= {urlSrc + group.img} alt = ' Нет фото' width = {189} height = {121} className = {classnames.img} />
             </div>
             <div className={classnames.info}>
                 <div className={classnames.nameGroup}>
@@ -58,7 +60,7 @@ export const Group = ({group}) =>{
 export const GroupList = ({groups, classnames}) =>{
     return(
         <div className = {classnames.groupList}>
-        {groups == undefined ? <div>Loading...</div> : groups.map((group) =>
+        {groups === undefined ? <div>Loading...</div> : groups.map((group) =>
             <Link to = {`/${group.idGroup}`} key = {group.idGroup} > <Group group = {group} /></Link>
         )
         } 

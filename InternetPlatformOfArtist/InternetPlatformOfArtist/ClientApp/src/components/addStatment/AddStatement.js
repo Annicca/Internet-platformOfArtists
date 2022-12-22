@@ -7,6 +7,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { getPostConfig } from "../helpers/getRequestConfig";
 
 import './AddStatement.scss';
 
@@ -38,20 +39,13 @@ export const AddStatement = () =>{
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        // console.log(data);
-
         let statement = {
             idType: type,
             idUser: user.idUser,
             ...data,
         }
         console.log(statement);
-        await axios({
-            method: 'post',
-            url: 'https://localhost:44344/api/statementes',
-            headers: {'Content-Type': 'application/json'},
-            data : JSON.stringify(statement)
-        })
+        await axios.post('https://localhost:44344/api/statementes', JSON.stringify(statement), getPostConfig())
         .then(() => navigate('/mystatements'))
         .catch((error) =>{ 
             alert("Что-топошло не так");
@@ -151,7 +145,9 @@ export const AddStatement = () =>{
                                     className = {classnames.input}
                                     autoFocus  />
                                 {errors?.name && < div className = {classnames.error}>{errors?.name?.message}</div>}
-                            </div>
+                            </div> 
+                            {/* <input hidden = {true} type ="date" {...register('dateStart')}/>
+                            <input hidden = {true} type = "date" {...register('dateFinish')}/> */}
                             <div className = {classnames.group}>
                                 <input 
                                     type = "text" 

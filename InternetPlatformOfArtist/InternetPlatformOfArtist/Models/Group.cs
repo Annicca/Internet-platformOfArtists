@@ -34,13 +34,35 @@ namespace InternetPlatformOfArtist.Models
         [JsonPropertyName("category")]
         public string Category { get; set; }
 
+        private string img;
         [JsonPropertyName("img")]
-        public string Img { get; set; }
+        public string Img { get; set; } // get => img; set => img = "/static/Images/Group/" + RandomDefaultImageGroup();
 
         public List<Competition> Competitions { get; set; } = new List<Competition>();
 
         [Newtonsoft.Json.JsonIgnore]
         [System.Text.Json.Serialization.JsonIgnore]
         public List<Participant> Participants { get; set; } = new List<Participant>();
+
+        private static string[] DefaultImageGroup =
+        {
+            "kookol.jpg",
+            "random1.jpg",
+            "random2.jpg",
+            "random3.jpg",
+            "random4.jpg",
+            "random5.jpg",
+            "random6.jpg",
+            "random7.jpg",
+            "random8.jpg",
+            "random9.jpg",
+            "random10.jpg",
+            "zvony.jpg"
+        };
+
+        public string RandomDefaultImageGroup()
+        {
+            return "/static/Images/Group/" + DefaultImageGroup[new Random().Next(0, DefaultImageGroup.Length)];
+        }
     }
 }

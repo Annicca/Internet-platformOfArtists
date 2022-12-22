@@ -31,6 +31,8 @@ namespace Repository
 
         public async Task<Group> AddGroup(Group group)
         {
+
+            group.Img = group.RandomDefaultImageGroup();
             context.Group.Add(group);
             await context.SaveChangesAsync();
 
@@ -78,6 +80,7 @@ namespace Repository
                 g.CityGroup,
                 g.AddressGroup,
                 g.Category,
+                g.Img,
                 Competitions = g
                     .Competitions
                     .Select(c => new { c.IdCompetition, c.NameCompetition, start = c.DateStart.ToShortDateString(), finish = c.DateFinish.ToShortDateString(), c.CityCompetition, c.Status, c.Img })

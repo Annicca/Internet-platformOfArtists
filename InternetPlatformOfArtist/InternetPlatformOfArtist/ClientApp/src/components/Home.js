@@ -27,7 +27,7 @@ export const Home = ()=>{
   };
   dataFetch(urlData);
     
-  }, [city]);
+  }, [city, urlSearch]);
 
   const classnames = {
     container: 'main-container',
@@ -39,7 +39,7 @@ export const Home = ()=>{
   return (
       <>
         <div className={classnames.inputContainer}>
-        { userAuth?.idRole != 4  ?
+        { userAuth?.idRole !== 4  ?
         <Link to='/statement' ><button className = {classnames.button}>+Разместить свой коллектив</button></Link>
         : <div></div>
         }

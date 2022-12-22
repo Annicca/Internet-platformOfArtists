@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import { Image } from "../img/Image";
 import { useNavigate } from "react-router-dom";
 import { TableParticipant } from "./TableParticipant";
+import axios from "axios";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 export const MyCompetitionList = ({competitions, setCompetitions}) =>{
     return(
@@ -22,10 +24,9 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
     let cancelUrl = `https://localhost:44344/api/competitions/cancel/`;
 
     const cancelCompetition = async(id) =>{
-        const cancel = await(
-            await fetch(cancelUrl + `${id}`)).json();
-            console.log(cancel);
-            setCompetitions(cancel.results);
+        const cancel = await axios.put(cancelUrl + `${id}`, {}, getRequestConfig());
+            console.log(cancel.data);
+            setCompetitions(cancel.data);
     }
 
     const classnames ={

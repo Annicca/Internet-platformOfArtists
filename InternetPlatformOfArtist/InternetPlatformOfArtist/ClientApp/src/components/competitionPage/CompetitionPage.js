@@ -5,6 +5,7 @@ import { Contact } from "../contact/Contact";
 import { Image } from "../img/Image";
 import { TakePart } from "../competition/TakePart";
 import { fetchMyGroups } from "../helpers/fetchMyGroups";
+import { urlSrc } from "../../Constant";
 
 import '../groupPage/GroupPage.scss';
 
@@ -67,7 +68,7 @@ export const CompetitionPage= () =>{
             <div className = {classnames.detail}>
                 {competition === undefined ? (<span>Loading...</span>) :
                     <>
-                        <Image src = {competition.img} alt = {competition.nameCompetition} width = {780} height = {500} className = {classnames.img} />
+                        <Image src = {urlSrc + competition.img} alt = {competition.nameCompetition} width = {780} height = {500} className = {classnames.img} />
                         <h1 className = {classnames.title}>{competition.nameCompetition}</h1>
                         <p className = {classnames.city}>{'Город: ' + competition.cityCompetition}</p>
                         { competition?.idStatusCompetition != 1 ?

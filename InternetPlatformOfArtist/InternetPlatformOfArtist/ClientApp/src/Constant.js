@@ -1,4 +1,4 @@
-
+export const urlSrc = 'https://localhost:44344';
 export let header = [
     {
         title: 'Вход',

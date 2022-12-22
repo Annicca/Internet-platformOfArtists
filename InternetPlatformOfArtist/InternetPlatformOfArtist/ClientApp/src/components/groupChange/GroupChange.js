@@ -4,12 +4,15 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { groupForm } from "../../Constant";
 import { Image } from "../img/Image";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import './GroupChange.scss';
+
 
 export const GroupChange = () =>{
     const params = useParams();
     const current = params.id;
+
     const [group, setGroup] = useState();
     const [name, setName] = useState();
     const [category, setCategory] = useState();
@@ -23,7 +26,7 @@ export const GroupChange = () =>{
 
     useEffect(() => {
         const getGroup= async() => {
-            await axios.get(apiUrl).then((resp) => {
+            await axios.get(apiUrl, getRequestConfig()).then((resp) => {
                 console.log(resp.data);
                 setGroup(resp.data);
                 setName(resp.data.nameGroup);
@@ -36,7 +39,13 @@ export const GroupChange = () =>{
         getGroup();
       }, [apiUrl, setGroup, current]); 
 
-
+    const {
+        register,
+        formState: {errors},
+        handleSubmit
+    } = useForm({
+        mode: "onBlur"
+    });
 
     const onSubmit = () =>{
         const groupChange = {
@@ -47,11 +56,11 @@ export const GroupChange = () =>{
             cityGroup: city,
             addressGroup: address,
             category: category,
-            imgUrl: group.imgUrl,
+            img: group.img,
         }
         console.log(groupChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
-            axios.put(apiUrl, groupChange).then((result) =>{
+            axios.put(apiUrl, groupChange, getRequestConfig()).then((result) =>{
                 console.log(result.data);
                 alert("Успешно");
                 navigate('/mygroups');
@@ -61,14 +70,6 @@ export const GroupChange = () =>{
             })
         }
     }
-
-    const {
-        register,
-        formState: {errors},
-        handleSubmit
-    } = useForm({
-        mode: "onBlur"
-    });
 
     const classnames = {
         form: 'change',
@@ -146,7 +147,7 @@ export const GroupChange = () =>{
                                 onChange = {(e) => setAddress(e.target.value)} />
                             {errors?.address && <div className = {classnames.error}>{errors?.address?.message}</div>}
                         </div>
-                        <textarea className={classnames.textarea} cols={43} defaultValue = {group.descriptionGroup} onChange = {(e) => setDescription(e.target.value)} />
+                        <textarea {...register('description')} className={classnames.textarea} cols={43} defaultValue = {group.descriptionGroup} onChange = {(e) => setDescription(e.target.value)} />
                     </div>}
                 </div>
 

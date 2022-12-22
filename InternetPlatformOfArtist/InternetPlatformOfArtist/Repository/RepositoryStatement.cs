@@ -29,7 +29,6 @@ namespace InternetPlatformOfArtist.Repository
         private readonly int statusAccept = 1;
         private readonly int roleDirector = 3;
         private readonly int roleOrganizer = 4;
-        private readonly int roleAdmin = 1;
 
         public async Task<ActionResult<IEnumerable<Statement>>> Get()
         {
@@ -54,12 +53,12 @@ namespace InternetPlatformOfArtist.Repository
             if(user == null)
             {
                 return null;
-            } else if(statement.IdType == 1 && (user.IdRole == roleDirector || user.IdRole == roleAdmin))
-            {
 
+            } else if(statement.IdType == 1 && user.IdRole != roleOrganizer)
+            {
                 context.Statement.Add(statement);
 
-            } else if(statement.IdType == 2 && (user.IdRole == roleOrganizer || user.IdRole == roleAdmin))
+            } else if(statement.IdType == 2 && user.IdRole != roleDirector)
             {
                 context.Statement.Add(statement);
             }
