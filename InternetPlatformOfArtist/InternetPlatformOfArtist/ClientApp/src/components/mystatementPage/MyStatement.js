@@ -2,11 +2,14 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
 import classNames from "classnames";
+import axios from "axios";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import '../myGroupsPage/MyGroup.scss'
+
 
 export const MyStatement = () =>{
 
@@ -23,13 +26,12 @@ export const MyStatement = () =>{
         if(!user){
             navigate('/notfound');
         }
-        const dataFetch = async (url) => {
-          const data = await (
-            await fetch(url)).json();
-          console.log(data);
-          setStatements(data);
+        const getStatement = async (url) => {
+          const response = await axios.get(url, getRequestConfig());
+          console.log(response.data);
+          setStatements(response.data);
         };
-        dataFetch(url);
+        getStatement(url);
       }, []);
 
     const classnames = {

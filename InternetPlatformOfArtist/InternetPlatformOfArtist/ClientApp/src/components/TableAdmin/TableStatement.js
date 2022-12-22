@@ -6,6 +6,8 @@ import { tablestatement, tableUsersImg } from "../../Constant";
 import { useNavigate } from "react-router-dom";
 import { Image } from "../img/Image";
 import { changeStatus } from "../helpers/changeStatus";
+import axios from "axios";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import './Table.scss';
 
@@ -19,7 +21,7 @@ export const TableStatement = () =>{
     let reject = 2;
   
     const url = "https://localhost:44344/api/statementes";
-    const urlSearch = `https://localhost:44344/api/statementes/${numberSearch}`;
+    const urlSearch = `https://localhost:44344/api/statementes/search/${numberSearch}`;
 
     let navigate = useNavigate();
 
@@ -33,13 +35,12 @@ export const TableStatement = () =>{
             navigate(`/notfound`)
           }
           const urlData = handleValue(numberSearch, url, urlSearch);
-          const dataFetch = async (urlData) => {
-            const data = await (
-              await fetch(urlData)).json();
-            console.log(data);
-            setStatement(data);
+          const getStatements = async (urlData) => {
+            const response = await axios.get(urlData, getRequestConfig());
+            console.log(response.data);
+            setStatement(response.data);
           };
-          dataFetch(urlData);
+          getStatements(urlData);
   
     }, [numberSearch]);
 
@@ -84,7 +85,7 @@ export const TableStatement = () =>{
                     </button>
                   </td> :
                   <td>
-                    <button className = {classnames.tableButton} onClick={(e) => changeStatus(statement.idStatement, accept, e)}>
+                    <button className = {classnames.tableButton} onClick={() => changeStatus(statement.idStatement, accept, setStatement)}>
                       <span className= {classnames.status}><Image src = './icons/accept.svg' alt = 'Принять' width = {30} height = {30} /></span>
                     </button>
                   </td> 
@@ -99,7 +100,7 @@ export const TableStatement = () =>{
                     </button>
                   </td> :
                   <td>
-                    <button className = {classnames.tableButton} onClick={(e) => {e.preventDefault(); changeStatus(statement.idStatement, reject, setStatement)}}>
+                    <button className = {classnames.tableButton} onClick={() => {changeStatus(statement.idStatement, reject, setStatement)}}>
                       <span className= {classnames.status}><Image src = './icons/del.svg' alt = 'Отклонить' width = {30} height = {30} /></span>
                     </button>
                   </td> 

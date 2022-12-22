@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
 import { MyGroupList } from "./MyGroupList";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getRequestConfig } from "../helpers/getRequestConfig";
+import axios from "axios";
 
 export const MyGroup = () =>{
 
@@ -16,13 +18,12 @@ export const MyGroup = () =>{
         if(!user || user.idRole == 4){
             navigate('/notfound');
         }
-        const dataFetch = async (url) => {
-          const data = await (
-            await fetch(url)).json();
-          console.log(data);
-          setGroups(data);
+        const getGroups = async (url) => {
+          const response = await axios(url, getRequestConfig());
+          console.log(response.data);
+          setGroups(response.data);
         };
-        dataFetch(url);
+        getGroups(url);
       }, [setGroups]);
 
     const classnames = {

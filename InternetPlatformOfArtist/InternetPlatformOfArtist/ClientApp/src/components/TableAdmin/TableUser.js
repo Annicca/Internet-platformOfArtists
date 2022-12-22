@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { handleValue } from "../helpers/handleValue";
 import { SearchForm } from "../SearchForm/SearchForm";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import './Table.scss';
+
 
 export const TableUser = () =>{
 
@@ -26,12 +28,11 @@ export const TableUser = () =>{
   useEffect(() => {
 
         const urlData = handleValue(loginSearch, url, urlSearch);
-        const dataFetch = async (urlData) => {
-          const data = await (
-            await fetch(urlData)).json();
-          setState(data);
+        const getUsers = async (urlData) => {
+          const response = await axios(urlData, getRequestConfig());
+          setState(response.data);
         };
-        dataFetch(urlData);
+        getUsers(urlData);
 
   }, [loginSearch]);
 
@@ -39,7 +40,7 @@ export const TableUser = () =>{
         e.preventDefault();
         const url = `https://localhost:44344/api/users/${idUser}`;
         if(window.confirm("Вы действительно хотите удалить пользователя?")){
-            axios.delete(url)
+            axios.delete(url, getRequestConfig())
             .then((result) =>{
                 console.log(result.data);
                 setState(result.data)
@@ -62,11 +63,6 @@ export const TableUser = () =>{
         <SearchForm searchText = {'Введите логин'} setValue = {setLoginSearch} />
         <table className = {classnames.table}>
         <tbody>
-          <tr>
-            <td colSpan={tabletitle.length}>
-              {/* <button className = {classnames.addButton} onClick={() => addredirect()}>+</button> */}
-            </td>
-          </tr>
           <tr>
             {tabletitle.map((item,index) =>
               <th key = {index}>{item}</th>

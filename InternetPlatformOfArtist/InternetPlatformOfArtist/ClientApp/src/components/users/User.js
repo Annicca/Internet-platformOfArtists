@@ -4,8 +4,10 @@ import { useParams,Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { inputTitle } from "../../Constant";
 import { roles } from "../../Constant";
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
 import './User.scss';
+
 
 export const User = () =>{
 
@@ -32,7 +34,7 @@ export const User = () =>{
             navigate(`/notfound`)
         } else{
             const getUser = async() => {
-            await axios.get(apiUrl).then((resp) => {
+            await axios.get(apiUrl, getRequestConfig()).then((resp) => {
                 console.log(resp.data);
                 setUser(resp.data);
                 setSurname(resp.data.surnameUser);
@@ -65,7 +67,7 @@ export const User = () =>{
 
         console.log(userChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
-            axios.put(apiUrl, userChange).then((result) =>{
+            axios.put(apiUrl, userChange, getRequestConfig()).then((result) =>{
                 console.log(result.data);
                 alert("Успешно")
             }).catch((e)=>{
@@ -95,11 +97,12 @@ export const User = () =>{
     }
     
     return(
-            <div className={classnames.container}>
-                {user === undefined ? (<span>Loading...</span>) :
+         <div className={classnames.container}>
+        {user === undefined ? (<span>Loading...</span>) :
+            <>
                 <p className={classnames.title}> 
                     {"Пользователь: " + surName +" " + name +" " + patronimyc}
-                </p>}
+                </p>
                 <div className = {classnames.form}>
                     <div className = {classnames.childFirst}>
                         {inputTitle.map((item,index) =>
@@ -109,7 +112,7 @@ export const User = () =>{
                         )}
                     </div>
                     <div className = {classnames.childSecond}>
-                        {user === undefined ? (<span>Loading...</span>) : 
+                        
                             <form>
                                 <p className={classnames.child2Element }>{user.idUser}</p>
                                 <p className={classnames.child2Element} >
@@ -168,13 +171,13 @@ export const User = () =>{
                                         onChange={(e) =>setPhone(e.target.value)} />
                                 </p>
                             </form>
-                        }
                     </div>
                 </div>
                 <p className={classnames.buttonContainer}>
                     <Link to = {'/users'}><button className={classnames.button}>Назад</button></Link>
                     <button className={classnames.button} onClick={() => changeUser()}>Сохранить</button>
                 </p>
-            </div>
+            </>}
+        </div>
     )
 }

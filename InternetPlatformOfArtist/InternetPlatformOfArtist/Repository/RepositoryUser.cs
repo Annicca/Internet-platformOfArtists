@@ -14,11 +14,13 @@ namespace InternetPlatformOfArtist.Repository
     public class RepositoryUser : IUserRepository
     {
         private readonly ArtContext context;
-        private readonly JwtService jwtService;
-        public RepositoryUser(ArtContext _context, JwtService _jwtService)
+        private readonly JwtServiceAuthentication jwtServiceAuth;
+        private readonly JwtServiceRegistration jwtServiceRegistr;
+        public RepositoryUser(ArtContext _context, JwtServiceAuthentication _jwtServiceAuth, JwtServiceRegistration _jwtServiceRegistr)
         {
             context = _context;
-            jwtService = _jwtService;
+            jwtServiceAuth = _jwtServiceAuth;
+            jwtServiceRegistr = _jwtServiceRegistr;
         }
 
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -44,9 +46,9 @@ namespace InternetPlatformOfArtist.Repository
         public async Task<object> Login(int UserId)
         {
 
-            var jwt = jwtService.Geterate(UserId);
+            var jwt = jwtServiceRegistr.Geterate(UserId);
 
-            var token = jwtService.Verify(jwt);
+            var token = jwtServiceAuth.Verify(jwt);
             int userId = int.Parse(token.Issuer);
 
             var userLogining = await context.User.FindAsync(userId);

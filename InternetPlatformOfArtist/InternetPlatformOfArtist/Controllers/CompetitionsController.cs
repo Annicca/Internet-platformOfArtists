@@ -1,4 +1,5 @@
 ﻿using InternetPlatformOfArtist.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -38,6 +39,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Models.Competition>> AddCompetition(Models.Competition competition)
         {
             await repository.AddCompetition(competition);
@@ -46,6 +48,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         // PUT api/competitions/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<Models.Competition>> ChangeCompetition(int id, Models.Competition competition)
         {
@@ -85,12 +88,14 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         //GET api/competitions/mycompetitions/5
+        [Authorize]
         [HttpGet("mycompetitions/{idUser:int}")]
         public async Task<object> GetCompetitionsByUserAsync(int idUser)
         {
             return await repository.GetCompetitionsByUserAsync(idUser);
         }
 
+        [Authorize]
         [HttpGet("cancel/{idCompetition}")]
         public async Task<object> CancelCompetition(int idCompetition)
         {

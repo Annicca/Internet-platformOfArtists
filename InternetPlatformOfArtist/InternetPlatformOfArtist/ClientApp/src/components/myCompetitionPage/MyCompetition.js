@@ -2,6 +2,8 @@ import React, {useState, useEffect} from "react";
 import { TitlePage } from "../TitlePage/TitlPage";
 import { MyCompetitionList } from "./MyCompetitionList";
 import { useNavigate } from "react-router-dom";
+import { getRequestConfig } from "../helpers/getRequestConfig";
+import axios from "axios";
 
 export const MyCompetition = () =>{
 
@@ -18,13 +20,12 @@ export const MyCompetition = () =>{
         if(!user || user.idRole == 3){
             navigate('/notfound');
         }
-        const dataFetch = async (url) => {
-            const data = await (
-            await fetch(url)).json();
-            console.log(data.results);
-            setCompetitions(data.results);
+        const getCompetition = async (url) => {
+            const response = await axios(url, getRequestConfig());
+            console.log(response.data);
+            setCompetitions(response.data);
     };
-        dataFetch(url);
+        getCompetition(url);
       }, []);
 
     const classnames = {

@@ -125,9 +125,7 @@ namespace InternetPlatformOfArtist.Repository
         {
             List<Competition> competitions = await context.Competition.Where(c => c.IdUser == idUser && c.IdStatusCompetition != 4).ToListAsync();
             await UpdateStatus(competitions);
-            return new
-            {
-                Results = await context
+            return await context
                     .Competition
                     .Where(c => c.IdUser == idUser)
                     .Select(c => new
@@ -146,8 +144,7 @@ namespace InternetPlatformOfArtist.Repository
                             .Groups
                             .Select(g => new { g.IdGroup, g.NameGroup, g.Director, g.CityGroup, g.AddressGroup })
                             .ToList()
-                    }).OrderByDescending(c => c.IdCompetition).ToListAsync()
-            };
+                    }).OrderByDescending(c => c.IdCompetition).ToListAsync();
         }
 
         public async Task<Competition> CancelCompetition(int idCompetition)

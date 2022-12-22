@@ -13,6 +13,7 @@ namespace InternetPlatformOfArtist.IRepository
         Task<Statement> GetStatementById(int id);
         Task<Statement> AddStatement(Statement statement);
         Task<Statement> ChangeStatement(int id, int idStatusStatement);
+        Task<List<Statement>> GetStatementForSearch(int id);
         Task<object> GetStatementByUserAsync(int idUser);
         bool StatementExists(int id);
     }

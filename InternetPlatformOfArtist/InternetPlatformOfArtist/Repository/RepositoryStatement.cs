@@ -41,6 +41,13 @@ namespace InternetPlatformOfArtist.Repository
             return await context.Statement.Include("User").Include("Type").Include("Status").FirstAsync(s => s.IdStatement == id);
         }
 
+        public async Task<List<Statement>> GetStatementForSearch(int id)
+        {
+            List<Statement> statement = new List<Statement>();
+            statement.Add(await GetStatementById(id));
+            return statement;
+        }
+
         public async Task<Statement> AddStatement(Statement statement)
         {
             var user = await context.User.FindAsync(statement.IdUser);
@@ -102,10 +109,6 @@ namespace InternetPlatformOfArtist.Repository
                 competition.IdStatusCompetition = 1;
                 await repositoryCompetition.AddCompetition(competition);
                 role = roleOrganizer;
-            }
-            else
-            {
-                return null;
             }
 
             if (role != 0)

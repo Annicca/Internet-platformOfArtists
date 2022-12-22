@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { detailCompetition, detailGroup } from "../../Constant";
 import { Image } from "../img/Image";
 import { changeStatus } from "../helpers/changeStatus";
-import './DetailStatement.scss';
+import { getRequestConfig } from "../helpers/getRequestConfig";
 
+import './DetailStatement.scss';
 
 export const DetailStatement = () =>{
 
@@ -34,10 +34,11 @@ export const DetailStatement = () =>{
         if(userAuth?.idRole != 1){
             navigate(`/notfound`)
         } else{
-            const getStatement = async() => {
-            await axios.get(apiUrl).then((resp) => {
+            const getStatementAdmin = async() => {
+            await axios.get(apiUrl, getRequestConfig()).then((resp) => {
                 console.log(resp.data);
                 setStatement(resp.data);
+
                 if(resp.data.idType == group){
                     setStatementData([resp.data.user.surnameUser +" " + resp.data.user.nameUser +" " + resp.data.user.patronimycUser, resp.data.user.mailUser, resp.data.name, resp.data.city, resp.data.address]);
                     setTitles(detailGroup);
@@ -51,7 +52,7 @@ export const DetailStatement = () =>{
                 
             }).catch((error) => console.log(error));
         }
-        getStatement();
+        getStatementAdmin();
         }
       }, []); 
 
@@ -108,6 +109,7 @@ export const DetailStatement = () =>{
                 <p className={classnames.descriptionText}>{statement.description}</p>
             </div>}
             <div className={classnames.buttonContainer}>
+                <Link to = {'/statements'}><button className={classnames.button}>Назад</button></Link>
                 <button className={classnames.button} disabled = {isStatus} onClick={() => change(statement.idStatement, accept)}>Принять</button>
                 <button className={classnames.button} disabled = {isStatus} onClick={() => change(statement.idStatement, reject)}>Отклонить</button>
             </div>

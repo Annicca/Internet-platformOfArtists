@@ -15,6 +15,7 @@ using System.Text;
 using InternetPlatformOfArtist.IRepository;
 using Repository;
 using InternetPlatformOfArtist.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace InternetPlatformOfArtist
 {
@@ -42,22 +43,23 @@ namespace InternetPlatformOfArtist
 
             services.AddControllersWithViews();
 
-            const string jwtSchemeName = "JwtBearer";
-            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
-            var key = Encoding.ASCII.GetBytes(secureKey);
+            //const string jwtSchemeName = "JwtBearer";
+            //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
+            //var key = Encoding.ASCII.GetBytes(secureKey);
             services
                 .AddAuthentication(options => {
-                    options.DefaultAuthenticateScheme = jwtSchemeName;
-                    options.DefaultChallengeScheme = jwtSchemeName;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddJwtBearer(jwtSchemeName, jwtBearerOptions => {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                .AddJwtBearer(j => {
+                    j.RequireHttpsMetadata = false;
+                    j.SaveToken = true;
+                    j.TokenValidationParameters = new TokenValidationParameters
                     {
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secureKey)),
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = false,
                         ValidateAudience = false,
-                        ClockSkew = TimeSpan.FromSeconds(10)
                     };
                 });
 
@@ -65,7 +67,9 @@ namespace InternetPlatformOfArtist
             services.AddScoped<IGroupRepository, RepositoryGroup>();
             services.AddScoped <ICompetitionRepository, RepositoryCompetition> ();
             services.AddScoped<IStatementRepository, RepositoryStatement>();
-            services.AddScoped<JwtService>();
+            
+            services.AddSingleton<JwtServiceAuthentication>(new JwtServiceAuthentication(secureKey));
+            services.AddSingleton<JwtServiceRegistration>(new JwtServiceRegistration(secureKey));
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -87,12 +91,14 @@ namespace InternetPlatformOfArtist
                 app.UseHsts();
             }
             app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
             app.UseCors("ApiCorsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

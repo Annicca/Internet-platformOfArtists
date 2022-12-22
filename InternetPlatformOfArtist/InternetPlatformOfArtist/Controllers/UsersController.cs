@@ -19,6 +19,7 @@ namespace InternetPlatformOfArtist.Controllers
 {  
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository repository;
@@ -53,6 +54,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         // POST api/users/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(User user)
         {
@@ -75,6 +77,7 @@ namespace InternetPlatformOfArtist.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel log)
         {
             var user = GetUserByLogin(log.Login).Result.First();

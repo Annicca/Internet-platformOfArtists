@@ -1,6 +1,7 @@
 ﻿using InternetPlatformOfArtist.Helpers;
 using InternetPlatformOfArtist.IRepository;
 using InternetPlatformOfArtist.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,6 +13,7 @@ namespace InternetPlatformOfArtist.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StatementesController : ControllerBase
     {
         private readonly IStatementRepository repository;
@@ -37,6 +39,13 @@ namespace InternetPlatformOfArtist.Controllers
             {
                 return NotFound();
             }
+            return Ok(statement);
+        }
+
+        [HttpGet("search/{id}")]
+        public async Task<ActionResult> GetStatementForSearch(int id)
+        {
+            var statement = await repository.GetStatementForSearch(id);
             return Ok(statement);
         }
 

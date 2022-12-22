@@ -1,5 +1,6 @@
 ﻿using InternetPlatformOfArtist.IRepository;
 using InternetPlatformOfArtist.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -40,6 +41,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // POST api/groups
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Group>> AddGroup(Group group)
         {
             await repository.AddGroup(group);
@@ -49,6 +51,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // PUT api/groups/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult> ChangeGroup(int id, Group group)
         {
             string message;
@@ -79,6 +82,7 @@ namespace InternetPlatformOfArtist.Controllers
 
         // DELETE api/groups/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteGroup(int id)
         {
             var group = await repository.DeleteGroup(id);
@@ -100,6 +104,7 @@ namespace InternetPlatformOfArtist.Controllers
         //коллективы пользователя
         //GET api/mygroups/5
         [HttpGet("mygroups/{idUser:int}")]
+        [Authorize]
         public async Task<object> GetGroupsByUserAsync(int idUser)
         {
             return await repository.GetGroupsByUserAsync(idUser);
