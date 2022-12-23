@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Image } from "../img/Image";
 import { Contact } from "../contact/Contact";
@@ -11,9 +11,6 @@ export const GroupPage = () =>{
 
     const params = useParams();
     const current = params.id;
-
-    let navigate = useNavigate();
-
     const [group, setGroup] = useState();
 
     const apiUrl = `https://localhost:44344/api/groups/${current}`;

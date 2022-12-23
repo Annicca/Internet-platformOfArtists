@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternetPlatformOfArtist.Context;
 using InternetPlatformOfArtist.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InternetPlatformOfArtist.Controllers
 {
@@ -42,39 +43,8 @@ namespace InternetPlatformOfArtist.Controllers
             return participant;
         }
 
-        // PUT: api/Participants/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutParticipant(int id, Participant participant)
-        //{
-        //    if (id != participant.IdCompetition)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(participant).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!ParticipantExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
         // POST: api/Participants
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Participant>> AddParticipant(Participant participant)
         {
@@ -96,22 +66,6 @@ namespace InternetPlatformOfArtist.Controllers
             }
 
             return CreatedAtAction("GetParticipant", new { id = participant.IdCompetition }, participant);
-        }
-
-        // DELETE: api/Participants/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteParticipant(int id)
-        {
-            var participant = await _context.Participant.FindAsync(id);
-            if (participant == null)
-            {
-                return NotFound();
-            }
-
-            _context.Participant.Remove(participant);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool ParticipantExists(int idCompetition, int idGroup)

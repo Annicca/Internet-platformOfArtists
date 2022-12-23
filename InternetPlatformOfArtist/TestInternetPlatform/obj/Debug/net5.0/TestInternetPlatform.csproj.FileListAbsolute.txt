@@ -1,7 +1,5 @@
 D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\CoverletSourceRootsMapping
 D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\testhost.dll
-D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\InternetPlatformOfArtist.Views.dll
-D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\InternetPlatformOfArtist.Views.pdb
 D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\InternetPlatformOfArtist.deps.json
 D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\InternetPlatformOfArtist.runtimeconfig.json
 D:\Документы\Internet-platformOfArtists\Internet-platformOfArtists\InternetPlatformOfArtist\TestInternetPlatform\bin\Debug\net5.0\InternetPlatformOfArtist.runtimeconfig.dev.json

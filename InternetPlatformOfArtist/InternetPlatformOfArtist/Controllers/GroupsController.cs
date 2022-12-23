@@ -83,14 +83,14 @@ namespace InternetPlatformOfArtist.Controllers
         // DELETE api/groups/5
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult> DeleteGroup(int id)
+        public async Task<object> DeleteGroup(int id)
         {
             var group = await repository.DeleteGroup(id);
             if (group == null)
             {
                 return NotFound();
             }
-            return Ok();
+            return await GetGroupsByUserAsync(group.IdUser);
         }
 
         //поиск по городам

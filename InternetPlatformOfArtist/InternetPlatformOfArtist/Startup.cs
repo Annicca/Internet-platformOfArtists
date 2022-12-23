@@ -43,9 +43,6 @@ namespace InternetPlatformOfArtist
 
             services.AddControllersWithViews();
 
-            //const string jwtSchemeName = "JwtBearer";
-            //var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secureKey));
-            //var key = Encoding.ASCII.GetBytes(secureKey);
             services
                 .AddAuthentication(options => {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -8,29 +8,15 @@ import { CompetitionList } from "../competition/Competition";
 import './MyGroup.scss';
 import { getRequestConfig } from "../helpers/getRequestConfig";
 
-export const MyGroupList = ({groups}) =>{
+export const MyGroupList = ({groups, setState}) =>{
     return(
         <div>
             {groups == undefined ? <div>Loading...</div> : groups.map((group) =>
-                <MyGroupItem group = {group} key = {group.idGroup} />
+                <MyGroupItem group = {group} key = {group.idGroup} setState = {setState} />
             )}
         </div>
     )
 }
-
-
-const deleteGroup = (idGroup)  =>{
-    const url = `https://localhost:44344/api/groups/${idGroup}`;
-    if(window.confirm("Вы действительно хотите удалить коллектив?")){
-        axios.delete(url, getRequestConfig())
-        .then(alert("Успешно"))
-
-        .catch((error)=>{
-            alert("Мы не смогли удалить коллектив(");
-            console.log(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-        })
-    }
-};
 
 const classnames ={
     card: 'card',
@@ -58,10 +44,25 @@ const competitionclass = {
     info: 'mycompetition__info'
 }
 
-const MyGroupItem = ({group}) =>{
+const MyGroupItem = ({group, setState}) =>{
     let navigate = useNavigate();
 
     const [isActive, setIsActive] = useState(false);
+
+    const deleteGroup = (idGroup)  =>{
+        const url = `https://localhost:44344/api/groups/${idGroup}`;
+        if(window.confirm("Вы действительно хотите удалить коллектив?")){
+            axios.delete(url, getRequestConfig())
+            .then((response) =>{
+                setState(response.data);
+                alert("Успешно");
+            })
+            .catch((error)=>{
+                alert("Мы не смогли удалить коллектив(");
+                console.log(error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+            })
+        }
+    };
 
     return(
             <section className={classnames.card}>

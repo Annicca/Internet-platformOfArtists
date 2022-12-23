@@ -18,10 +18,11 @@ export const Users = () =>{
     }
   }, [user])
 
-    return(
-          <div className="main-container">
-            <TitlePage title = 'Пользователи' />
-            <TableUser />
-          </div>
-    )}
+  return(
+    <div className="main-container">
+      <TitlePage title = 'Пользователи' />
+      <TableUser />
+    </div>
+  )
+}
 
