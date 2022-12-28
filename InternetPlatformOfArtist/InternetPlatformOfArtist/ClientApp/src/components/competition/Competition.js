@@ -12,7 +12,7 @@ import './Competition.scss';
 const Competition = ({competition, classnames, setIsActivePart, setIdComp}) =>{
 
     let isDisabled = false;
-    if(competition.status.idStatusCompetition == 3 || competition.status.idStatusCompetition == 4){
+    if(competition.status.idStatusCompetition == 2 || competition.status.idStatusCompetition == 3 || competition.status.idStatusCompetition == 4){
         isDisabled = true;
     }
 

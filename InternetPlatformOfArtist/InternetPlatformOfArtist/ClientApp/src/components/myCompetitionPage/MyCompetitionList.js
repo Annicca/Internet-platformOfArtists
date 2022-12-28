@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { TableParticipant } from "./TableParticipant";
 import axios from "axios";
 import { getRequestConfig } from "../helpers/getRequestConfig";
+import { urlSrc } from "../../Constant";
 
 export const MyCompetitionList = ({competitions, setCompetitions}) =>{
     return(
@@ -49,8 +50,7 @@ const MyCompetitionItem = ({competition, setCompetitions}) =>{
         <section  className={classnames.info}>
             <article className={classnames.child}>
                 <p className={classnames.title} >{competition.nameCompetition}</p>
-                <Image src = {competition.img} alt = {competition.nameCompetition} width = {460} height = {240} className={classnames.img} />
-                {/* <button>Изменить фото</button> */}
+                <Image src = {urlSrc + competition.img} alt = {competition.nameCompetition} width = {460} height = {240} className={classnames.img} />
             </article>
             <article className={classnames.child}>
                 <p className={classnames.text}><span>Город:</span>{" " + competition.cityCompetition}</p>
