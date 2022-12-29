@@ -62,7 +62,7 @@ export const CompetitionChange = () =>{
         }
         console.log(competitionChange);
         if(window.confirm('Вы действительно хотите внести изменения?')){
-            axios.put(apiUrl, competitionChange).then((result) =>{
+            axios.put(apiUrl, competitionChange,getRequestConfig()).then((result) =>{
                 console.log(result.data);
                 alert("Успешно");
                 navigate('/mycompetitions');
